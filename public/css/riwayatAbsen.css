@@ -1,0 +1,36 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+body{
+    background: linear-gradient(to bottom, #C72B41, #000000);
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.navbar{
+margin-top: 20px;
+font-size: 15px;
+font-weight: 600;
+color: #E0E0E0;
+}
+
+.card{
+    background: linear-gradient(to bottom, #C72B41, #000000);
+    background-repeat: no-repeat;
+    color: #E0E0E0;
+    width: 420px;
+    height: 410px;
+    padding: 25px;
+    border-radius: 20px;
+}
+
+.history{
+    background-color: #E0E0E0;
+    border-radius: 10px;
+}
+
+.history p{
+    color: #000000;
+    font-size: 12px;
+    padding-top: 10px;
+}

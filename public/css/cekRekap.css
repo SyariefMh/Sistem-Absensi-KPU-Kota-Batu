@@ -1,0 +1,34 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+body{
+    background: #E4E4E4;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.navbar{
+margin-top: 20px;
+font-size: 15px;
+font-weight: 600;
+color: #C72B41;
+}
+
+.form-control{
+    width: 200px;
+    justify-content: end;
+    align-items: end;
+    background-color: transparent;
+    border: none;
+    margin-top: 10px;
+}
+
+.table{
+    text-align: center;
+}
+
+.btn{
+    font-weight: 900;
+    background-color: #BE3144;
+    color: #E0E0E0;
+}

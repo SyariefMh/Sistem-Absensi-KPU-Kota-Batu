@@ -1,0 +1,22 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+body{
+    background: linear-gradient(to bottom, #C72B41, #000000);
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.navbar{
+margin-top: 20px;
+font-size: 15px;
+font-weight: 600;
+color: #E0E0E0;
+}
+
+.card{
+    width: 350px;
+    height: 500px;
+    padding: 25px;
+    border-radius: 20px;
+}

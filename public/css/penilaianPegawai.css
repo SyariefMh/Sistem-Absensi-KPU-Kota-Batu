@@ -1,0 +1,29 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+body{
+    background: #E4E4E4;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.navbar{
+margin-top: 20px;
+font-size: 15px;
+font-weight: 600;
+color: #C72B41;
+}
+
+.table{
+    border: #000000;
+    text-align: center;
+}
+
+.form-control{
+    width: 200px;
+    justify-content: end;
+    align-items: end;
+    background-color: transparent;
+    border: none;
+    margin-top: 10px;
+}

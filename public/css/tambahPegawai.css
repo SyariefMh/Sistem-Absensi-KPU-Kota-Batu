@@ -1,0 +1,33 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+body{
+    background: #E4E4E4;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.navbar{
+margin-top: 20px;
+font-size: 15px;
+font-weight: 600;
+color: #C72B41;
+}
+
+.form-control{
+    background-color: transparent;
+    border: none;
+}
+
+.underline{
+    border-bottom: 1px solid #C72B41;
+}
+
+.mb-3 {
+    display: flex;
+    align-items: center;
+}  
+
+.form-label{
+    width: 200px;
+}

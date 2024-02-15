@@ -1,0 +1,52 @@
+*{
+    font-family: 'Inter', sans-serif;
+}
+body{
+    background: linear-gradient(to bottom, #C72B41, #000000);
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.navbar{
+margin-top: 20px;
+font-size: 15px;
+font-weight: 600;
+color: #E0E0E0;
+background-color: transparent;
+}
+
+.hero .container{
+    margin-top: 30px;
+}
+
+.sapaan{
+    color: #E0E0E0;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.motivasi{
+    font-size: 12px;
+    color: #E0E0E0;
+}
+
+.cardScan{
+    background: #E0E0E0;
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    margin-top: 60px;
+}
+
+.cardScan .judul{
+    font-weight: 900;
+    font-size: 15px;
+    color: #C72B41;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.cardScan .icon{
+    margin-left: 50px;
+    margin-top: 20px;
+}
