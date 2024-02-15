@@ -27,9 +27,16 @@ class SesiController extends Controller
         ];
 
         if (Auth::attempt($infologin)) {
-            return redirect('dashboardPegawai');
+            $user = Auth::user();
+            if ($user->role === 'pegawai') {
+                return redirect('dashboardPegawai');
+            } elseif ($user->role === 'admin') {
+                return redirect('dashboardAdmin');
+            } elseif ($user->role === 'kasubag umum') {
+                return redirect('dashboardKasubag');
+            }
         } else {
-            return redirect('')->withErrors('name dan password tidak sesuai')->withInput();
+            return redirect('')->withErrors('Nama dan password tidak sesuai')->withInput();
         }
     }
 

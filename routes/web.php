@@ -26,20 +26,24 @@ Route::get('/home', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboardPegawai', [PegawaiController::class, 'index']);
-    Route::get('/dashboardAdmin', [PegawaiController::class, 'admin']);
-    Route::get('/dashboardKasubag', [PegawaiController::class, 'kasubag']);
+    // Route untuk pegawai
+    Route::middleware(['auth', 'check.role:pegawai'])->group(function () {
+        Route::get('/dashboardPegawai', [PegawaiController::class, 'index']);
+    });
+
+    // Route untuk admin
+    Route::middleware(['auth', 'check.role:admin'])->group(function () {
+        Route::get('/dashboardAdmin', [PegawaiController::class, 'admin']);
+    });
+
+    // Route untuk kasubag
+    Route::middleware(['auth', 'check.role:kasubag umum'])->group(function () {
+        Route::get('/dashboardKasubag', [PegawaiController::class, 'kasubag']);
+    });
+    // Route untuk logout
     Route::get('/logout', [SesiController::class, 'logout']);
 });
 
-
-// Route::get('/dashboardAdmin', function () {
-//     return view('dashboardAdmin');
-// });
-
-// Route::get('/dashboardKasubag', function () {
-//     return view('dashboardKasubag');
-// });
 
 Route::get('/codePegawai', function () {
     return view('codePegawai');
