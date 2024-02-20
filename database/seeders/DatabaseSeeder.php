@@ -18,7 +18,20 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Pegawai',
                 'role' => 'pegawai',
-                'password' => bcrypt('123456')
+                'password' => bcrypt('123456'),
+                'jabatan' => 'PNS'
+            ],
+            [
+                'name' => 'Pegawai1',
+                'role' => 'pegawai',
+                'password' => bcrypt('123456'),
+                'jabatan' => 'PPNPN'
+            ],
+            [
+                'name' => 'Pegawai2',
+                'role' => 'pegawai',
+                'password' => bcrypt('123456'),
+                'jabatan' => 'Jagat Saksana (Satpam)'
             ],
             [
                 'name' => 'Admin',

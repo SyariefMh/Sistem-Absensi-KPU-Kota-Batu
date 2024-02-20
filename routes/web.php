@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\cutiController;
+use App\Http\Controllers\izinController;
+use App\Http\Controllers\kepegawaianController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
@@ -29,11 +32,32 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk pegawai
     Route::middleware(['auth', 'check.role:pegawai'])->group(function () {
         Route::get('/dashboardPegawai', [PegawaiController::class, 'index']);
+
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::get('/izin', [izinController::class, 'index']);
+            Route::post('/izin/store', [izinController::class, 'store']);
+        });
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::get('/cuti', [cutiController::class, 'index']);
+            Route::post('/cuti/store', [cutiController::class, 'store']);
+        });
     });
 
     // Route untuk admin
     Route::middleware(['auth', 'check.role:admin'])->group(function () {
         Route::get('/dashboardAdmin', [PegawaiController::class, 'admin']);
+
+        Route::prefix('/dashboardAdmin')->group(function () {
+            Route::get('/kepegawaian', [kepegawaianController::class, 'index']);
+            Route::get('/kepegawaian/create', [kepegawaianController::class, 'create']);
+            Route::post('/kepegawaian/store', [kepegawaianController::class, 'store']);
+            Route::get('/kepegawaian/edit/{id}', [kepegawaianController::class, 'edit']);
+            Route::put('/kepegawaian/update/{id}', [kepegawaianController::class, 'update']);
+            Route::delete('/kepegawaian/destroy/{id}', [kepegawaianController::class, 'destroy']);
+            Route::get('/kepegawaian/getPNS', [kepegawaianController::class, 'ambildataPns']);
+            Route::get('/kepegawaian/getSatpam', [kepegawaianController::class, 'ambildataSatpam']);
+            Route::get('/kepegawaian/getPPNPN', [kepegawaianController::class, 'ambildataPpnpn']);
+        });
     });
 
     // Route untuk kasubag
@@ -83,4 +107,8 @@ Route::get('/tambahPegawai', function () {
 
 Route::get('/penilaianPegawai', function () {
     return view('penilaianPegawai');
+});
+
+Route::get('/editpegawai', function () {
+    return view('editpegawai');
 });

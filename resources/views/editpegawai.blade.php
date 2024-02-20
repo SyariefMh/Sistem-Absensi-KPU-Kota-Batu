@@ -40,20 +40,24 @@
             <p>Tambah Data Pegawai</p>
         </div>
         <div class="container">
-            <form action="{{ url('dashboardAdmin/kepegawaian/store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ url('dashboardAdmin/kepegawaian/update/' . $users->id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <p style="padding-top: 10px">Nama : </p>
                 <div class="input" style="margin-right: 800px">
                     <input name="name" class="form-control form-control-sm underline" type="text"
-                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px">
+                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px"
+                        value="{{ $users->name }}">
                 </div>
                 <p style="padding-top: 10px">Role : </p>
                 <div class="input" style="margin-right: 800px">
                     <select name="role" class="form-select form-select-sm" aria-label=".form-select-sm example"
                         style="width: 400px">
-                        <option value="pegawai">Pegawai</option>
-                        <option value="admin">Admin</option>
-                        <option value="kasubag umum">Kasubag Umum</option>
+                        <option value="pegawai" {{ $users->role == 'pegawai' ? 'selected' : '' }}>Pegawai</option>
+                        <option value="admin" {{ $users->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="kasubag umum" {{ $users->role == 'kasubag umum' ? 'selected' : '' }}>Kasubag Umum
+                        </option>
                     </select>
                 </div>
 
@@ -66,26 +70,30 @@
                 <div class="input" style="margin-right: 800px">
                     <select name="jabatan" class="form-select form-select-sm" aria-label=".form-select-sm example"
                         style="width: 400px">
-                        <option value="PNS">PNS</option>
-                        <option value="PPNPN">PPNPN</option>
-                        <option value="Jagat Saksana (Satpam)">Jagat Saksana (Satpam)</option>
+                        <option value="PNS" {{ $users->jabatan == 'PNS' ? 'selected' : '' }}>PNS</option>
+                        <option value="PPNPN" {{ $users->jabatan == 'PPNPN' ? 'selected' : '' }}>PPNPN</option>
+                        <option value="Jagat Saksana (Satpam)"
+                            {{ $users->jabatan == 'Jagat Saksana (Satpam)' ? 'selected' : '' }}>Jagat Saksana (Satpam)
+                        </option>
                     </select>
                 </div>
-
                 <p style="padding-top: 10px">NIP : </p>
                 <div class="input" style="margin-right: 800px">
                     <input name="nip" class="form-control form-control-sm underline" type="text"
-                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px">
+                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px"
+                        value="{{ $users->nip }}">
                 </div>
                 <p style="padding-top: 10px">Pangkat : </p>
                 <div class="input" style="margin-right: 800px">
                     <input name="pangkat" class="form-control form-control-sm underline" type="text"
-                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px">
+                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px"
+                        value="{{ $users->pangkat }}">
                 </div>
                 <p style="padding-top: 10px">Golongan : </p>
                 <div class="input" style="margin-right: 800px">
                     <input name="golongan" class="form-control form-control-sm underline" type="text"
-                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px">
+                        placeholder=".form-control-sm" aria-label=".form-control-sm example" style="width: 400px"
+                        value="{{ $users->golongan }}">
                 </div>
                 <div class="mb-3 d-flex">
                     <label for="formFileDisabled" class="form-label" style="padding-top: 10px; color: #C72B41">Tanda
@@ -93,8 +101,10 @@
                         : </label>
                     <input name="tandatanggan" class="form-control" type="file" id="formFileDisabled">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <a href="{{ url('dashboardAdmin/kepegawaian') }}" class="btn btn-secondary">Back to Kepegawaian</a>
+                <button type="submit" class="btn btn-primary">Update</button>
             </form>
+
         </div>
 
         </div>

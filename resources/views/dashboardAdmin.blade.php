@@ -72,10 +72,10 @@
                 <div class="col-md-2">
                     <div class="cardScan">
                         <div class="judul">
-                            <p>Absen Dinas Luar</p>
+                            <p>Cek & Rekap Absensi</p>
                         </div>
                         <div class="icon">
-                            <img src="img/Lokasi.png" alt="" width="90" height="92">
+                            <img src="img/Lokasi.png" alt="" width="70" height="72">
                         </div>
                     </div>
                 </div>
@@ -84,11 +84,11 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="cardScan">
-                        <div class="judul">
-                            <p>Cuti</p>
-                        </div>
+                        <a class="judul" href={{ url('/dashboardAdmin/kepegawaian') }}>
+                            <p>Kepegawaian</p>
+                        </a>
                         <div class="icon">
-                            <img src="img/izin.png" alt="" width="90" height="92">
+                            <img src="img/izin.png" alt="" width="10" height="12">
                         </div>
                     </div>
                 </div>

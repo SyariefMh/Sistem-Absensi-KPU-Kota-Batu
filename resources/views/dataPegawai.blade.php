@@ -18,7 +18,8 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/cekRekap.css">
+    <link rel="stylesheet" href="{{ asset('css/cekRekap.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
 
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
@@ -31,10 +32,11 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU
-                <img src="img/profile.png" alt="" width="50" height="50" style="margin-left: 10px"></a>
+                <img src="{{ asset('img/profile.png') }}" alt="" width="50" height="50"
+                    style="margin-left: 10px"></a>
         </div>
         <div class="container" style="color: black">
             <div class="container d-flex">
@@ -46,14 +48,52 @@
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
                             format="YYYY-MM-DD">
                         <div style="position: absolute; right: 130px;">
-                            <button type="submit" class="btn" style="width: 200px">Tambah Pegawai</button>
+                            <a href="{{ url('/dashboardAdmin/kepegawaian/create') }}">
+                                <button type="submit" class="btn" style="width: 200px">Tambah Pegawai</button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
             {{-- tabel --}}
             <div class="container">
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
+                    <p style="margin-top: 40px; margin-left: 25px">PNS</p>
+                    <thead>
+                        <tr>
+                            <th>Nomer</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>NIP</th>
+                            <th>Pangkat</th>
+                            <th>Golongan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered" id="usersTablesatpam" width="100%" cellspacing="0">
+                    <p style="margin-top: 40px; margin-left: 25px">Jagat Saksana (SATPAM)</p>
+                    <thead>
+                        <tr>
+                            <th>Nomer</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>NIP</th>
+                            <th>Pangkat</th>
+                            <th>Golongan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+                <table class="table table-bordered" id="usersTablePPNPN" width="100%" cellspacing="0">
                     <p style="margin-top: 40px; margin-left: 25px">PPNPN</p>
                     <thead>
                         <tr>
@@ -67,76 +107,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td style="text-align: left">Maulana Syarief</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>08:00</td>
-                            <td>17:00</td>
-                            <td>2023-07-20</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left">Jane Doe</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>09:00</td>
-                            <td>18:00</td>
-                            <td>2023-07-21</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td style="text-align: left">John Smith</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>10:00</td>
-                            <td>19:00</td>
-                            <td>2023-07-22</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <table class="table table-bordered">
-                    <p style="margin-top: 40px; margin-left: 25px">Jagat Saksana (SATPAM)</p>
-                    <thead>
-                        <tr>
-                            <th>Nomer</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th>Jam Datang</th>
-                            <th>Jam Pulang</th>
-                            <th>Tanggal</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td style="text-align: left">Maulana Syarief</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>08:00</td>
-                            <td>17:00</td>
-                            <td>2023-07-20</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left">Jane Doe</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>09:00</td>
-                            <td>18:00</td>
-                            <td>2023-07-21</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td style="text-align: left">John Smith</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>10:00</td>
-                            <td>19:00</td>
-                            <td>2023-07-22</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -163,6 +134,222 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#usersTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('/dashboardAdmin/kepegawaian/getPNS') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'nip',
+                        name: 'nip'
+                    },
+                    {
+                        data: 'pangkat',
+                        name: 'pangkat',
+                    },
+                    {
+                        data: 'golongan',
+                        name: 'golongan',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            $('#usersTable').on('click', 'a.delete-users', function(e) {
+                e.preventDefault();
+                var deleteUrl = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#usersTablesatpam').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('/dashboardAdmin/kepegawaian/getSatpam') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'nip',
+                        name: 'nip'
+                    },
+                    {
+                        data: 'pangkat',
+                        name: 'pangkat',
+                    },
+                    {
+                        data: 'golongan',
+                        name: 'golongan',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            $('#usersTablesatpam').on('click', 'a.delete-users', function(e) {
+                e.preventDefault();
+                var deleteUrl = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#usersTablePPNPN').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('/dashboardAdmin/kepegawaian/getPPNPN') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'nip',
+                        name: 'nip'
+                    },
+                    {
+                        data: 'pangkat',
+                        name: 'pangkat',
+                    },
+                    {
+                        data: 'golongan',
+                        name: 'golongan',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            $('#usersTablePPNPN').on('click', 'a.delete-users', function(e) {
+                e.preventDefault();
+                var deleteUrl = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

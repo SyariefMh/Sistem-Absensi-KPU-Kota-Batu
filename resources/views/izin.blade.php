@@ -37,26 +37,32 @@
         </div>
     </nav>
     {{-- card --}}
-    <div class="container col-4 d-flex justify-content-center" style="margin-top: 60px">
-        <div class="card">
-            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Izin</p>
-            {{-- Tanggal --}}
-            <p style="color: #C72B41">Tanggal</p>
-            <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
-                format="YYYY-MM-DD">
-            {{-- Lama Izin --}}
-            <p style="padding-top: 10px; color: #C72B41">Lama Izin</p>
-            <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm"
-                aria-label=".form-control-sm example">
-            {{-- Upload surat --}}
-            <div class="mb-3">
-                <label for="formFileDisabled" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
-                    Tugas</label>
-                <input class="form-control" type="file" id="formFileDisabled">
+    <form action="{{ url('/dashboardPegawai/izin/store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="container col-4 d-flex justify-content-center" style="margin-top: 60px">
+            <div class="card">
+                <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Izin</p>
+                {{-- Tanggal --}}
+                <p style="color: #C72B41">Tanggal</p>
+                <input type="date" class="form-control" id="tanggal" name="tanggal"
+                    value="{{ now()->toDateString() }}" format="YYYY-MM-DD">
+                {{-- Lama Izin --}}
+                <p style="padding-top: 10px; color: #C72B41">Lama Izin</p>
+                <input name="lama_izin" class="form-control form-control-sm" type="text"
+                    placeholder=".form-control-sm" aria-label=".form-control-sm example">
+                {{-- Upload surat --}}
+                <div class="mb-3">
+                    <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
+                        Tugas</label>
+                    <input name="file" class="form-control" type="file" id="file">
+                </div>
+                <button type="submit"
+                    style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
             </div>
-            <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
         </div>
-    </div>
+    </form>
+
     </div>
     <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
 
