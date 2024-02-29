@@ -4,6 +4,7 @@ use App\Http\Controllers\cutiController;
 use App\Http\Controllers\izinController;
 use App\Http\Controllers\kepegawaianController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\riwayatabsenController;
 use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/cuti', [cutiController::class, 'index']);
             Route::post('/cuti/store', [cutiController::class, 'store']);
+        });
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::get('/riwayatAbsen', [riwayatabsenController::class, 'index']);
         });
     });
 

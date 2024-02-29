@@ -40,41 +40,34 @@
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
             <p style="font-weight: 900">Riwayat Absen</p>
-            <div class="history" style="margin-bottom: 10px">
-                <div class="row justify-content-center">
-                    <div class="col-lg-3">
-                        <p>15/01/2024</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <p>07.30 - 16.00</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <p>Tepat Waktu</p>
-                    </div>
-                    <div class="col-lg-2" style="padding-top: 5px">
-                        <img src="img/checklist.png" alt="">
-                    </div>
-                </div>
-            </div>
+            @foreach ($combinedData as $data)
+                <div class="history" style="margin-bottom: 10px">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3">
+                            <p>{{ $data->tanggal }}</p>
+                        </div>
+                        <div class="col-lg-3">
+                            <p>
+                                @if ($data->jam_datang || $data->jam_pulang)
+                                    {{ $data->jam_datang ?? '-' }} - {{ $data->jam_pulang ?? '-' }}
+                                @else
+                                    -
+                                @endif
+                            </p>
 
-            <div class="history" style="margin-bottom: 10px">
-                <div class="row justify-content-center">
-                    <div class="col-lg-3">
-                        <p>15/01/2024</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <p>07.30 - 16.00</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <p>Tepat Waktu</p>
-                    </div>
-                    <div class="col-lg-2" style="padding-top: 5px">
-                        <img src="img/checklist.png" alt="">
+                        </div>
+                        <div class="col-lg-3">
+                            <p>{{ $data->Keterangan }}</p>
+                        </div>
+                        <div class="col-lg-2" style="padding-top: 5px">
+                            <img src="img/checklist.png" alt="">
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
+
     </div>
     <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
 
