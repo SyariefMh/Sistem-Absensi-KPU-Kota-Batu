@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\cuti;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Absensi;
+use Carbon\Carbon;
 
 class cutiController extends Controller
 {
@@ -37,27 +38,37 @@ class cutiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'lama_cuti' => 'required',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date',
             'file' => 'required|file|mimes:jpeg,png,pdf|max:10000', // Adjust the allowed file types and maximum size
         ]);
-
-        // Get the current date in string format
-        $currentDate = now()->toDateString();
 
         // Get the authenticated user (assuming you have authentication set up)
         $user = auth()->user();
 
         // Handle the file upload
         $file = $request->file('file');
-        $filePath = $file->store('absensi_files', 'public');
+        $filePath = $file->store('cuti_files', 'public');
 
-        // Create the Absensi record
-        $izin = Absensi::create([
-            'tanggal' => $currentDate,
-            'lama_cuti' => $request->lama_cuti,
-            'file' => $filePath,
-            'user_id' => $user->id,
-        ]);
+        // Parse start and end dates directly from the request
+        // Parse start and end dates from the request
+        // Get the start and end dates of the leave period
+        $startDate = Carbon::parse($request->tanggal_awal);
+        $endDate = Carbon::parse($request->tanggal_akhir);
+
+        // Create Absensi records for each day in the leave period
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            $cuti = cuti::create([
+                'tanggal_awal' => $startDate->toDateString(), // Start date remains the same
+                'tanggal_akhir' => $endDate->toDateString(), // End date remains the same
+                'tanggal' => $date->toDateString(), // Set the current date being iterated
+                'file' => $filePath,
+                'keterangan' => 'Tidak Hadir',
+                'jam_datang' => null,
+                'jam_pulang' => null,
+                'user_id' => $user->id,
+            ]);
+        }
 
         return redirect('/dashboardPegawai')->with('success', 'Cuti berhasil disimpan');
     }
