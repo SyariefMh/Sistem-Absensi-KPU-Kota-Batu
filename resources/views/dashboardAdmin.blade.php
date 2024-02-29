@@ -71,11 +71,11 @@
                 </div>
                 <div class="col-md-2">
                     <div class="cardScan">
-                        <div class="judul">
-                            <p>Cek & Rekap Absensi</p>
-                        </div>
+                        <a class="judul" href={{ url('/dashboardAdmin/cekRekap') }}>
+                            <p>cek</p>
+                        </a>
                         <div class="icon">
-                            <img src="img/Lokasi.png" alt="" width="70" height="72">
+                            <img src="img/izin.png" alt="" width="10" height="12">
                         </div>
                     </div>
                 </div>

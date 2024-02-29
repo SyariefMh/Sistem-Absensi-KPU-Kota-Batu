@@ -19,6 +19,7 @@
 
     {{-- My Style --}}
     <link rel="stylesheet" href="css/cekRekap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
 
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
@@ -49,8 +50,8 @@
             </div>
             {{-- tabel --}}
             <div class="container">
-                <table class="table table-bordered">
-                    <p style="margin-top: 40px; margin-left: 25px">Presensi PPNPN</p>
+                <table class="table table-bordered" id="usersTablePNS" width="100%" cellspacing="0">
+                    <p style="margin-top: 40px; margin-left: 25px">PNS</p>
                     <thead>
                         <tr>
                             <th>Nomer</th>
@@ -64,38 +65,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td style="text-align: left">Maulana Syarief</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>08:00</td>
-                            <td>17:00</td>
-                            <td>2023-07-20</td>
-                            <td>Hadir</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td style="text-align: left">Jane Doe</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>09:00</td>
-                            <td>18:00</td>
-                            <td>2023-07-21</td>
-                            <td>Izin</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td style="text-align: left">John Smith</td>
-                            <td>Tenaga Administrasi</td>
-                            <td>10:00</td>
-                            <td>19:00</td>
-                            <td>2023-07-22</td>
-                            <td>Cuti</td>
-                            <td><a href="#">Lihat</a></td>
-                        </tr>
+
                     </tbody>
                 </table>
+
                 <table class="table table-bordered">
                     <p style="margin-top: 40px; margin-left: 25px">Presensi Jagat Saksana (SATPAM)</p>
                     <thead>
@@ -143,6 +116,7 @@
                         </tr>
                     </tbody>
                 </table>
+
                 <div style="position: absolute; right: 130px;">
                     <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
                 </div>
@@ -170,6 +144,89 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#usersTablePNS').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('/dashboardAdmin/cekRekap/getPNS') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'jam_datang',
+                        name: 'jam_datang',
+                        render: function(data) {
+                            return data ? data :
+                                '-'; // Jika data tidak null, gunakan nilainya. Jika null, gunakan "belum absensi".
+                        }
+                    }, // Add columns according to your requirements
+                    {
+                        data: 'jam_pulang',
+                        name: 'jam_pulang',
+                        render: function(data) {
+                            return data ? data :
+                                '-'; // Jika data tidak null, gunakan nilainya. Jika null, gunakan "belum absensi".
+                        }
+                    },
+                    {
+                        data: 'tanggal',
+                        name: 'tanggal'
+                    },
+                    {
+                        data: 'Keterangan',
+                        name: 'Keterangan'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    }
+                ]
+
+            });
+
+            $('#usersTablePNS').on('click', 'a.delete-users', function(e) {
+                e.preventDefault();
+                var deleteUrl = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTablePNS').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

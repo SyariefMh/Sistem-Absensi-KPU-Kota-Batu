@@ -5,6 +5,7 @@ use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
 use App\Http\Controllers\kepegawaianController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\rekapController;
 use App\Http\Controllers\riwayatabsenController;
 use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getPNS', [kepegawaianController::class, 'ambildataPns']);
             Route::get('/kepegawaian/getSatpam', [kepegawaianController::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianController::class, 'ambildataPpnpn']);
+        });
+        Route::prefix('/dashboardAdmin')->group(function () {
+            Route::get('/cekRekap', [rekapController::class, 'index']);
+            Route::get('/cekRekap/getPNS', [rekapController::class, 'rekapPNS']);
         });
     });
 
