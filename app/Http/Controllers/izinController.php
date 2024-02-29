@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\izinmodel;
 use Illuminate\Http\Request;
 use App\Models\Absensi;
+use App\Models\izin;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class izinController extends Controller
@@ -30,12 +33,10 @@ class izinController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'lama_izin' => 'required',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date',
             'file' => 'required|file|mimes:jpeg,png,pdf|max:10000', // Adjust the allowed file types and maximum size
         ]);
-
-        // Get the current date in string format
-        $currentDate = now()->toDateString();
 
         // Get the authenticated user (assuming you have authentication set up)
         $user = auth()->user();
@@ -44,16 +45,31 @@ class izinController extends Controller
         $file = $request->file('file');
         $filePath = $file->store('absensi_files', 'public');
 
-        // Create the Absensi record
-        $izin = Absensi::create([
-            'tanggal' => $currentDate,
-            'lama_izin' => $request->lama_izin,
-            'file' => $filePath,
-            'user_id' => $user->id,
-        ]);
+        // Parse start and end dates directly from the request
+        // Parse start and end dates from the request
+        // Get the start and end dates of the leave period
+        $startDate = Carbon::parse($request->tanggal_awal);
+        $endDate = Carbon::parse($request->tanggal_akhir);
 
-        return redirect('/dashboardPegawai')->with('success', 'Absensi berhasil disimpan');
+        // Create Absensi records for each day in the leave period
+        for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
+            $izin = izin::create([
+                'tanggal_awal' => $startDate->toDateString(), // Start date remains the same
+                'tanggal_akhir' => $endDate->toDateString(), // End date remains the same
+                'tanggal' => $date->toDateString(), // Set the current date being iterated
+                'file' => $filePath,
+                'keterangan' => 'Tidak Hadir',
+                'jam_datang' => null,
+                'jam_pulang' => null,
+                'user_id' => $user->id,
+            ]);
+        }
+
+        return redirect('/dashboardPegawai')->with('success', 'Cuti berhasil disimpan');
     }
+
+
+
 
     /**
      * Display the specified resource.

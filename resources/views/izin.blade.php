@@ -44,13 +44,10 @@
             <div class="card">
                 <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Izin</p>
                 {{-- Tanggal --}}
-                <p style="color: #C72B41">Tanggal</p>
-                <input type="date" class="form-control" id="tanggal" name="tanggal"
-                    value="{{ now()->toDateString() }}" format="YYYY-MM-DD">
-                {{-- Lama Izin --}}
-                <p style="padding-top: 10px; color: #C72B41">Lama Izin</p>
-                <input name="lama_izin" class="form-control form-control-sm" type="text"
-                    placeholder=".form-control-sm" aria-label=".form-control-sm example">
+                <p style="color: #C72B41">Tanggal awal</p>
+                <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal">
+                <p style="color: #C72B41">tanggal akhir</p>
+                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir">
                 {{-- Upload surat --}}
                 <div class="mb-3">
                     <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
