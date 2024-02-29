@@ -59,14 +59,14 @@
             {{-- Card Menu --}}
             <div class="row">
                 <div class="col-md-2">
-                    <div class="cardScan">
+                    <a href="{{ url('/dashboardPegawai/codePegawai') }}" class="cardScan">
                         <div class="judul">
-                            <p>Scan Qr Code</p>
+                            <p>Qr code</p>
                         </div>
                         <div class="icon">
-                            <img src="img/QR Code.png" alt="" width="90" height="92">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-2">
                     <a href="{{ url('/dashboardPegawai/dinasLuar') }}" class="cardScan">

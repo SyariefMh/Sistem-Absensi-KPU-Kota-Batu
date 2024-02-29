@@ -206,6 +206,60 @@
                         });
                 }
             });
+            $('#usersTable').on('click', 'a.sendQr-datang-users', function(e) {
+                e.preventDefault();
+                var datang = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(datang, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+            $('#usersTable').on('click', 'a.sendQr-pulang-users', function(e) {
+                e.preventDefault();
+                var pulang = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(pulang, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
         });
     </script>
 
@@ -277,6 +331,60 @@
                         });
                 }
             });
+            $('#usersTablesatpam').on('click', 'a.sendQr-datang-users', function(e) {
+                e.preventDefault();
+                var datang = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(datang, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+            $('#usersTablesatpam').on('click', 'a.sendQr-pulang-users', function(e) {
+                e.preventDefault();
+                var pulang = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(pulang, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
         });
     </script>
 
@@ -328,6 +436,60 @@
                 if (confirm('Are you sure?')) {
                     fetch(deleteUrl, {
                             method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+            $('#usersTablePPNPN').on('click', 'a.sendQr-datang-users', function(e) {
+                e.preventDefault();
+                var datang = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(datang, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.warning) {
+                                alert(data.warning);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                                location.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error(error);
+                        });
+                }
+            });
+            $('#usersTablePPNPN').on('click', 'a.sendQr-pulang-users', function(e) {
+                e.preventDefault();
+                var pulang = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(pulang, {
+                            method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },

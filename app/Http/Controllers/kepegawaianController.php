@@ -29,8 +29,10 @@ class kepegawaianController extends Controller
             ->addColumn('action', function ($row) {
                 $editUrl = url('/dashboardAdmin/kepegawaian/edit/' . $row->id);
                 $deleteUrl = url('/dashboardAdmin/kepegawaian/destroy/' . $row->id);
+                $qrcodeDatangUrl = url('/dashboardAdmin/kepegawaian/qrcodeDatang/' . $row->id);
+                $qrcodePulangUrl = url('/dashboardAdmin/kepegawaian/qrcodePulang/' . $row->id);
 
-                return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a>';
+                return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a> | <a href="#" class="sendQr-datang-users" data-url="' . $qrcodeDatangUrl . '">QRCode Datang</a> | <a href="#" class="sendQr-pulang-users" data-url="' . $qrcodePulangUrl . '">QRCode Datang</a>';
             })
             ->toJson();
     }
@@ -48,8 +50,10 @@ class kepegawaianController extends Controller
             ->addColumn('action', function ($row) {
                 $editUrl = url('/dashboardAdmin/kepegawaian/edit/' . $row->id);
                 $deleteUrl = url('/dashboardAdmin/kepegawaian/destroy/' . $row->id);
+                $qrcodeDatangUrl = url('/dashboardAdmin/kepegawaian/qrcodeDatang/' . $row->id);
+                $qrcodePulangUrl = url('/dashboardAdmin/kepegawaian/qrcodePulang/' . $row->id);
 
-                return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a>';
+                return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a> | <a href="#" class="sendQr-datang-users" data-url="' . $qrcodeDatangUrl . '">QRCode Datang</a> | <a href="#" class="sendQr-pulang-users" data-url="' . $qrcodePulangUrl . '">QRCode Datang</a>';
             })
             ->toJson();
     }
@@ -67,8 +71,10 @@ class kepegawaianController extends Controller
             ->addColumn('action', function ($row) {
                 $editUrl = url('/dashboardAdmin/kepegawaian/edit/' . $row->id);
                 $deleteUrl = url('/dashboardAdmin/kepegawaian/destroy/' . $row->id);
+                $qrcodeDatangUrl = url('/dashboardAdmin/kepegawaian/qrcodeDatang/' . $row->id);
+                $qrcodePulangUrl = url('/dashboardAdmin/kepegawaian/qrcodePulang/' . $row->id);
 
-                return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a>';
+                return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a> | <a href="#" class="sendQr-datang-users" data-url="' . $qrcodeDatangUrl . '">QRCode Datang</a> | <a href="#" class="sendQr-pulang-users" data-url="' . $qrcodePulangUrl . '">QRCode Datang</a>';
             })
             ->toJson();
     }

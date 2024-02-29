@@ -5,6 +5,7 @@ use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
 use App\Http\Controllers\kepegawaianController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\qrcodeGenController;
 use App\Http\Controllers\rekapController;
 use App\Http\Controllers\riwayatabsenController;
 use App\Http\Controllers\SesiController;
@@ -51,6 +52,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/riwayatAbsen', [riwayatabsenController::class, 'index']);
         });
+        // Route::prefix('/dashboardPegawai')->group(function () {
+        //     Route::get('/codePegawai', [qrcodeGenController::class, 'index']);
+        // });
     });
 
     // Route untuk admin
@@ -67,6 +71,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getPNS', [kepegawaianController::class, 'ambildataPns']);
             Route::get('/kepegawaian/getSatpam', [kepegawaianController::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianController::class, 'ambildataPpnpn']);
+            Route::post('/kepegawaian/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatang']);
+            Route::post('/kepegawaian/qrcodePulang/{id}', [qrcodeGenController::class, 'qrcodepulang']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/cekRekap', [rekapController::class, 'index']);
