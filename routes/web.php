@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\cutiController;
+use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
 use App\Http\Controllers\kepegawaianController;
 use App\Http\Controllers\PegawaiController;
@@ -41,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/cuti', [cutiController::class, 'index']);
             Route::post('/cuti/store', [cutiController::class, 'store']);
+        });
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::get('/dinasLuar', [dinlurController::class, 'index']);
+            Route::post('/dinasLuar/store', [dinlurController::class, 'store']);
         });
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/riwayatAbsen', [riwayatabsenController::class, 'index']);

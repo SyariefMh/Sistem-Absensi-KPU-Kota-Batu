@@ -37,26 +37,49 @@
         </div>
     </nav>
     {{-- card --}}
-    <div class="container col-4 d-flex justify-content-center">
-        <div class="card">
-            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Dinas Luar</p>
-            {{-- Tanggal --}}
-            <p style="color: #C72B41">Tanggal</p>
-            <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
-                format="YYYY-MM-DD">
-            {{-- Upload surat --}}
-            <div class="mb-3">
-                <label for="formFileDisabled" class="form-label" style="padding-top: 10px">Surat Tugas</label>
-                <input class="form-control" type="file" id="formFileDisabled">
+    <form action="{{ url('/dashboardPegawai/dinasLuar/store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <div class="container col-4 d-flex justify-content-center">
+            <div class="card">
+                <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Dinas Luar</p>
+                <!-- Include a field for the tanggal input -->
+                <div class="mb-3">
+                    <label for="tanggal" class="form-label">Tanggal</label>
+                    <input class="form-control" type="date" id="tanggal" name="tanggal">
+                </div>
+                <!-- Include fields for jam_datang and jam_pulang -->
+                <div class="mb-3">
+                    <label for="jam_datang" class="form-label">Jam Datang</label>
+                    <input class="form-control" type="time" id="jam_datang" name="jam_datang">
+                </div>
+                <div class="mb-3">
+                    <label for="jam_pulang" class="form-label">Jam Pulang</label>
+                    <input class="form-control" type="time" id="jam_pulang" name="jam_pulang">
+                </div>
+
+                {{-- Upload surat --}}
+                <div class="mb-3">
+                    <label for="formFileDisabled" class="form-label" style="padding-top: 10px">Surat Tugas</label>
+                    <input class="form-control" type="file" id="formFileDisabled" name="file">
+                </div>
+                {{-- Lokasi --}}
+                <p>Lokasi saat ini</p>
+                <div id="map" style="height: 300px;"></div>
+
+                <input type="hidden" id="latitude" name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+
+                <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white"
+                    onclick="getLocation()">Gunakan lokasi saat ini</button>
+                <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white"
+                    type="submit">Simpan</button>
+                <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white"
+                    onclick="refreshMap()">Refresh Map</button> {{-- Add this line for the Refresh Map button --}}
             </div>
-            {{-- Lokasi --}}
-            <p>Lokasi saat ini</p>
-            <img src="img/lok.jpg" alt="">
-            <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Gunakan lokasi saat
-                ini</button>
-            <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
         </div>
-    </div>
+    </form>
+
     </div>
     <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
 
@@ -76,6 +99,69 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     -->
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        var map = L.map('map').setView([-6.2088, 106.8456], 15); // Initialize map with default coordinates
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var marker;
+
+        // Function to update the user's live location
+        function updateLiveLocation(position) {
+            var lat = position.coords.latitude;
+            var lng = position.coords.longitude;
+
+            // Update hidden input fields with live location
+            document.getElementById('longitude').value = lng;
+            document.getElementById('latitude').value = lat;
+
+            // Update map view
+            map.setView([lat, lng]);
+
+            // Add or move marker
+            if (!marker) {
+                marker = L.marker([lat, lng]).addTo(map);
+                marker.bindPopup("Current Location").openPopup(); // Add popup with label
+            } else {
+                marker.setLatLng([lat, lng]);
+            }
+        }
+
+        // Function to handle errors in geolocation
+        function handleLocationError(error) {
+            console.error('Error getting user location:', error.message);
+        }
+
+        // Watch user's position and update location continuously
+        var watchId = navigator.geolocation.watchPosition(updateLiveLocation, handleLocationError);
+
+        // Stop watching user's position when the page is unloaded
+        window.addEventListener('unload', function() {
+            navigator.geolocation.clearWatch(watchId);
+        });
+
+        // Function to refresh the map
+        function refreshMap() {
+            map.setView([-6.2088, 106.8456], 15); // Reset map view to default coordinates
+            if (marker) {
+                map.removeLayer(marker); // Remove marker if it exists
+                marker = null; // Reset marker variable
+            }
+        }
+    </script>
+
+    </script>
+
+
+
 </body>
 
 </html>

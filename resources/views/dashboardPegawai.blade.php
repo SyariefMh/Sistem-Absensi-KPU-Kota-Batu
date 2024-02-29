@@ -69,14 +69,14 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="cardScan">
+                    <a href="{{ url('/dashboardPegawai/dinasLuar') }}" class="cardScan">
                         <div class="judul">
-                            <p>Absen Dinas Luar</p>
+                            <p>Dinas Luar</p>
                         </div>
                         <div class="icon">
-                            <img src="img/Lokasi.png" alt="" width="90" height="92">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-2">
                     <a href="{{ url('/dashboardPegawai/izin') }}" class="cardScan">
