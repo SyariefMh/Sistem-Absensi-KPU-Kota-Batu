@@ -95,4 +95,13 @@ class qrcodeGenController extends Controller
         // Jika pengguna tidak ditemukan atau bukan karyawan, kembalikan respons gagal dalam format JSON
         return response()->json(['error' => 'Gagal mengirim QR Code Pulang. Pengguna tidak ditemukan atau bukan karyawan.'], 404);
     }
+
+    public function indexKaryawan()
+    {
+        // Controller method
+        $user = auth()->user();
+        $qrcodeGens = qrcodeGen::where('user_id', $user->id)->get();
+        // Pass the variable as 'qrcodefilesDtg' to the view
+        return view('codePegawai', ['qrcodefilesDtg' => $qrcodeGens]);
+    }
 }

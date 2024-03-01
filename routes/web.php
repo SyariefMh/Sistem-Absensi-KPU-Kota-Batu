@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\absen_qr_codeController;
 use App\Http\Controllers\cutiController;
 use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
@@ -52,9 +53,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/riwayatAbsen', [riwayatabsenController::class, 'index']);
         });
-        // Route::prefix('/dashboardPegawai')->group(function () {
-        //     Route::get('/codePegawai', [qrcodeGenController::class, 'index']);
-        // });
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::get('/codePegawai', [qrcodeGenController::class, 'indexKaryawan']);
+        });
     });
 
     // Route untuk admin
@@ -77,6 +78,10 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/cekRekap', [rekapController::class, 'index']);
             Route::get('/cekRekap/getPNS', [rekapController::class, 'rekapPNS']);
+        });
+        Route::prefix('/dashboardAdmin')->group(function () {
+            Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
+            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
         });
     });
 

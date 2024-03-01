@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cuti;
+use App\Models\datangQrCode;
 use App\Models\dinlur;
 use App\Models\izin;
 use App\Models\User;
@@ -26,8 +27,15 @@ class rekapController extends Controller
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
         $dinlur = Dinlur::whereIn('user_id', $userIds)
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
+        $qrcode = datangQrCode::whereIn('qrcode_id', function ($query) use ($userIds) {
+            $query->select('id')
+                ->from('qrcode_gens')
+                ->whereIn('user_id', $userIds);
+        })
+            ->select(['id', 'qrcode_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']);
+        // Adjust columns accordingly
 
-        $combinedData = $cuti->union($izins)->union($dinlur)->get();
+        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->get();
 
         return DataTables::of($combinedData)
             ->addColumn('DT_RowIndex', function ($data) {

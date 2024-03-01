@@ -61,11 +61,11 @@
             <div class="row">
                 <div class="col-md-2">
                     <div class="cardScan">
-                        <div class="judul">
+                        <a class="judul" href={{ url('/dashboardAdmin/scanDatang') }}>
                             <p>Scan Qr Code</p>
-                        </div>
+                        </a>
                         <div class="icon">
-                            <img src="img/QR Code.png" alt="" width="90" height="92">
+                            <img src="img/izin.png" alt="" width="10" height="12">
                         </div>
                     </div>
                 </div>
