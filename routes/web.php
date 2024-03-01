@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\absen_qr_codeController;
+use App\Http\Controllers\absenPulang_qr_codeController;
 use App\Http\Controllers\cutiController;
 use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
@@ -82,6 +83,10 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
             Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
+        });
+        Route::prefix('/dashboardAdmin')->group(function () {
+            Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'index']);
+            Route::post('/scanPulang/scan/store', [absenPulang_qr_codeController::class, 'scanQrCodeDatang']);
         });
     });
 

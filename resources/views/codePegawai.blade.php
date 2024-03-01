@@ -62,6 +62,32 @@
             </p>
         </div>
     </div>
+
+    <div class="container col-4 d-flex justify-content-center">
+        <div class="card">
+            <p style="margin-left: 95px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code</p>
+            {{-- <img src="img/Group.png" alt="" width="300" height="300"> --}}
+            {{-- tempat menaruh Qr code --}}
+            <div class="card-body">
+                @foreach ($qrcodefilesDtg as $qrCode)
+                    @php
+                        $qrcodeGenPath = 'storage/qrcodes/' . $qrCode->qrcodefilesPlg . '.png';
+                    @endphp
+                    <img src="{{ asset('storage/' . $qrCode->qrcodefilesPlg) }}" alt="QR Code Kedatangan">
+                @endforeach
+            </div>
+
+            <div class="card-footer">
+                @foreach ($qrcodefilesDtg as $qrCode)
+                    <a href="{{ asset('storage/' . $qrCode->qrcodefilesPlg) }}" download>Download QR Code Pulang</a>
+                @endforeach
+            </div>
+
+            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 40px">Scan QR Code untuk
+                absensi <br>kehadiran pegawai
+            </p>
+        </div>
+    </div>
     </div>
     <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
 

@@ -61,16 +61,16 @@ class qrcodeGenController extends Controller
         $user = User::findOrFail($id);
 
         // Pastikan pengguna ditemukan dan memiliki peran 'karyawan'
-        if ($user && $user->role === 'karyawan') {
+        if ($user && $user->role === 'pegawai') {
             // Generate kode unik untuk QR code
-            $code = 'ATTDNP' . Str::random(6);
+            $code = 'PLG' . Str::random(8);
 
             // Generate QR Code pulang dengan informasi yang sesuai (misalnya, kode unik)
             $qrCodeData = $code;
             $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
 
             // Simpan QR Code pulang ke dalam penyimpanan yang dapat diakses oleh pengguna
-            $qrCodePathPulang = 'qrcodes/' . $qrCodeData . '.png';
+            $qrCodePathPulang = 'qrcodesPlg/' . $qrCodeData . '.png';
             Storage::disk('public')->put($qrCodePathPulang, $qrCode);
 
             // Perbarui informasi QR code di database jika sudah ada, jika tidak, buat entri baru

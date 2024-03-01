@@ -92,6 +92,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <div class="cardScan">
+                        <a class="judul" href={{ url('/dashboardAdmin/scanPulang') }}>
+                            <p>Pulang</p>
+                        </a>
+                        <div class="icon">
+                            <img src="img/izin.png" alt="" width="10" height="12">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

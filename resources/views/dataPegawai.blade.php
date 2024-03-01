@@ -251,7 +251,7 @@
                             } else {
                                 // Handle success, e.g., reload the DataTable
                                 $('#usersTable').DataTable().ajax.reload();
-                                location.reload();
+                                // location.reload();
                             }
                         })
                         .catch(error => {
