@@ -48,7 +48,17 @@
 
     <div class="hero">
         <div class="container">
-            <p class="sapaan">Selamat Datang, </p>
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $item)
+                            <li>{{ $item }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+
+            @endif
+            <p class="sapaan">Selamat Datang, {{ auth()->user()->name }}</p>
             <p class="motivasi">Silahkan untuk melakukan absensi kehadiran anda hari ini. Mari
                 <br>bersama sama menjaga integritas dan
                 profesionalitas KPU Kota Batu <br>dengan selalu tepat waktu dan disiplin dalam absensi
@@ -112,14 +122,14 @@
                     </a>
                 </div>
                 <div class="col-md-2">
-                    <div class="cardScan">
+                    <a href="{{ url('/dashboardPegawai/codePegawai/pulang') }}" class="cardScan">
                         <div class="judul">
                             <p>Pulang</p>
                         </div>
                         <div class="icon">
-                            <img src="img/home.png" alt="" width="90" height="92">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->time('jam_datang')->nullable();
             $table->time('jam_pulang')->nullable();
             $table->enum('Keterangan', ['Tidak Hadir']);
+            $table->enum('Status', ['Izin']);
             $table->string('file');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

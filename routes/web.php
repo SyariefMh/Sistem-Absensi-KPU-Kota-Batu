@@ -57,6 +57,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/codePegawai', [qrcodeGenController::class, 'indexKaryawan']);
         });
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::get('/codePegawai/pulang', [qrcodeGenController::class, 'indexKaryawanPulang']);
+        });
     });
 
     // Route untuk admin
@@ -79,6 +82,8 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/cekRekap', [rekapController::class, 'index']);
             Route::get('/cekRekap/getPNS', [rekapController::class, 'rekapPNS']);
+            Route::get('/cekRekap/getSatpam', [rekapController::class, 'rekapSatpam']);
+            Route::get('/cekRekap/getPPNPN', [rekapController::class, 'rekapPPNPN']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
@@ -96,49 +101,4 @@ Route::middleware(['auth'])->group(function () {
     });
     // Route untuk logout
     Route::get('/logout', [SesiController::class, 'logout']);
-});
-
-
-Route::get('/codePegawai', function () {
-    return view('codePegawai');
-});
-
-Route::get('/codeAdmin', function () {
-    return view('codeAdmin');
-});
-
-Route::get('/dinasLuar', function () {
-    return view('dinasLuar');
-});
-
-Route::get('/izin', function () {
-    return view('izin');
-});
-
-Route::get('/cuti', function () {
-    return view('cuti');
-});
-
-Route::get('/riwayatAbsen', function () {
-    return view('riwayatAbsen');
-});
-
-Route::get('/cekRekap', function () {
-    return view('cekRekap');
-});
-
-Route::get('/dataPegawai', function () {
-    return view('dataPegawai');
-});
-
-Route::get('/tambahPegawai', function () {
-    return view('tambahPegawai');
-});
-
-Route::get('/penilaianPegawai', function () {
-    return view('penilaianPegawai');
-});
-
-Route::get('/editpegawai', function () {
-    return view('editpegawai');
 });

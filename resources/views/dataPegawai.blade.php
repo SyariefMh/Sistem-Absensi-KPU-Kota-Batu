@@ -206,6 +206,7 @@
                         });
                 }
             });
+            // kirim qr code PNS
             $('#usersTable').on('click', 'a.sendQr-datang-users', function(e) {
                 e.preventDefault();
                 var datang = $(this).data('url');
@@ -217,22 +218,35 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (response.status === 422) {
+                                return response.json().then(data => {
+                                    throw new Error(data.error);
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            if (data.warning) {
-                                alert(data.warning);
-                            } else {
+                            if (data.error) {
+                                alert(data.error);
+                            } else if (data.success) {
+                                alert(data.success);
                                 // Handle success, e.g., reload the DataTable
                                 $('#usersTable').DataTable().ajax.reload();
-                                location.reload();
                             }
                         })
                         .catch(error => {
-                            // Handle error
-                            console.error(error);
+                            // Show error popup
+                            alert(error.message);
+
+                            // Reload the page after 5 seconds
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         });
                 }
             });
+            // send Pulang Qr Code PNS
             $('#usersTable').on('click', 'a.sendQr-pulang-users', function(e) {
                 e.preventDefault();
                 var pulang = $(this).data('url');
@@ -244,19 +258,32 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (response.status === 422) {
+                                return response.json().then(data => {
+                                    throw new Error(data.error);
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            if (data.warning) {
-                                alert(data.warning);
-                            } else {
+                            if (data.error) {
+                                alert(data.error);
+                            } else if (data.successs) {
+                                alert(data.success);
                                 // Handle success, e.g., reload the DataTable
                                 $('#usersTable').DataTable().ajax.reload();
                                 // location.reload();
                             }
                         })
                         .catch(error => {
-                            // Handle error
-                            console.error(error);
+                            // Show error popup
+                            alert(error.message);
+
+                            // Reload the page after 5 seconds
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         });
                 }
             });
@@ -265,6 +292,7 @@
 
     <script>
         $(document).ready(function() {
+            // edit satpam
             $('#usersTablesatpam').DataTable({
                 processing: true,
                 serverSide: true,
@@ -303,7 +331,7 @@
                     },
                 ]
             });
-
+            // delete satpam
             $('#usersTablesatpam').on('click', 'a.delete-users', function(e) {
                 e.preventDefault();
                 var deleteUrl = $(this).data('url');
@@ -331,6 +359,7 @@
                         });
                 }
             });
+            // krim qr code Satpam
             $('#usersTablesatpam').on('click', 'a.sendQr-datang-users', function(e) {
                 e.preventDefault();
                 var datang = $(this).data('url');
@@ -342,22 +371,35 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (response.status === 422) {
+                                return response.json().then(data => {
+                                    throw new Error(data.error);
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            if (data.warning) {
-                                alert(data.warning);
-                            } else {
+                            if (data.error) {
+                                alert(data.error);
+                            } else if (data.success) {
+                                alert(data.success);
                                 // Handle success, e.g., reload the DataTable
-                                $('#usersTable').DataTable().ajax.reload();
-                                location.reload();
+                                $('#usersTablesatpam').DataTable().ajax.reload();
                             }
                         })
                         .catch(error => {
-                            // Handle error
-                            console.error(error);
+                            // Show error popup
+                            alert(error.message);
+
+                            // Reload the page after 5 seconds
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         });
                 }
             });
+            // kirim pulang qr code satpam
             $('#usersTablesatpam').on('click', 'a.sendQr-pulang-users', function(e) {
                 e.preventDefault();
                 var pulang = $(this).data('url');
@@ -369,19 +411,31 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (response.status === 422) {
+                                return response.json().then(data => {
+                                    throw new Error(data.error);
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            if (data.warning) {
-                                alert(data.warning);
-                            } else {
+                            if (data.error) {
+                                alert(data.error);
+                            } else if (data.success) {
+                                alert(data.success);
                                 // Handle success, e.g., reload the DataTable
-                                $('#usersTable').DataTable().ajax.reload();
-                                location.reload();
+                                $('#usersTablesatpam').DataTable().ajax.reload();
                             }
                         })
                         .catch(error => {
-                            // Handle error
-                            console.error(error);
+                            // Show error popup
+                            alert(error.message);
+
+                            // Reload the page after 5 seconds
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         });
                 }
             });
@@ -390,6 +444,7 @@
 
     <script>
         $(document).ready(function() {
+            // edit PPNPN
             $('#usersTablePPNPN').DataTable({
                 processing: true,
                 serverSide: true,
@@ -428,7 +483,7 @@
                     },
                 ]
             });
-
+            // delete PPNPN
             $('#usersTablePPNPN').on('click', 'a.delete-users', function(e) {
                 e.preventDefault();
                 var deleteUrl = $(this).data('url');
@@ -456,6 +511,7 @@
                         });
                 }
             });
+            // kirim datang ppnpn
             $('#usersTablePPNPN').on('click', 'a.sendQr-datang-users', function(e) {
                 e.preventDefault();
                 var datang = $(this).data('url');
@@ -467,22 +523,35 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (response.status === 422) {
+                                return response.json().then(data => {
+                                    throw new Error(data.error);
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            if (data.warning) {
-                                alert(data.warning);
-                            } else {
+                            if (data.error) {
+                                alert(data.error);
+                            } else if (data.success) {
+                                alert(data.success);
                                 // Handle success, e.g., reload the DataTable
-                                $('#usersTable').DataTable().ajax.reload();
-                                location.reload();
+                                $('#usersTablePPNPN').DataTable().ajax.reload();
                             }
                         })
                         .catch(error => {
-                            // Handle error
-                            console.error(error);
+                            // Show error popup
+                            alert(error.message);
+
+                            // Reload the page after 5 seconds
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         });
                 }
             });
+            //kirim pulang ppnn
             $('#usersTablePPNPN').on('click', 'a.sendQr-pulang-users', function(e) {
                 e.preventDefault();
                 var pulang = $(this).data('url');
@@ -494,19 +563,31 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                         })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (response.status === 422) {
+                                return response.json().then(data => {
+                                    throw new Error(data.error);
+                                });
+                            }
+                            return response.json();
+                        })
                         .then(data => {
-                            if (data.warning) {
-                                alert(data.warning);
-                            } else {
+                            if (data.error) {
+                                alert(data.error);
+                            } else if (data.success) {
+                                alert(data.success);
                                 // Handle success, e.g., reload the DataTable
-                                $('#usersTable').DataTable().ajax.reload();
-                                location.reload();
+                                $('#usersTablePPNPN').DataTable().ajax.reload();
                             }
                         })
                         .catch(error => {
-                            // Handle error
-                            console.error(error);
+                            // Show error popup
+                            alert(error.message);
+
+                            // Reload the page after 5 seconds
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         });
                 }
             });

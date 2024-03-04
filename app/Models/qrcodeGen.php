@@ -15,6 +15,8 @@ class qrcodeGen extends Model
         'qrcodefilesDtg',
         'qrcodefilesPlg',
         'tanggal',
+        'tanggal_kirimDtg',
+        'tanggal_kirimPlg',
         'user_id',
     ];
 

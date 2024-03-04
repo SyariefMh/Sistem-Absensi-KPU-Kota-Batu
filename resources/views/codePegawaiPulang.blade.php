@@ -39,30 +39,28 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="margin-left: 95px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code</p>
+            <p style="margin-left: 95px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code
+            </p>
             {{-- <img src="img/Group.png" alt="" width="300" height="300"> --}}
             {{-- tempat menaruh Qr code --}}
             <div class="card-body">
                 @php
-                    $qrcodeGenPath = 'storage/qrcodes/' . $qrcodefilesDtg->qrcodefilesDtg . '.png';
+                    $qrcodeGenPath = 'storage/qrcodes/' . $qrcodefilesDtg->qrcodefilesPlg . '.png';
                 @endphp
-                <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}" alt="QR Code Kedatangan">
+                <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" alt="QR Code Kedatangan">
             </div>
 
             <div class="card-footer">
-
-                <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}" download>Download QR Code
-                    Kedatangan</a>
-
+                <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" download>Download QR Code
+                    Pulang</a>
             </div>
 
-            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 40px">Scan QR Code untuk
+            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 40px">Scan QR Code
+                untuk
                 absensi <br>kehadiran pegawai
             </p>
         </div>
     </div>
-
-
     </div>
     <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
 

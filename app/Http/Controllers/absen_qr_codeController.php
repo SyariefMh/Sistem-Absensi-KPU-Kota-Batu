@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\datangQrCode;
 use App\Models\qrcodeGen;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class absen_qr_codeController extends Controller
@@ -32,13 +33,35 @@ class absen_qr_codeController extends Controller
             // return redirect('/dashboardkaryawan/Absensi/LiveLocation')->with('error', 'QR Code sudah discan sebelumnya.');
             return response()->json(['message' => 'QR Code sudah discan sebelumnya.'], 400);
         }
+        // Get the current time
+        $currentTime = now();
+
+        // Set the target time for comparison (07:45:00)
+        $targetTime = Carbon::createFromTime(7, 45, 0);
+
+        // Initialize status variable
+        $status = '';
+
+        // Check if the current time is after the target time
+        if ($currentTime < $targetTime) {
+            $status = 'Terlambat';
+        } else if ($currentTime > $targetTime) {
+            $status = 'Tepat Waktu';
+        }
+
+        // Convert the current time to string
+        $currentTimeString = $currentTime->toTimeString();
+
+        // Create the record in the database
         datangQrCode::create([
             'qrcode_id' => $qrCodes->id,
             'tanggal' => now()->toDateString(),
-            'jam_datang' => now()->toTimeString(),
+            'jam_datang' => $currentTimeString,
             'jam_pulang' => null,
             'keterangan' => 'Hadir',
+            'status' => $status,
         ]);
+
 
         return response()->json(['success' => 'Absensi berhasil dicatat.'], 200);
     }

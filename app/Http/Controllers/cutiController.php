@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\cuti;
+use App\Models\datangQrCode;
+use App\Models\dinlur;
+use App\Models\izin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -15,6 +18,27 @@ class cutiController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $userId = $user->id; // Retrieve the user ID
+
+        // Retrieve records for cuti and izin models for the logged-in user
+        $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $izins = izin::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $qrcode = datangQrCode::whereIn('qrcode_id', function ($query) use ($userId) {
+            $query->select('id')
+                ->from('qrcode_gens')
+                ->whereIn('user_id', [$userId]); // wrap $userId in an array
+        })->pluck('tanggal')->toArray();
+
+        // Combine the dates of cuti, izin, and qrcode records
+        $combinedDates = collect($dinlur)->merge($izins)->merge($qrcode)->unique();
+
+        // Check if there are any records for cuti or izin on today's date
+        $today = now()->toDateString();
+        $absensiDisabled = $combinedDates->contains($today);
+
+        if ($absensiDisabled) {
+            return redirect('dashboardPegawai')->withErrors('Sudah Absen');
+        }
 
         // Check if the user has a "nip"
         if ($user->nip) {

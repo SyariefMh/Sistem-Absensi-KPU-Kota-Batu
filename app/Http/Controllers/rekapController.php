@@ -52,4 +52,76 @@ class rekapController extends Controller
             }) // If 'action' column contains HTML
             ->toJson();
     }
+
+    public function rekapSatpam()
+    {
+        $users = User::where('jabatan', 'Jagat Saksana (Satpam)')->get();
+        $userIds = $users->pluck('id');
+        $cuti = Cuti::whereIn('user_id', $userIds)
+            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
+        $izins = Izin::whereIn('user_id', $userIds)
+            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
+        $dinlur = Dinlur::whereIn('user_id', $userIds)
+            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
+        $qrcode = datangQrCode::whereIn('qrcode_id', function ($query) use ($userIds) {
+            $query->select('id')
+                ->from('qrcode_gens')
+                ->whereIn('user_id', $userIds);
+        })
+            ->select(['id', 'qrcode_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']);
+        // Adjust columns accordingly
+
+        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->get();
+
+        return DataTables::of($combinedData)
+            ->addColumn('DT_RowIndex', function ($data) {
+                static $index = 0;
+                return ++$index;
+            })
+            ->addColumn('name', function ($data) {
+                return $data->user->name; // Assuming there's a relationship between models
+            })
+            ->addColumn('jabatan', function ($data) {
+                return $data->user->jabatan; // Assuming there's a relationship between models
+            })
+            ->addColumn('action', function ($row) {
+            }) // If 'action' column contains HTML
+            ->toJson();
+    }
+
+    public function rekapPPNPN()
+    {
+        $users = User::where('jabatan', 'PPNPN')->get();
+        $userIds = $users->pluck('id');
+        $cuti = Cuti::whereIn('user_id', $userIds)
+            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
+        $izins = Izin::whereIn('user_id', $userIds)
+            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
+        $dinlur = Dinlur::whereIn('user_id', $userIds)
+            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']); // Adjust columns accordingly
+        $qrcode = datangQrCode::whereIn('qrcode_id', function ($query) use ($userIds) {
+            $query->select('id')
+                ->from('qrcode_gens')
+                ->whereIn('user_id', $userIds);
+        })
+            ->select(['id', 'qrcode_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan']);
+        // Adjust columns accordingly
+
+        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->get();
+
+        return DataTables::of($combinedData)
+            ->addColumn('DT_RowIndex', function ($data) {
+                static $index = 0;
+                return ++$index;
+            })
+            ->addColumn('name', function ($data) {
+                return $data->user->name; // Assuming there's a relationship between models
+            })
+            ->addColumn('jabatan', function ($data) {
+                return $data->user->jabatan; // Assuming there's a relationship between models
+            })
+            ->addColumn('action', function ($row) {
+            }) // If 'action' column contains HTML
+            ->toJson();
+    }
 }

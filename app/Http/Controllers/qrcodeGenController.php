@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\cuti;
+use App\Models\dinlur;
+use App\Models\izin;
 use App\Models\qrcodeGen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class qrcodeGenController extends Controller
 {
@@ -23,12 +27,15 @@ class qrcodeGenController extends Controller
 
         // Pastikan pengguna ditemukan dan memiliki peran 'karyawan'
         if ($user && $user->role === 'pegawai') {
-            // Hapus QR code datang yang lama jika ada
-            // $existingQrCode = QrCode::where('user_id', $user->id)->where('code', 'datang')->first();
-            // if ($existingQrCode) {
-            //     Storage::delete($existingQrCode->qr_code);
-            //     $existingQrCode->delete();
-            // }
+            // Check if a record already exists for the same user ID and date
+            $existingRecord = qrcodeGen::where('user_id', $user->id)
+                ->whereDate('tanggal_kirimDtg', now()->toDateString())
+                ->exists();
+
+            // If a record already exists, return an error response
+            if ($existingRecord) {
+                return response()->json(['error' => 'QR Code for today already sent by ' . $user->name], 422);
+            }
 
             // Generate kode unik untuk QR code
             // $code = 'ID' . $user->id . '_' . Str::slug($user->name) . '_' . Str::slug($user->email) . '_' . Str::random(3);
@@ -46,12 +53,13 @@ class qrcodeGenController extends Controller
             qrcodeGen::create([
                 'user_id' => $user->id,
                 'tanggal' => now()->toDateString(),
+                'tanggal_kirimDtg' => now()->toDateString(),
                 'qrcode_datang' => $qrCodeData,
                 'qrcodefilesDtg' => $qrCodePathDatang,
             ]);
 
             // Jika QR Code berhasil dikirim, kembalikan respons sukses dalam format JSON
-            return response()->json(['message' => 'QR Code Datang berhasil dikirim ke ' . $user->name]);
+            return response()->json(['success' => 'QR Code Datang berhasil dikirim ke ' . $user->name], 200);
         }
     }
 
@@ -62,6 +70,15 @@ class qrcodeGenController extends Controller
 
         // Pastikan pengguna ditemukan dan memiliki peran 'karyawan'
         if ($user && $user->role === 'pegawai') {
+            // Check if a record already exists for the same user ID and date
+            $existingRecord = qrcodeGen::where('user_id', $user->id)
+                ->whereDate('tanggal_kirimPlg', now()->toDateString())
+                ->exists();
+
+            // If a record already exists, return an error response
+            if ($existingRecord) {
+                return response()->json(['error' => 'QR Code for today already sent by ' . $user->name], 422);
+            }
             // Generate kode unik untuk QR code
             $code = 'PLG' . Str::random(8);
 
@@ -79,12 +96,14 @@ class qrcodeGenController extends Controller
                 $qrCodeGen->update([
                     'qrcode_pulang' => $qrCodeData,
                     'qrcodefilesPlg' => $qrCodePathPulang,
+                    'tanggal_kirimPlg' => now()->toDateString(),
                 ]);
             } else {
                 QrCodeGen::create([
                     'user_id' => $user->id,
                     'qrcode_pulang' => $qrCodeData,
                     'qrcodefilesPlg' => $qrCodePathPulang,
+                    'tanggal_kirimPlg' => now()->toDateString(),
                 ]);
             }
 
@@ -98,10 +117,71 @@ class qrcodeGenController extends Controller
 
     public function indexKaryawan()
     {
+        $user = Auth::user();
+        $userId = $user->id; // Retrieve the user ID
+
+        // Retrieve records for cuti and izin models for the logged-in user
+        $cuti = cuti::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $izins = Izin::where('user_id', $userId)->pluck('tanggal')->toArray();
+
+        // Combine the dates of cuti, izin, and qrcode records
+        $combinedDates = collect($cuti)->merge($dinlur)->merge($izins)->unique();
+
+
+
+        // Check if there are any records for cuti or izin on today's date
+        $today = now()->toDateString();
+        $absensiDisabled = $combinedDates->contains($today);
+
+        if ($absensiDisabled) {
+            return redirect('dashboardPegawai')->withErrors('Sudah Absen');
+        }
         // Controller method
         $user = auth()->user();
-        $qrcodeGens = qrcodeGen::where('user_id', $user->id)->get();
+        $today = now()->format('Y-m-d');
+        $qrcodeGens = qrcodeGen::where('tanggal_kirimDtg', $today)
+            ->where('user_id', $user->id)->first();
+        // handle qr code null
+        if ($qrcodeGens  == null) {
+            return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim segera ke Admin!!!');
+        }
         // Pass the variable as 'qrcodefilesDtg' to the view
         return view('codePegawai', ['qrcodefilesDtg' => $qrcodeGens]);
+    }
+
+    public function indexKaryawanPulang()
+    {
+        $user = Auth::user();
+        $userId = $user->id; // Retrieve the user ID
+
+        // Retrieve records for cuti and izin models for the logged-in user
+        $cuti = cuti::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $izins = Izin::where('user_id', $userId)->pluck('tanggal')->toArray();
+
+        // Combine the dates of cuti, izin, and qrcode records
+        $combinedDates = collect($cuti)->merge($dinlur)->merge($izins)->unique();
+
+
+
+        // Check if there are any records for cuti or izin on today's date
+        $today = now()->toDateString();
+        $absensiDisabled = $combinedDates->contains($today);
+
+        if ($absensiDisabled) {
+            return redirect('dashboardPegawai')->withErrors('Sudah Absen');
+        }
+        // Controller method
+        $user = auth()->user();
+        $today = now()->format('Y-m-d');
+        $qrcodeGens = qrcodeGen::where('tanggal_kirimPlg', $today)
+            ->where('user_id', $user->id)->first();
+        // handle null qr code
+        if ($qrcodeGens  == null) {
+            return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim segera ke Admin!!!');
+        }
+        // Pass the variable as 'qrcodefilesDtg' to the view
+        return view('codePegawaiPulang', ['qrcodefilesDtg' => $qrcodeGens]);
     }
 }

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('qrcodefilesDtg');
             $table->string('qrcodefilesPlg')->nullable();
             $table->date('tanggal');
+            $table->date('tanggal_kirimDtg');
+            $table->date('tanggal_kirimPlg')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

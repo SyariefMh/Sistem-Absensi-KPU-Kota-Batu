@@ -16,6 +16,7 @@ class datangQrCode extends Model
         'jam_datang',
         'jam_pulang',
         'Keterangan',
+        'Status',
         'qrcode_id',
     ];
 

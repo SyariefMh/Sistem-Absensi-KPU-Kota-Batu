@@ -17,6 +17,7 @@ return new class extends Migration
             $table->time('jam_datang');
             $table->time('jam_pulang');
             $table->enum('Keterangan', ['Hadir']);
+            $table->enum('Status', ['Tepat Waktu']);
             $table->string('latitude');
             $table->string('longitude');
             $table->string('file');
