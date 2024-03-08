@@ -17,7 +17,7 @@ return new class extends Migration
             $table->time('jam_datang');
             $table->time('jam_pulang')->nullable();
             $table->enum('Keterangan', ['Hadir']);
-            $table->enum('Status', ['Tepat Waktu', 'Terlambat']);
+            $table->string('Status');
             $table->unsignedBigInteger('qrcode_id');
             $table->timestamps();
             $table->foreign('qrcode_id')->references('id')->on('qrcode_gens');

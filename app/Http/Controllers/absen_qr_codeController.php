@@ -43,9 +43,9 @@ class absen_qr_codeController extends Controller
         $status = '';
 
         // Check if the current time is after the target time
-        if ($currentTime < $targetTime) {
+        if ($currentTime > $targetTime) {
             $status = 'Terlambat';
-        } else if ($currentTime > $targetTime) {
+        } else if ($currentTime < $targetTime) {
             $status = 'Tepat Waktu';
         }
 
@@ -59,7 +59,7 @@ class absen_qr_codeController extends Controller
             'jam_datang' => $currentTimeString,
             'jam_pulang' => null,
             'keterangan' => 'Hadir',
-            'status' => $status,
+            'Status' => $status,
         ]);
 
 
