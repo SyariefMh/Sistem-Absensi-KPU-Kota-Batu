@@ -68,7 +68,7 @@
                         style="width: 400px">
                         <option value="PNS">PNS</option>
                         <option value="PPNPN">PPNPN</option>
-                        <option value="Jagat Saksana (Satpam)">Jagat Saksana (Satpam)</option>
+                        <option value="Satpam">Satpam</option>
                     </select>
                 </div>
 

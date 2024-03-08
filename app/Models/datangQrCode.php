@@ -18,10 +18,16 @@ class datangQrCode extends Model
         'Keterangan',
         'Status',
         'qrcode_id',
+        'user_id',
     ];
 
     public function qrcodeGen()
     {
         return $this->belongsTo(QrcodeGen::class, 'qrcode_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

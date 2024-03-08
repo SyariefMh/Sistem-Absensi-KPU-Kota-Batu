@@ -19,6 +19,7 @@
 
     {{-- My Style --}}
     <link rel="stylesheet" href="css/cekRekap.css">
+    {{-- data table --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
 
     {{-- Logo Title Bar --}}
@@ -61,6 +62,7 @@
                             <th>Jam Pulang</th>
                             <th>Tanggal</th>
                             <th>Keterangan</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -86,6 +88,7 @@
                             <th>Jam Pulang</th>
                             <th>Tanggal</th>
                             <th>Keterangan</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -114,6 +117,7 @@
                             <th>Jam Pulang</th>
                             <th>Tanggal</th>
                             <th>Keterangan</th>
+                            <th>Status</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -154,6 +158,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    
     {{-- rekap PNS --}}
     <script>
         $(document).ready(function() {
@@ -196,6 +201,10 @@
                     {
                         data: 'Keterangan',
                         name: 'Keterangan'
+                    },
+                    {
+                        data: 'Status',
+                        name: 'Status'
                     },
                     {
                         data: 'action',
@@ -279,6 +288,10 @@
                         name: 'Keterangan'
                     },
                     {
+                        data: 'Status',
+                        name: 'Status'
+                    },
+                    {
                         data: 'action',
                         name: 'action'
                     }
@@ -358,6 +371,10 @@
                     {
                         data: 'Keterangan',
                         name: 'Keterangan'
+                    },
+                    {
+                        data: 'Status',
+                        name: 'Status'
                     },
                     {
                         data: 'action',

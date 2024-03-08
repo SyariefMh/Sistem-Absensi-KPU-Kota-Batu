@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/cekRekap/getPNS', [rekapController::class, 'rekapPNS']);
             Route::get('/cekRekap/getSatpam', [rekapController::class, 'rekapSatpam']);
             Route::get('/cekRekap/getPPNPN', [rekapController::class, 'rekapPPNPN']);
+            Route::get('/cekRekap/show/{id}', [rekapController::class, 'show']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);

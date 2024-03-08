@@ -52,9 +52,12 @@ class absen_qr_codeController extends Controller
         // Convert the current time to string
         $currentTimeString = $currentTime->toTimeString();
 
-        // Create the record in the database
+        // Retrieve user_id from qrcodeGen
+        $userId = $qrCodes->user_id;
+
         datangQrCode::create([
             'qrcode_id' => $qrCodes->id,
+            'user_id' => $userId, // Assign user_id from qrcodeGen
             'tanggal' => now()->toDateString(),
             'jam_datang' => $currentTimeString,
             'jam_pulang' => null,

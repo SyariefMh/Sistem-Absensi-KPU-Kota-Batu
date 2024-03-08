@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->enum('role', ['pegawai', 'admin', 'kasubag umum'])->default('pegawai');
             $table->string('password');
-            $table->enum('jabatan', ['PNS', 'PPNPN', 'Jagat Saksana (Satpam)'])->nullable();
+            $table->enum('jabatan', ['PNS', 'PPNPN', 'Satpam'])->nullable();
             $table->string('nip')->nullable();
             $table->string('pangkat')->nullable();
             $table->string('golongan')->nullable();

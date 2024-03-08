@@ -62,7 +62,7 @@ class kepegawaianController extends Controller
     {
         $users = User::select(['id', 'name', 'jabatan', 'nip', 'pangkat', 'golongan'])
             ->where('role', 'pegawai') // Filter role pegawai
-            ->where('jabatan', 'Jagat Saksana (Satpam)'); // Filter jabatan PNS
+            ->where('jabatan', 'Satpam'); // Filter jabatan PNS
         $index = 1;
         return DataTables::of($users)
             ->addColumn('DT_RowIndex', function ($data) use (&$index) {
@@ -100,7 +100,7 @@ class kepegawaianController extends Controller
             'name' => 'required',
             'password' => 'required',
             'role' => ['required', Rule::in(['pegawai', 'admin', 'kasubag umum'])],
-            'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Jagat Saksana (Satpam)'])],
+            'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Satpam'])],
             'nip' => 'nullable',
             'pangkat' => 'nullable',
             'golongan' => 'nullable',
@@ -156,7 +156,7 @@ class kepegawaianController extends Controller
         $request->validate([
             'name' => 'required',
             'role' => ['required', Rule::in(['pegawai', 'admin', 'kasubag umum'])],
-            'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Jagat Saksana (Satpam)'])],
+            'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Satpam'])],
             'nip' => 'nullable',
             'pangkat' => 'nullable',
             'golongan' => 'nullable',

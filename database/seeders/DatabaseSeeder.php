@@ -16,12 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         $userData = [
             [
-                'name' => 'Pegawai',
-                'role' => 'pegawai',
-                'password' => bcrypt('123456'),
-                'jabatan' => 'PNS'
-            ],
-            [
                 'name' => 'Maulana',
                 'role' => 'pegawai',
                 'password' => bcrypt('123456'),
@@ -29,16 +23,16 @@ class DatabaseSeeder extends Seeder
                 'nip' => '12345678',
             ],
             [
-                'name' => 'Pegawai1',
+                'name' => 'PPNPN',
                 'role' => 'pegawai',
                 'password' => bcrypt('123456'),
                 'jabatan' => 'PPNPN'
             ],
             [
-                'name' => 'Pegawai2',
+                'name' => 'Satpam',
                 'role' => 'pegawai',
                 'password' => bcrypt('123456'),
-                'jabatan' => 'Jagat Saksana (Satpam)'
+                'jabatan' => 'Satpam'
             ],
             [
                 'name' => 'Admin',

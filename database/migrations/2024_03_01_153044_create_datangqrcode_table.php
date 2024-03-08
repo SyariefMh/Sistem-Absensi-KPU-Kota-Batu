@@ -19,8 +19,10 @@ return new class extends Migration
             $table->enum('Keterangan', ['Hadir']);
             $table->string('Status');
             $table->unsignedBigInteger('qrcode_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('qrcode_id')->references('id')->on('qrcode_gens');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
