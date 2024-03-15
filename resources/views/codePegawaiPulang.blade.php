@@ -18,10 +18,10 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/pegawai.css">
+    <link rel="stylesheet" href="{{ url('css/pegawai.css') }}">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
 
     <title>Dashboard</title>
 </head>
@@ -31,7 +31,7 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
@@ -47,7 +47,9 @@
                 @php
                     $qrcodeGenPath = 'storage/qrcodes/' . $qrcodefilesDtg->qrcodefilesPlg . '.png';
                 @endphp
-                <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" alt="QR Code Kedatangan">
+                <div style="text-align: center;">
+                    <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" alt="QR Code Kedatangan">
+                </div>
             </div>
 
             <div class="card-footer">
@@ -55,14 +57,13 @@
                     Pulang</a>
             </div>
 
-            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 40px">Scan QR Code
-                untuk
-                absensi <br>kehadiran pegawai
+            <p style="padding-bottom: 20px; text-align: center; padding-top: 40px">
+                <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
             </p>
         </div>
     </div>
     </div>
-    <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
+    <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 

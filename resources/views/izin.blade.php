@@ -18,10 +18,10 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/izin.css">
+    <link rel="stylesheet" href="{{ url('css/izin.css') }}">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
 
     <title>Dashboard</title>
 </head>
@@ -31,7 +31,7 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
@@ -51,17 +51,21 @@
                 {{-- Upload surat --}}
                 <div class="mb-3">
                     <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
-                        Tugas</label>
+                        Izin</label>
                     <input name="file" class="form-control" type="file" id="file">
                 </div>
                 <button type="submit"
-                    style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
+                    style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan
+                </button>
+                <p style="padding-bottom: 10px; text-align: center; padding-top: 10px">
+                    <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
+                </p>
             </div>
         </div>
     </form>
 
     </div>
-    <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
+    <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 

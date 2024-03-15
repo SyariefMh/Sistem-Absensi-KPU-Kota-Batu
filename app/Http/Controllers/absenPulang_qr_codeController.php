@@ -33,12 +33,16 @@ class absenPulang_qr_codeController extends Controller
             // return redirect('/dashboardkaryawan/Absensi/LiveLocation')->with('error', 'QR Code sudah discan sebelumnya.');
             return response()->json(['message' => 'QR Code sudah discan sebelumnya.'], 400);
         }
+
+        $userId = $qrCodes->user_id;
         pulangQrCode::create([
             'qrcode_id' => $qrCodes->id,
+            'user_id' => $userId,
             'tanggal' => now()->toDateString(),
             'jam_datang' => null,
             'jam_pulang' => now()->toTimeString(),
             'keterangan' => 'Hadir',
+            'Status' => null,
         ]);
 
         return response()->json(['success' => 'Absensi berhasil dicatat.'], 200);

@@ -64,8 +64,8 @@
                 profesionalitas KPU Kota Batu <br>dengan selalu tepat waktu dan disiplin dalam absensi
             </p>
 
-            <img src="img/KPU_Logoo.png" alt="" class="position-absolute"
-                style="margin-left: 800px; margin-top: 40px">
+            <img src="img/KPU_Logoo.png" alt="" class="logo">
+            
             {{-- Card Menu --}}
             <div class="row">
                 <div class="col-md-2">
@@ -99,7 +99,7 @@
                     </a>
                 </div>
             </div>
-
+            <br>
             <div class="row">
                 <div class="col-md-2">
                     <a href="{{ url('/dashboardPegawai/cuti') }}" class="cardScan">
@@ -135,7 +135,7 @@
         </div>
     </div>
     </div>
-    <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
+    <img src="img/peta.png" alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 

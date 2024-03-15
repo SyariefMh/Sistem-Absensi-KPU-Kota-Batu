@@ -6,6 +6,7 @@ use App\Models\cuti;
 use App\Models\datangQrCode;
 use App\Models\dinlur;
 use App\Models\izin;
+use App\Models\pulangQrCode;
 use App\Models\qrcodeGen;
 use App\Models\User;
 use Yajra\DataTables\DataTables;
@@ -40,10 +41,14 @@ class rekapController extends Controller
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
             ->addSelect(DB::raw('"QrCode" as source')); // Remove ->get() here
 
+        $qrcodes = pulangQrCode::whereIn('user_id', $userIds)
+            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
+            ->addSelect(DB::raw('"QrCode" as source')); // Remove ->get() here
+
         // Adjust columns accordingly
 
         // dd($qrcode);
-        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->get();
+        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->union($qrcodes)->get();
 
         return DataTables::of($combinedData)
             ->addColumn('DT_RowIndex', function ($data) {

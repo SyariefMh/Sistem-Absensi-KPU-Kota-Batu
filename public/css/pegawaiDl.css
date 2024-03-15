@@ -16,7 +16,22 @@ color: #E0E0E0;
 
 .card{
     width: 350px;
-    height: 550px;
+    height: 900px;
     padding: 25px;
     border-radius: 20px;
+    margin-top: 40px;
+}
+
+.kembali-btn {
+    color: #C72B41;
+    font-weight: bold;
+    text-decoration: none; /* Removes the underline */
+}
+
+.map {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 1100px;
+    z-index: -1; /* Set z-index to -1 so it stays below other content */
 }

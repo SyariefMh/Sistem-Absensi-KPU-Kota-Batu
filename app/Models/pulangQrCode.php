@@ -17,6 +17,8 @@ class pulangQrCode extends Model
         'jam_pulang',
         'Keterangan',
         'qrcode_id',
+        'Status',
+        'user_id',
     ];
 
     public function qrcode()
