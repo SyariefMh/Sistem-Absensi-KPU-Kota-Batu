@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class qrcodeGenController extends Controller
@@ -19,6 +20,73 @@ class qrcodeGenController extends Controller
     {
         return view('codePegawai');
     }
+
+    public function qrcodedatanggenul(Request $request, $id)
+    {
+        // Dapatkan ID pengguna yang terautentikasi
+        $userId = auth()->id();
+
+        // Temukan pengguna dengan ID yang diberikan
+        $user = User::find($userId);
+
+        // Pastikan pengguna ditemukan dan memiliki peran 'pegawai'
+        if ($user && $user->role === 'pegawai') {
+            // Temukan record QR Code yang ingin diupdate
+            $qrCode = qrcodeGen::find($id);
+
+
+            // Pastikan record ditemukan
+            if (!$qrCode) {
+                return response()->json(['error' => 'QR Code not found'], 404);
+            }
+
+            // Generate kode unik untuk QR code
+            $code = 'ATTDN' . Str::random(8);
+
+            // Generate QR Code datang dengan informasi yang sesuai (misalnya, kode unik)
+            $qrCodeData = $code;
+            $qrcode = QrCode::format('png')->size(200)->generate($qrCodeData);
+
+            // Simpan QR Code datang ke dalam penyimpanan yang dapat diakses oleh pengguna
+            $qrCodePathDatang = 'qrcodes/' . $qrCodeData . '.png';
+            Storage::disk('public')->put($qrCodePathDatang, $qrcode);
+
+            // Sebelum menghapus file lama, cetak path file
+            Log::info('Path file sebelum penghapusan: ' . $qrCode->qrcodefilesDtg);
+
+            // Hapus gambar QR code lama jika ada
+            if ($qrCode->qrcodefilesDtg && Storage::disk('public')->exists($qrCode->qrcodefilesDtg)) {
+                $deleted = Storage::disk('public')->delete($qrCode->qrcodefilesDtg);
+                if (!$deleted) {
+                    // Jika gagal menghapus, log pesan kesalahan
+                    Log::error('Gagal menghapus file: ' . $qrCode->qrcodefilesDtg);
+                    return response()->json(['error' => 'Failed to delete old QR code image'], 500);
+                }
+            }
+
+            // Setelah penghapusan, cetak kembali path file
+            Log::info('Path file setelah penghapusan: ' . $qrCode->qrcodefilesDtg);
+
+            // Update informasi QR code
+            $qrCode->qrcode_datang = $qrCodeData; // Update kode unik
+            $qrCode->qrcodefilesDtg = $qrCodePathDatang; // Update path QR code
+            $qrCode->tanggal_kirimDtg = now()->toDateString(); // Update tanggal
+
+            // Simpan perubahan pada record QR code
+            $qrCode->save();
+
+            // Jika QR Code berhasil diupdate, kembalikan respons sukses dalam format JSON
+            return response()->json(['success' => 'QR Code Datang berhasil diupdate'], 200);
+        }
+
+        // Jika pengguna tidak terautentikasi atau tidak memiliki peran 'pegawai', kembalikan respons error
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
+
+
+
+
+
 
     public function qrcodedatang(string $id)
     {
@@ -146,8 +214,8 @@ class qrcodeGenController extends Controller
         if ($qrcodeGens  == null) {
             return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim segera ke Admin!!!');
         }
-        // Pass the variable as 'qrcodefilesDtg' to the view
-        return view('codePegawai', ['qrcodefilesDtg' => $qrcodeGens]);
+        $id = $qrcodeGens->id;
+        return view('codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id]);
     }
 
     public function indexKaryawanPulang()
@@ -181,6 +249,7 @@ class qrcodeGenController extends Controller
         if ($qrcodeGens  == null) {
             return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim segera ke Admin!!!');
         }
+
         // Pass the variable as 'qrcodefilesDtg' to the view
         return view('codePegawaiPulang', ['qrcodefilesDtg' => $qrcodeGens]);
     }

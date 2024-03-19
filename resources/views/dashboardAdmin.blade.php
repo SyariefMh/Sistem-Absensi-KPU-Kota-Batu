@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/dashboardAdmin.css">
 
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
@@ -60,39 +60,49 @@
             {{-- Card Menu --}}
             <div class="row">
                 <div class="col-md-2">
-                    <div class="cardScan">
-                        <a class="judul" href={{ url('/dashboardAdmin/scanDatang') }}>
-                            <p>Scan Qr Code</p>
-                        </a>
-                        <div class="icon">
-                            <img src="img/izin.png" alt="" width="10" height="12">
+                    <a href="{{ url('/dashboardAdmin/scanDatang') }}" class="cardScan">
+                        <div class="judul">
+                            <p>Qr code</p>
                         </div>
-                    </div>
+                        <div class="icon">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-2">
-                    <div class="cardScan">
-                        <a class="judul" href={{ url('/dashboardAdmin/cekRekap') }}>
-                            <p>cek</p>
-                        </a>
-                        <div class="icon">
-                            <img src="img/izin.png" alt="" width="10" height="12">
+                    <a href="{{ url('/dashboardAdmin/cekRekap') }}" class="cardScan">
+                        <div class="judul">
+                            <p>Cek Rekap</p>
                         </div>
-                    </div>
+                        <div class="icon">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                        </div>
+                    </a>
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="margin-top: 30px">
                 <div class="col-md-2">
-                    <div class="cardScan">
-                        <a class="judul" href={{ url('/dashboardAdmin/kepegawaian') }}>
+                    <a href="{{ url('/dashboardAdmin/kepegawaian') }}" class="cardScan">
+                        <div class="judul">
                             <p>Kepegawaian</p>
-                        </a>
-                        <div class="icon">
-                            <img src="img/izin.png" alt="" width="10" height="12">
                         </div>
-                    </div>
+                        <div class="icon">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                        </div>
+                    </a>
                 </div>
                 <div class="col-md-2">
+                    <a href="{{ url('/dashboardAdmin/scanPulang') }}" class="cardScan">
+                        <div class="judul">
+                            <p>Qr code Pulang</p>
+                        </div>
+                        <div class="icon">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                        </div>
+                    </a>
+                </div>
+                {{-- <div class="col-md-2">
                     <div class="cardScan">
                         <a class="judul" href={{ url('/dashboardAdmin/scanPulang') }}>
                             <p>Pulang</p>
@@ -101,7 +111,7 @@
                             <img src="img/izin.png" alt="" width="10" height="12">
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

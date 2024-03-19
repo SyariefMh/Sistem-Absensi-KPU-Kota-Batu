@@ -60,6 +60,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/codePegawai/pulang', [qrcodeGenController::class, 'indexKaryawanPulang']);
         });
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::put('/codePegawai/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatanggenul']);
+        });
     });
 
     // Route untuk admin

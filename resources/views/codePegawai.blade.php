@@ -39,6 +39,7 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
+            <span id="countdown"></span>
             <p style="margin-left: 95px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code</p>
             {{-- <img src="img/Group.png" alt="" width="300" height="300"> --}}
             {{-- tempat menaruh Qr code --}}
@@ -55,6 +56,9 @@
                 <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}" download>Download QR Code
                     Kedatangan</a>
             </div>
+            <button id="regenerateBtn" style="display: none;" onclick="regenerateQR('{{ $id }}')">Generate QR
+                Code Ulang</button>
+
 
             <p style="padding-bottom: 20px; text-align: center; padding-top: 40px">
                 <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
@@ -80,6 +84,69 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
+    <!-- Your HTML code -->
+
+    <script>
+        // Mendefinisikan fungsi countdown di luar event listener
+        function countdown() {
+            var seconds = 35; // waktu dalam detik
+            var countdownElement = document.getElementById('countdown');
+
+            function updateCountdown() {
+                countdownElement.innerHTML = seconds + " detik";
+
+                if (seconds > 0) {
+                    seconds--;
+                    setTimeout(updateCountdown, 1000); // tunggu 1 detik
+                } else {
+                    // Setelah countdown selesai, munculkan tombol "Generate QR Code Ulang"
+                    document.getElementById('regenerateBtn').style.display = 'block';
+                }
+            }
+
+            updateCountdown(); // panggil fungsi pertama kali
+        }
+
+        // Event listener untuk memanggil countdown setelah dokumen HTML dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            countdown();
+        });
+
+        // Fungsi regenerateQR untuk mengirim permintaan AJAX
+        function regenerateQR(id) {
+            // Lakukan pemanggilan AJAX atau pengiriman form sesuai kebutuhan Anda
+            // Contoh pengiriman form dengan fetch API
+            fetch(`/dashboardPegawai/codePegawai/qrcodeDatang/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({}),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        // tambahkan header lain jika diperlukan
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Proses respons atau tindakan lain setelah berhasil menghasilkan QR code
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
+        }
+    </script>
+
+    <!-- Your JavaScript code -->
+
+
+
+
+
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
