@@ -8,7 +8,7 @@ class PegawaiController extends Controller
 {
     function index()
     {
-        return view('dashboardPegawai');
+        return view('Pegawai.dashboardPegawai');
         // echo "<a href='logout'> Logout >> </a>";
     }
     function admin()

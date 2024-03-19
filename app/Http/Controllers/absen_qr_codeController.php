@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class absen_qr_codeController extends Controller
 {
     public function index()
-    {
+    {   
         return view('codeAdmin');
     }
     public function scanQrCodeDatang(Request $request)

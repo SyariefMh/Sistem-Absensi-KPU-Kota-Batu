@@ -35,6 +35,8 @@ class SesiController extends Controller
                 return redirect('dashboardAdmin');
             } elseif ($user->role === 'kasubag umum') {
                 return redirect('dashboardKasubag');
+            } elseif ($user->role === 'adminSatpam') {
+                return redirect('dashboardSatpam');
             }
         } else {
             return redirect('')->withErrors('Nama dan password tidak sesuai')->withInput();

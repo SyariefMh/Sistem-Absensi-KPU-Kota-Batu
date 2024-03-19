@@ -10,6 +10,7 @@ use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\qrcodeGenController;
 use App\Http\Controllers\rekapController;
 use App\Http\Controllers\riwayatabsenController;
+use App\Http\Controllers\satpamController;
 use App\Http\Controllers\SesiController;
 use Illuminate\Support\Facades\Route;
 
@@ -94,6 +95,20 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {
+            Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'index']);
+            Route::post('/scanPulang/scan/store', [absenPulang_qr_codeController::class, 'scanQrCodeDatang']);
+        });
+    });
+
+    // Route untuk adminSatpam
+    Route::middleware(['auth', 'check.role:adminSatpam'])->group(function () {
+        Route::get('/dashboardSatpam', [satpamController::class, 'index']);
+
+        Route::prefix('/dashboardSatpam')->group(function () {
+            Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
+            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
+        });
+        Route::prefix('/dashboardSatpam')->group(function () {
             Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'index']);
             Route::post('/scanPulang/scan/store', [absenPulang_qr_codeController::class, 'scanQrCodeDatang']);
         });

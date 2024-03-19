@@ -40,7 +40,7 @@ class dinlurController extends Controller
         if ($absensiDisabled) {
             return redirect('dashboardPegawai')->withErrors('Sudah Absen');
         }
-        return view('dinasLuar');
+        return view('Pegawai.dinasLuar');
     }
 
     public function store(Request $request)

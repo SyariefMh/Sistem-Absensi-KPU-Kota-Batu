@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
                 'jabatan' => 'PPNPN'
             ],
             [
-                'name' => 'Satpam',
+                'name' => 'Satpam Kasus',
                 'role' => 'pegawai',
                 'password' => bcrypt('123456'),
                 'jabatan' => 'Satpam'
@@ -37,6 +37,11 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'role' => 'admin',
+                'password' => bcrypt('123456')
+            ],
+            [
+                'name' => 'Satpam',
+                'role' => 'adminSatpam',
                 'password' => bcrypt('123456')
             ],
             [

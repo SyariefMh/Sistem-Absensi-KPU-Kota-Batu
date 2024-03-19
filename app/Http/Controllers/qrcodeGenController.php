@@ -215,7 +215,7 @@ class qrcodeGenController extends Controller
             return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim segera ke Admin!!!');
         }
         $id = $qrcodeGens->id;
-        return view('codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id]);
+        return view('Pegawai.codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id]);
     }
 
     public function indexKaryawanPulang()
