@@ -43,7 +43,7 @@ class izinController extends Controller
         if ($absensiDisabled) {
             return redirect('dashboardPegawai')->withErrors('Sudah Absen');
         }
-        return view('izin');
+        return view('Pegawai.izin');
     }
 
     /**

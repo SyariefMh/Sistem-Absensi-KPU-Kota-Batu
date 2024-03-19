@@ -64,12 +64,6 @@
                 <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
             </p>
 
-
-
-
-            {{-- <p style="padding-bottom: 20px; text-align: center; padding-top: 40px">
-                <a href="{{ url('dashboardPegawai') }}"style="color: #C72B41; font-weight:bold;text-decoration:none;">Kembali</a>
-            </p> --}}
         </div>
     </div>
 
@@ -89,7 +83,7 @@
     <script>
         // Mendefinisikan fungsi countdown di luar event listener
         function countdown() {
-            var seconds = 35; // waktu dalam detik
+            var seconds = sessionStorage.getItem('countdownSeconds') || 5; // mengambil waktu countdown dari sessionStorage atau default 5 detik
             var countdownElement = document.getElementById('countdown');
 
             function updateCountdown() {
@@ -97,6 +91,7 @@
 
                 if (seconds > 0) {
                     seconds--;
+                    sessionStorage.setItem('countdownSeconds', seconds); // simpan waktu countdown di sessionStorage
                     setTimeout(updateCountdown, 1000); // tunggu 1 detik
                 } else {
                     // Setelah countdown selesai, munculkan tombol "Generate QR Code Ulang"
@@ -114,6 +109,10 @@
 
         // Fungsi regenerateQR untuk mengirim permintaan AJAX
         function regenerateQR(id) {
+            // Mengatur kembali nilai seconds ke nilai awal countdown (misalnya 5 detik)
+            var seconds = 5;
+            sessionStorage.setItem('countdownSeconds', seconds); // simpan kembali waktu countdown di sessionStorage
+            countdown(); // panggil kembali fungsi countdown
             // Lakukan pemanggilan AJAX atau pengiriman form sesuai kebutuhan Anda
             // Contoh pengiriman form dengan fetch API
             fetch(`/dashboardPegawai/codePegawai/qrcodeDatang/${id}`, {
@@ -142,21 +141,6 @@
     </script>
 
     <!-- Your JavaScript code -->
-
-
-
-
-
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-    -->
 </body>
 
 </html>

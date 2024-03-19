@@ -42,7 +42,7 @@ class cutiController extends Controller
 
         // Check if the user has a "nip"
         if ($user->nip) {
-            return view('cuti', compact('user'));
+            return view('Pegawai.cuti', compact('user'));
         } else {
             return redirect('/dashboardPegawai');
         }

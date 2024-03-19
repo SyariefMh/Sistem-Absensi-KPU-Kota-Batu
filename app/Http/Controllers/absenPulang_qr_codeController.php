@@ -12,7 +12,7 @@ class absenPulang_qr_codeController extends Controller
 {
     public function index()
     {
-        return view('codePulangAdmin');
+        return view('Pegawai.codePulangAdmin');
     }
     public function scanQrCodeDatang(Request $request)
     {

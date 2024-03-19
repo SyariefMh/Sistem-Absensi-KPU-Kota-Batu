@@ -39,6 +39,6 @@ class riwayatabsenController extends Controller
 
         $combinedData = $cuti->merge($izins)->merge($dinlur)->merge($qrcode);
 
-        return view('riwayatAbsen', compact('combinedData'));
+        return view('Pegawai.riwayatAbsen', compact('combinedData'));
     }
 }

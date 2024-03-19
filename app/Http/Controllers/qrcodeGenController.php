@@ -251,6 +251,6 @@ class qrcodeGenController extends Controller
         }
 
         // Pass the variable as 'qrcodefilesDtg' to the view
-        return view('codePegawaiPulang', ['qrcodefilesDtg' => $qrcodeGens]);
+        return view('Pegawai.codePegawaiPulang', ['qrcodefilesDtg' => $qrcodeGens]);
     }
 }

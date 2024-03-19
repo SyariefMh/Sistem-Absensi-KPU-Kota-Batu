@@ -62,7 +62,7 @@
                     style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan
                 </button>
                 <p style="padding-bottom: 0px; text-align: center; padding-top: 10px">
-                    <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
+                    <a href="{{ url('Pegawai.dashboardPegawai') }}" class="kembali-btn">Kembali</a>
                 </p>
             </div>
         </div>
