@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->date('tanggal_kirimDtg');
             $table->date('tanggal_kirimPlg')->nullable();
+            $table->tinyInteger('status')->default(0)->comment('0: Not Active, 1: Active');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

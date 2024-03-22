@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class absen_qr_codeController extends Controller
 {
     public function index()
-    {   
+    {
         return view('codeAdmin');
     }
     public function scanQrCodeDatang(Request $request)
@@ -32,6 +32,10 @@ class absen_qr_codeController extends Controller
         if ($qrCodeScan) {
             // return redirect('/dashboardkaryawan/Absensi/LiveLocation')->with('error', 'QR Code sudah discan sebelumnya.');
             return response()->json(['message' => 'QR Code sudah discan sebelumnya.'], 400);
+        }
+
+        if ($qrCodes->status == 0) {
+            return response()->json(['message' => 'QR code is not usable'], 400);
         }
         // Get the current time
         $currentTime = now();

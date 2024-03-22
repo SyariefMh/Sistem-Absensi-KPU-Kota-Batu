@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('datangqrcode', function (Blueprint $table) {
             $table->id();
             $table->string('tanggal');
-            $table->time('jam_datang');
+            $table->time('jam_datang')->nullable();
             $table->time('jam_pulang')->nullable();
             $table->enum('Keterangan', ['Hadir']);
-            $table->string('Status');
+            $table->string('Status')->nullable();
             $table->unsignedBigInteger('qrcode_id');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();

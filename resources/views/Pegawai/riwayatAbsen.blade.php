@@ -59,9 +59,22 @@
                         <div class="col-lg-3">
                             <p>{{ $data->Keterangan }}</p>
                         </div>
-                        <div class="col-lg-2" style="padding-top: 5px">
+                        {{-- <div class="col-lg-2" style="padding-top: 5px">
                             <img src="img/checklist.png" alt="">
+                        </div> --}}
+                        <div class="col-lg-6" style="padding-top: 5px">
+                            @if ($data->status == 'Tepat Waktu')
+                                <p>{{ $data->status }}</p> <img src="{{ asset('img/checklist.png') }}" alt="">
+                            @elseif($data->status == 'Terlambat')
+                                <p>{{ $data->status }}</p> <img src="{{ asset('img/icon cros.png') }}" alt="">
+                            @else
+                                <p>{{ $data->status }}</p> <img src="{{ asset('img/checklist_blue.png') }}"
+                                    alt="">
+                            @endif
                         </div>
+
+                        {{-- <p>{{ $data->status }}</p> --}}
+
                     </div>
                 </div>
             @endforeach

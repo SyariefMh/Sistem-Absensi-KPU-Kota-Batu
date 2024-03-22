@@ -18,15 +18,15 @@ class riwayatabsenController extends Controller
         $userId = $user->id;
 
         $cuti = Cuti::where('user_id', $userId)
-            ->select(['id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan'])
+            ->select(['id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'status'])
             ->get();
 
         $izins = Izin::where('user_id', $userId)
-            ->select(['id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan'])
+            ->select(['id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan','status'])
             ->get();
 
         $dinlur = Dinlur::where('user_id', $userId)
-            ->select(['id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan'])
+            ->select(['id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan','status'])
             ->get();
 
         $qrcode = DatangQrCode::whereIn('qrcode_id', function ($query) use ($userId) {
@@ -34,7 +34,7 @@ class riwayatabsenController extends Controller
                 ->from('qrcode_gens')
                 ->where('user_id', $userId);
         })
-            ->select(['id', 'qrcode_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan'])
+            ->select(['id', 'qrcode_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan','status'])
             ->get();
 
         $combinedData = $cuti->merge($izins)->merge($dinlur)->merge($qrcode);

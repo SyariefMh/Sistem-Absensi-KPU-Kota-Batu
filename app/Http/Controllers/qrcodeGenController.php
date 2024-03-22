@@ -21,6 +21,39 @@ class qrcodeGenController extends Controller
         return view('codePegawai');
     }
 
+    public function qrcodeupstat(Request $request, $id)
+    {
+        // Dapatkan ID pengguna yang terautentikasi
+        $userId = auth()->id();
+
+        // Temukan pengguna dengan ID yang diberikan
+        $user = User::find($userId);
+
+        // Pastikan pengguna ditemukan dan memiliki peran 'pegawai'
+        if ($user && $user->role === 'pegawai') {
+            // Temukan record QR Code yang ingin diupdate
+            $qrCode = qrcodeGen::find($id);
+
+
+            // Pastikan record ditemukan
+            if (!$qrCode) {
+                return response()->json(['error' => 'QR Code not found'], 404);
+            }
+
+
+            // Update informasi QR code
+            $qrCode->status = 0; // Update status
+
+            // Simpan perubahan pada record QR code
+            $qrCode->save();
+
+            // Jika QR Code berhasil diupdate, kembalikan respons sukses dalam format JSON
+            return response()->json(['success' => 'QR Code Datang berhasil diupdate'], 200);
+        }
+
+        // Jika pengguna tidak terautentikasi atau tidak memiliki peran 'pegawai', kembalikan respons error
+        return response()->json(['error' => 'Unauthorized'], 401);
+    }
     public function qrcodedatanggenul(Request $request, $id)
     {
         // Dapatkan ID pengguna yang terautentikasi
@@ -70,6 +103,7 @@ class qrcodeGenController extends Controller
             // Update informasi QR code
             $qrCode->qrcode_datang = $qrCodeData; // Update kode unik
             $qrCode->qrcodefilesDtg = $qrCodePathDatang; // Update path QR code
+            $qrCode->status = 1; // Update path QR code
             $qrCode->tanggal_kirimDtg = now()->toDateString(); // Update tanggal
 
             // Simpan perubahan pada record QR code
@@ -122,6 +156,7 @@ class qrcodeGenController extends Controller
                 'user_id' => $user->id,
                 'tanggal' => now()->toDateString(),
                 'tanggal_kirimDtg' => now()->toDateString(),
+                'status' => 1,
                 'qrcode_datang' => $qrCodeData,
                 'qrcodefilesDtg' => $qrCodePathDatang,
             ]);
