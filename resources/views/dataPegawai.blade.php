@@ -207,45 +207,97 @@
                 }
             });
             // kirim qr code PNS
-            $('#usersTable').on('click', 'a.sendQr-datang-users', function(e) {
-                e.preventDefault();
-                var datang = $(this).data('url');
+            // Fungsi untuk mengirim QR code otomatis pada pukul 07.00 WIB
+            $(document).ready(function() {
+                // Fungsi untuk mengirim QR code otomatis pada pukul 23:16 WIB
+                function sendQRCodeAutomatically() {
+                    var now = new Date();
+                    var hours = now.getHours();
+                    var minutes = now.getMinutes();
 
-                if (confirm('Are you sure?')) {
-                    fetch(datang, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                        })
-                        .then(response => {
-                            if (response.status === 422) {
-                                return response.json().then(data => {
-                                    throw new Error(data.error);
-                                });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else if (data.success) {
-                                alert(data.success);
-                                // Handle success, e.g., reload the DataTable
-                                $('#usersTable').DataTable().ajax.reload();
-                            }
-                        })
-                        .catch(error => {
-                            // Show error popup
-                            alert(error.message);
+                    // Atur waktu target untuk mengirim QR code (23:16 WIB)
+                    var targetHours = 23;
+                    var targetMinutes = 28;
 
-                            // Reload the page after 5 seconds
-                            setTimeout(function() {
-                                location.reload();
-                            }, 2000);
-                        });
+                    // Periksa apakah waktu saat ini sudah mencapai waktu target
+                    if (hours === targetHours && minutes === targetMinutes) {
+                        // Lakukan fetch untuk mengirim QR code
+                        fetch('{{ route('send.qr.code', ['id' => 1]) }}', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                },
+                            })
+                            .then(response => {
+                                if (response.status === 422) {
+                                    return response.json().then(data => {
+                                        throw new Error(data.error);
+                                    });
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.error) {
+                                    console.error(data.error);
+                                } else if (data.success) {
+                                    console.log(data.success);
+                                    // Handle success, e.g., update UI
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error.message);
+                            });
+                    }
+
+                    // Lakukan pengecekan lagi setelah 1 menit
+                    setTimeout(sendQRCodeAutomatically,
+                    60000); // Panggil sendQRCodeAutomatically setelah 1 menit
                 }
+
+                // Panggil fungsi untuk pertama kali
+                sendQRCodeAutomatically();
             });
+
+
+            // $('#usersTable').on('click', 'a.sendQr-datang-users', function(e) {
+            //     e.preventDefault();
+            //     var datang = $(this).data('url');
+
+            //     if (confirm('Are you sure?')) {
+            //         fetch(datang, {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                 },
+            //             })
+            //             .then(response => {
+            //                 if (response.status === 422) {
+            //                     return response.json().then(data => {
+            //                         throw new Error(data.error);
+            //                     });
+            //                 }
+            //                 return response.json();
+            //             })
+            //             .then(data => {
+            //                 if (data.error) {
+            //                     alert(data.error);
+            //                 } else if (data.success) {
+            //                     alert(data.success);
+            //                     // Handle success, e.g., reload the DataTable
+            //                     $('#usersTable').DataTable().ajax.reload();
+            //                 }
+            //             })
+            //             .catch(error => {
+            //                 // Show error popup
+            //                 alert(error.message);
+
+            //                 // Reload the page after 5 seconds
+            //                 setTimeout(function() {
+            //                     location.reload();
+            //                 }, 2000);
+            //             });
+            //     }
+            // });
             // send Pulang Qr Code PNS
             $('#usersTable').on('click', 'a.sendQr-pulang-users', function(e) {
                 e.preventDefault();

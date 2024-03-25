@@ -117,18 +117,20 @@ class qrcodeGenController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-
-
-
-
-
     public function qrcodedatang(string $id)
     {
         // Temukan pengguna dengan ID yang diberikan
         $user = User::findOrFail($id);
 
-        // Pastikan pengguna ditemukan dan memiliki peran 'karyawan'
+        // Pastikan pengguna ditemukan dan memiliki peran 'pegawai'
         if ($user && $user->role === 'pegawai') {
+            // Periksa apakah sudah pukul 07.00 WIB
+            $now = now()->format('H:i');
+            // dd($now);
+            if ($now !== '23:28') {
+                return response()->json(['error' => 'QR Code dapat dikirim hanya pada pukul 21:31 WIB'], 422);
+            }
+
             // Check if a record already exists for the same user ID and date
             $existingRecord = qrcodeGen::where('user_id', $user->id)
                 ->whereDate('tanggal_kirimDtg', now()->toDateString())
@@ -140,7 +142,6 @@ class qrcodeGenController extends Controller
             }
 
             // Generate kode unik untuk QR code
-            // $code = 'ID' . $user->id . '_' . Str::slug($user->name) . '_' . Str::slug($user->email) . '_' . Str::random(3);
             $code = 'ATTDN' . Str::random(8);
 
             // Generate QR Code datang dengan informasi yang sesuai (misalnya, kode unik)
