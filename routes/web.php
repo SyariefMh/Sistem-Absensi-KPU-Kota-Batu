@@ -84,7 +84,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getSatpam', [kepegawaianController::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianController::class, 'ambildataPpnpn']);
             // Route::post('/kepegawaian/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatang']);
-            Route::post('/kepegawaian/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatang'])->name('send.qr.code');
+            // Route::post('/kepegawaian/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatang'])->name('send.qr.code');
+            Route::post('kepegawian/send-qr-code/all', [qrcodeGenController::class, 'sendQRCodeToAllEmployees'])->name('send.qr.code.all');
             Route::post('/kepegawaian/qrcodePulang/{id}', [qrcodeGenController::class, 'qrcodepulang']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {

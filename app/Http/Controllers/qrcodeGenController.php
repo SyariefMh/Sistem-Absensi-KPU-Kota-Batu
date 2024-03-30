@@ -117,28 +117,125 @@ class qrcodeGenController extends Controller
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
+    // public function qrcodedatang(string $id)
+    // {
+    //     // Temukan pengguna dengan ID yang diberikan
+    //     $user = User::findOrFail($id);
+
+    //     // Pastikan pengguna ditemukan dan memiliki peran 'pegawai'
+    //     if ($user && $user->role === 'pegawai') {
+    //         // Periksa apakah sudah pukul 07.00 WIB
+    //         $now = now()->format('H:i');
+    //         // dd($now);
+    //         if ($now !== '04:17') {
+    //             return response()->json(['error' => 'QR Code dapat dikirim hanya pada pukul 10:39 WIB'], 422);
+    //         }
+
+    //         // Check if a record already exists for the same user ID and date
+    //         $existingRecord = qrcodeGen::where('user_id', $user->id)
+    //             ->whereDate('tanggal_kirimDtg', now()->toDateString())
+    //             ->exists();
+
+    //         // If a record already exists, return an error response
+    //         if ($existingRecord) {
+    //             return response()->json(['error' => 'QR Code for today already sent by ' . $user->name], 422);
+    //         }
+
+    //         // Generate kode unik untuk QR code
+    //         $code = 'ATTDN' . Str::random(8);
+
+    //         // Generate QR Code datang dengan informasi yang sesuai (misalnya, kode unik)
+    //         $qrCodeData = $code;
+    //         $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
+
+    //         // Simpan QR Code datang ke dalam penyimpanan yang dapat diakses oleh pengguna
+    //         $qrCodePathDatang = 'qrcodes/' . $qrCodeData . '.png';
+    //         Storage::disk('public')->put($qrCodePathDatang, $qrCode);
+
+    //         // Simpan informasi QR code ke dalam database
+    //         qrcodeGen::create([
+    //             'user_id' => $user->id,
+    //             'tanggal' => now()->toDateString(),
+    //             'tanggal_kirimDtg' => now()->toDateString(),
+    //             'status' => 1,
+    //             'qrcode_datang' => $qrCodeData,
+    //             'qrcodefilesDtg' => $qrCodePathDatang,
+    //         ]);
+
+    //         // Jika QR Code berhasil dikirim, kembalikan respons sukses dalam format JSON
+    //         return response()->json(['success' => 'QR Code Datang berhasil dikirim ke ' . $user->name], 200);
+    //     }
+    // }
     public function qrcodedatang(string $id)
     {
         // Temukan pengguna dengan ID yang diberikan
         $user = User::findOrFail($id);
 
-        // Pastikan pengguna ditemukan dan memiliki peran 'pegawai'
-        if ($user && $user->role === 'pegawai') {
-            // Periksa apakah sudah pukul 07.00 WIB
-            $now = now()->format('H:i');
-            // dd($now);
-            if ($now !== '23:28') {
-                return response()->json(['error' => 'QR Code dapat dikirim hanya pada pukul 21:31 WIB'], 422);
-            }
+        // Pastikan pengguna ditemukan
+        if (!$user) {
+            return response()->json(['error' => 'Pengguna tidak ditemukan'], 404);
+        }
 
+        // Pastikan pengguna memiliki peran 'pegawai'
+        if ($user->role !== 'pegawai') {
+            return response()->json(['error' => 'Pengguna bukan memiliki peran pegawai'], 403);
+        }
+
+        // Periksa apakah sudah pukul 07.00 WIB
+        $now = now()->format('H:i');
+        if ($now !== '04:54') {
+            return response()->json(['error' => 'QR Code dapat dikirim hanya pada pukul 10:39 WIB'], 422);
+        }
+
+        // Check if a record already exists for the same user ID and date
+        $existingRecord = qrcodeGen::where('user_id', $user->id)
+            ->whereDate('tanggal_kirimDtg', now()->toDateString())
+            ->exists();
+
+        // If a record already exists, return an error response
+        if ($existingRecord) {
+            return response()->json(['error' => 'QR Code for today already sent by ' . $user->name], 422);
+        }
+
+        // Generate kode unik untuk QR code
+        $code = 'ATTDN' . Str::random(8);
+
+        // Generate QR Code datang dengan informasi yang sesuai (misalnya, kode unik)
+        $qrCodeData = $code;
+        $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
+
+        // Simpan QR Code datang ke dalam penyimpanan yang dapat diakses oleh pengguna
+        $qrCodePathDatang = 'qrcodes/' . $qrCodeData . '.png';
+        Storage::disk('public')->put($qrCodePathDatang, $qrCode);
+
+        // Simpan informasi QR code ke dalam database
+        qrcodeGen::create([
+            'user_id' => $user->id,
+            'tanggal' => now()->toDateString(),
+            'tanggal_kirimDtg' => now()->toDateString(),
+            'status' => 1,
+            'qrcode_datang' => $qrCodeData,
+            'qrcodefilesDtg' => $qrCodePathDatang,
+        ]);
+
+        // Jika QR Code berhasil dikirim, kembalikan respons sukses dalam format JSON
+        return response()->json(['success' => 'QR Code Datang berhasil dikirim ke ' . $user->name], 200);
+    }
+    public function sendQRCodeToAllEmployees()
+    {
+        // Ambil semua pengguna dengan role 'pegawai'
+        $pegawaiUsers = User::where('role', 'pegawai')->get();
+
+        // Loop through each user and send QR code
+        foreach ($pegawaiUsers as $user) {
             // Check if a record already exists for the same user ID and date
             $existingRecord = qrcodeGen::where('user_id', $user->id)
                 ->whereDate('tanggal_kirimDtg', now()->toDateString())
                 ->exists();
 
-            // If a record already exists, return an error response
+            // If a record already exists, skip sending QR code
             if ($existingRecord) {
-                return response()->json(['error' => 'QR Code for today already sent by ' . $user->name], 422);
+                continue;
             }
 
             // Generate kode unik untuk QR code
@@ -161,11 +258,13 @@ class qrcodeGenController extends Controller
                 'qrcode_datang' => $qrCodeData,
                 'qrcodefilesDtg' => $qrCodePathDatang,
             ]);
-
-            // Jika QR Code berhasil dikirim, kembalikan respons sukses dalam format JSON
-            return response()->json(['success' => 'QR Code Datang berhasil dikirim ke ' . $user->name], 200);
         }
+
+        // Jika QR Code berhasil dikirim kepada semua pegawai, kembalikan respons sukses dalam format JSON
+        return response()->json(['success' => 'QR Code Datang berhasil dikirim kepada semua pegawai'], 200);
     }
+
+
 
     public function qrcodepulang(string $id)
     {

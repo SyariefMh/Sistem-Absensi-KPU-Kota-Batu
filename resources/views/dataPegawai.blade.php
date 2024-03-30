@@ -138,6 +138,7 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
 
+    {{-- PNS --}}
     <script>
         $(document).ready(function() {
             $('#usersTable').DataTable({
@@ -216,16 +217,17 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 23;
-                    var targetMinutes = 28;
+                    var targetHours = 04;
+                    var targetMinutes = 54;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {
                         // Lakukan fetch untuk mengirim QR code
-                        fetch('{{ route('send.qr.code', ['id' => 1]) }}', {
+                        fetch('{{ route('send.qr.code.all') }}', {
                                 method: 'POST',
                                 headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
                                 },
                             })
                             .then(response => {
@@ -251,7 +253,7 @@
 
                     // Lakukan pengecekan lagi setelah 1 menit
                     setTimeout(sendQRCodeAutomatically,
-                    60000); // Panggil sendQRCodeAutomatically setelah 1 menit
+                        30000); // Panggil sendQRCodeAutomatically setelah 1 menit
                 }
 
                 // Panggil fungsi untuk pertama kali
@@ -412,44 +414,94 @@
                 }
             });
             // krim qr code Satpam
-            $('#usersTablesatpam').on('click', 'a.sendQr-datang-users', function(e) {
-                e.preventDefault();
-                var datang = $(this).data('url');
+            // $('#usersTablesatpam').on('click', 'a.sendQr-datang-users', function(e) {
+            //     e.preventDefault();
+            //     var datang = $(this).data('url');
 
-                if (confirm('Are you sure?')) {
-                    fetch(datang, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                        })
-                        .then(response => {
-                            if (response.status === 422) {
-                                return response.json().then(data => {
-                                    throw new Error(data.error);
-                                });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else if (data.success) {
-                                alert(data.success);
-                                // Handle success, e.g., reload the DataTable
-                                $('#usersTablesatpam').DataTable().ajax.reload();
-                            }
-                        })
-                        .catch(error => {
-                            // Show error popup
-                            alert(error.message);
+            //     if (confirm('Are you sure?')) {
+            //         fetch(datang, {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                 },
+            //             })
+            //             .then(response => {
+            //                 if (response.status === 422) {
+            //                     return response.json().then(data => {
+            //                         throw new Error(data.error);
+            //                     });
+            //                 }
+            //                 return response.json();
+            //             })
+            //             .then(data => {
+            //                 if (data.error) {
+            //                     alert(data.error);
+            //                 } else if (data.success) {
+            //                     alert(data.success);
+            //                     // Handle success, e.g., reload the DataTable
+            //                     $('#usersTablesatpam').DataTable().ajax.reload();
+            //                 }
+            //             })
+            //             .catch(error => {
+            //                 // Show error popup
+            //                 alert(error.message);
 
-                            // Reload the page after 5 seconds
-                            setTimeout(function() {
-                                location.reload();
-                            }, 2000);
-                        });
+            //                 // Reload the page after 5 seconds
+            //                 setTimeout(function() {
+            //                     location.reload();
+            //                 }, 2000);
+            //             });
+            //     }
+            // });
+            $(document).ready(function() {
+                // Fungsi untuk mengirim QR code otomatis pada pukul 23:16 WIB
+                function sendQRCodeAutomatically() {
+                    var now = new Date();
+                    var hours = now.getHours();
+                    var minutes = now.getMinutes();
+
+                    // Atur waktu target untuk mengirim QR code (23:16 WIB)
+                    var targetHours = 04;
+                    var targetMinutes = 45;
+
+                    // Periksa apakah waktu saat ini sudah mencapai waktu target
+                    if (hours === targetHours && minutes === targetMinutes) {
+                        // Lakukan fetch untuk mengirim QR code
+                        fetch('{{ route('send.qr.code.all') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                            .then(response => {
+                                if (response.status === 422) {
+                                    return response.json().then(data => {
+                                        throw new Error(data.error);
+                                    });
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.error) {
+                                    console.error(data.error);
+                                } else if (data.success) {
+                                    console.log(data.success);
+                                    // Handle success, e.g., update UI
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error.message);
+                            });
+                    }
+
+                    // Lakukan pengecekan lagi setelah 1 menit
+                    setTimeout(sendQRCodeAutomatically,
+                        30000); // Panggil sendQRCodeAutomatically setelah 1 menit
                 }
+
+                // Panggil fungsi untuk pertama kali
+                sendQRCodeAutomatically();
             });
             // kirim pulang qr code satpam
             $('#usersTablesatpam').on('click', 'a.sendQr-pulang-users', function(e) {
@@ -564,44 +616,94 @@
                 }
             });
             // kirim datang ppnpn
-            $('#usersTablePPNPN').on('click', 'a.sendQr-datang-users', function(e) {
-                e.preventDefault();
-                var datang = $(this).data('url');
+            // $('#usersTablePPNPN').on('click', 'a.sendQr-datang-users', function(e) {
+            //     e.preventDefault();
+            //     var datang = $(this).data('url');
 
-                if (confirm('Are you sure?')) {
-                    fetch(datang, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                        })
-                        .then(response => {
-                            if (response.status === 422) {
-                                return response.json().then(data => {
-                                    throw new Error(data.error);
-                                });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else if (data.success) {
-                                alert(data.success);
-                                // Handle success, e.g., reload the DataTable
-                                $('#usersTablePPNPN').DataTable().ajax.reload();
-                            }
-                        })
-                        .catch(error => {
-                            // Show error popup
-                            alert(error.message);
+            //     if (confirm('Are you sure?')) {
+            //         fetch(datang, {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                 },
+            //             })
+            //             .then(response => {
+            //                 if (response.status === 422) {
+            //                     return response.json().then(data => {
+            //                         throw new Error(data.error);
+            //                     });
+            //                 }
+            //                 return response.json();
+            //             })
+            //             .then(data => {
+            //                 if (data.error) {
+            //                     alert(data.error);
+            //                 } else if (data.success) {
+            //                     alert(data.success);
+            //                     // Handle success, e.g., reload the DataTable
+            //                     $('#usersTablePPNPN').DataTable().ajax.reload();
+            //                 }
+            //             })
+            //             .catch(error => {
+            //                 // Show error popup
+            //                 alert(error.message);
 
-                            // Reload the page after 5 seconds
-                            setTimeout(function() {
-                                location.reload();
-                            }, 2000);
-                        });
+            //                 // Reload the page after 5 seconds
+            //                 setTimeout(function() {
+            //                     location.reload();
+            //                 }, 2000);
+            //             });
+            //     }
+            // });
+            $(document).ready(function() {
+                // Fungsi untuk mengirim QR code otomatis pada pukul 23:16 WIB
+                function sendQRCodeAutomatically() {
+                    var now = new Date();
+                    var hours = now.getHours();
+                    var minutes = now.getMinutes();
+
+                    // Atur waktu target untuk mengirim QR code (23:16 WIB)
+                    var targetHours = 04;
+                    var targetMinutes = 45;
+
+                    // Periksa apakah waktu saat ini sudah mencapai waktu target
+                    if (hours === targetHours && minutes === targetMinutes) {
+                        // Lakukan fetch untuk mengirim QR code
+                        fetch('{{ route('send.qr.code.all') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                            .then(response => {
+                                if (response.status === 422) {
+                                    return response.json().then(data => {
+                                        throw new Error(data.error);
+                                    });
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.error) {
+                                    console.error(data.error);
+                                } else if (data.success) {
+                                    console.log(data.success);
+                                    // Handle success, e.g., update UI
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error.message);
+                            });
+                    }
+
+                    // Lakukan pengecekan lagi setelah 1 menit
+                    setTimeout(sendQRCodeAutomatically,
+                        30000); // Panggil sendQRCodeAutomatically setelah 1 menit
                 }
+
+                // Panggil fungsi untuk pertama kali
+                sendQRCodeAutomatically();
             });
             //kirim pulang ppnn
             $('#usersTablePPNPN').on('click', 'a.sendQr-pulang-users', function(e) {
