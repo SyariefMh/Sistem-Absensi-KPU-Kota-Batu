@@ -18,11 +18,16 @@ class cuti extends Model
         'Keterangan',
         'file',
         'user_id',
+        'periode_id',
     ];
 
     // Define the relationship with the User model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function periode()
+    {
+        return $this->belongsTo(periode::class);
     }
 }

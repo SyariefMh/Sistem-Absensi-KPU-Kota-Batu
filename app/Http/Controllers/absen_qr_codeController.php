@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\datangQrCode;
+use App\Models\periode;
 use App\Models\qrcodeGen;
 use App\Models\User;
 use Carbon\Carbon;
@@ -59,6 +60,11 @@ class absen_qr_codeController extends Controller
         // Retrieve user_id from qrcodeGen
         $userId = $qrCodes->user_id;
 
+        $periode = periode::where('status', 1)->first();
+        if(!$periode){
+            return redirect('/dashboardPegawai/dinasLuar')->withErrors(['errors' => 'Periode Belum Dibuka']);
+        }
+
         datangQrCode::create([
             'qrcode_id' => $qrCodes->id,
             'user_id' => $userId, // Assign user_id from qrcodeGen
@@ -66,6 +72,7 @@ class absen_qr_codeController extends Controller
             'jam_datang' => $currentTimeString,
             'jam_pulang' => null,
             'keterangan' => 'Hadir',
+            'periode_id' => $periode->id,
             'Status' => $status,
         ]);
 

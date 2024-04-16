@@ -6,6 +6,7 @@ use App\Models\cuti;
 use App\Models\datangQrCode;
 use App\Models\dinlur;
 use App\Models\izin;
+use App\Models\periode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -67,6 +68,10 @@ class cutiController extends Controller
             'file' => 'required|file|mimes:jpeg,png,pdf|max:10000', // Adjust the allowed file types and maximum size
         ]);
 
+        $periode = periode::where('status', 1)->first();
+        if (!$periode) {
+            return redirect('/dashboardPegawai/dinasLuar')->withErrors(['errors' => 'Periode Belum Dibuka']);
+        }
         // Get the authenticated user (assuming you have authentication set up)
         $user = auth()->user();
 
@@ -91,6 +96,7 @@ class cutiController extends Controller
                 'jam_datang' => null,
                 'jam_pulang' => null,
                 'user_id' => $user->id,
+                'periode_id' => $periode->id,
             ]);
         }
 

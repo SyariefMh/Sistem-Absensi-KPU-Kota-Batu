@@ -6,6 +6,7 @@ use App\Models\cuti;
 use App\Models\datangQrCode;
 use App\Models\dinlur;
 use App\Models\izin;
+use App\Models\periode;
 use App\Models\qrcodeGen;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -51,7 +52,10 @@ class dinlurController extends Controller
             'latitude' => 'required',
             'longitude' => 'required',
         ]);
-
+        $periode = periode::where('status', 1)->first();
+        if(!$periode){
+            return redirect('/dashboardPegawai/dinasLuar')->withErrors(['errors' => 'Periode Belum Dibuka']);
+        }
         // Handle the file upload
         $file = $request->file('file');
         $filePath = $file->store('dinlur', 'public');
@@ -65,9 +69,10 @@ class dinlurController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'file' => $filePath,
+            'periode_id' => $periode->id,
             'user_id' => auth()->id(), // Use authenticated user's ID
         ]);
-
+        // dd($dinasLuar);
         return redirect('/dashboardPegawai')->with('success', 'Absensi dinas luar berhasil disimpan');
     }
 }

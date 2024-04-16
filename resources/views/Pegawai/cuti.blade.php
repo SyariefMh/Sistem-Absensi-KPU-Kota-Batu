@@ -43,7 +43,16 @@
         <div class="container col-4 d-flex justify-content-center" style="margin-top: 60px">
             <div class="card">
                 <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Izin</p>
-
+                <!-- Include a field for the tanggal input -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <p style="color: #C72B41">Nip Pegawai</p>
                 <p>{{ $user->nip }}</p>
 
@@ -67,29 +76,7 @@
             </div>
         </div>
     </form>
-    {{-- <div class="container col-4 d-flex justify-content-center" style="margin-top: 60px">
-        <div class="cardd">
-            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Cuti</p>
-            
-            <p style="color: #C72B41">Nip Pegawai</p>
-            <p>{{ $user->nip }}</p>
-            
-            <p style="color: #C72B41; padding-top: 10px">Tanggal</p>
-            <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
-                format="YYYY-MM-DD">
-            
-            <p style="padding-top: 10px; color: #C72B41">Lama Izin</p>
-            <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm"
-                aria-label=".form-control-sm example">
-            
-            <div class="mb-3">
-                <label for="formFileDisabled" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
-                    Tugas</label>
-                <input class="form-control" type="file" id="formFileDisabled">
-            </div>
-            <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
-        </div>
-    </div> --}}
+    
     </div>
     <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
 

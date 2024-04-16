@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Absensi;
 use App\Models\izin;
 use App\Models\cuti;
+use App\Models\periode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,6 +65,10 @@ class izinController extends Controller
             'tanggal_akhir' => 'required|date',
             'file' => 'required|file|mimes:jpeg,png,pdf|max:10000', // Adjust the allowed file types and maximum size
         ]);
+        $periode = periode::where('status', 1)->first();
+        if (!$periode) {
+            return redirect('/dashboardPegawai/dinasLuar')->withErrors(['errors' => 'Periode Belum Dibuka']);
+        }
 
         // Get the authenticated user (assuming you have authentication set up)
         $user = auth()->user();
@@ -88,6 +93,7 @@ class izinController extends Controller
                 'keterangan' => 'Tidak Hadir',
                 'jam_datang' => null,
                 'jam_pulang' => null,
+                'periode_id' => $periode->id,
                 'user_id' => $user->id,
             ]);
         }

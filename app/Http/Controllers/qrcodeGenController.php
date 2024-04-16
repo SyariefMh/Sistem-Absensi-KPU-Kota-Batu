@@ -183,7 +183,7 @@ class qrcodeGenController extends Controller
 
         // Periksa apakah sudah pukul 07.00 WIB
         $now = now()->format('H:i');
-        if ($now !== '04:54') {
+        if ($now !== '20:32') {
             return response()->json(['error' => 'QR Code dapat dikirim hanya pada pukul 10:39 WIB'], 422);
         }
 

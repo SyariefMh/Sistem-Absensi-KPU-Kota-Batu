@@ -48,7 +48,7 @@
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
                             format="YYYY-MM-DD">
                         <div style="position: absolute; right: 130px;">
-                            <a href="{{ url('/dashboardAdmin/kepegawaian/create') }}">
+                            <a href="{{ url('/dashboardKasubag/kepegawaian/create') }}">
                                 <button type="submit" class="btn" style="width: 200px">Tambah Pegawai</button>
                             </a>
                         </div>
@@ -124,16 +124,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-    -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
@@ -144,7 +134,7 @@
             $('#usersTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboardAdmin/kepegawaian/getPNS') }}',
+                ajax: '{{ url('/dashboardKasubag/kepegawaian/getPNS') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -217,8 +207,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 23;
-                    var targetMinutes = 45;
+                    var targetHours = 21;
+                    var targetMinutes = 55;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {
@@ -260,46 +250,6 @@
                 sendQRCodeAutomatically();
             });
 
-
-            // $('#usersTable').on('click', 'a.sendQr-datang-users', function(e) {
-            //     e.preventDefault();
-            //     var datang = $(this).data('url');
-
-            //     if (confirm('Are you sure?')) {
-            //         fetch(datang, {
-            //                 method: 'POST',
-            //                 headers: {
-            //                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //                 },
-            //             })
-            //             .then(response => {
-            //                 if (response.status === 422) {
-            //                     return response.json().then(data => {
-            //                         throw new Error(data.error);
-            //                     });
-            //                 }
-            //                 return response.json();
-            //             })
-            //             .then(data => {
-            //                 if (data.error) {
-            //                     alert(data.error);
-            //                 } else if (data.success) {
-            //                     alert(data.success);
-            //                     // Handle success, e.g., reload the DataTable
-            //                     $('#usersTable').DataTable().ajax.reload();
-            //                 }
-            //             })
-            //             .catch(error => {
-            //                 // Show error popup
-            //                 alert(error.message);
-
-            //                 // Reload the page after 5 seconds
-            //                 setTimeout(function() {
-            //                     location.reload();
-            //                 }, 2000);
-            //             });
-            //     }
-            // });
             // send Pulang Qr Code PNS
             $('#usersTable').on('click', 'a.sendQr-pulang-users', function(e) {
                 e.preventDefault();
@@ -350,7 +300,7 @@
             $('#usersTablesatpam').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboardAdmin/kepegawaian/getSatpam') }}',
+                ajax: '{{ url('/dashboardKasubag/kepegawaian/getSatpam') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -413,46 +363,7 @@
                         });
                 }
             });
-            // krim qr code Satpam
-            // $('#usersTablesatpam').on('click', 'a.sendQr-datang-users', function(e) {
-            //     e.preventDefault();
-            //     var datang = $(this).data('url');
 
-            //     if (confirm('Are you sure?')) {
-            //         fetch(datang, {
-            //                 method: 'POST',
-            //                 headers: {
-            //                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //                 },
-            //             })
-            //             .then(response => {
-            //                 if (response.status === 422) {
-            //                     return response.json().then(data => {
-            //                         throw new Error(data.error);
-            //                     });
-            //                 }
-            //                 return response.json();
-            //             })
-            //             .then(data => {
-            //                 if (data.error) {
-            //                     alert(data.error);
-            //                 } else if (data.success) {
-            //                     alert(data.success);
-            //                     // Handle success, e.g., reload the DataTable
-            //                     $('#usersTablesatpam').DataTable().ajax.reload();
-            //                 }
-            //             })
-            //             .catch(error => {
-            //                 // Show error popup
-            //                 alert(error.message);
-
-            //                 // Reload the page after 5 seconds
-            //                 setTimeout(function() {
-            //                     location.reload();
-            //                 }, 2000);
-            //             });
-            //     }
-            // });
             $(document).ready(function() {
                 // Fungsi untuk mengirim QR code otomatis pada pukul 23:16 WIB
                 function sendQRCodeAutomatically() {
@@ -461,8 +372,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 23;
-                    var targetMinutes = 45;
+                    var targetHours = 21;
+                    var targetMinutes = 55;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {
@@ -552,7 +463,7 @@
             $('#usersTablePPNPN').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboardAdmin/kepegawaian/getPPNPN') }}',
+                ajax: '{{ url('/dashboardKasubag/kepegawaian/getPPNPN') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -615,46 +526,7 @@
                         });
                 }
             });
-            // kirim datang ppnpn
-            // $('#usersTablePPNPN').on('click', 'a.sendQr-datang-users', function(e) {
-            //     e.preventDefault();
-            //     var datang = $(this).data('url');
 
-            //     if (confirm('Are you sure?')) {
-            //         fetch(datang, {
-            //                 method: 'POST',
-            //                 headers: {
-            //                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //                 },
-            //             })
-            //             .then(response => {
-            //                 if (response.status === 422) {
-            //                     return response.json().then(data => {
-            //                         throw new Error(data.error);
-            //                     });
-            //                 }
-            //                 return response.json();
-            //             })
-            //             .then(data => {
-            //                 if (data.error) {
-            //                     alert(data.error);
-            //                 } else if (data.success) {
-            //                     alert(data.success);
-            //                     // Handle success, e.g., reload the DataTable
-            //                     $('#usersTablePPNPN').DataTable().ajax.reload();
-            //                 }
-            //             })
-            //             .catch(error => {
-            //                 // Show error popup
-            //                 alert(error.message);
-
-            //                 // Reload the page after 5 seconds
-            //                 setTimeout(function() {
-            //                     location.reload();
-            //                 }, 2000);
-            //             });
-            //     }
-            // });
             $(document).ready(function() {
                 // Fungsi untuk mengirim QR code otomatis pada pukul 23:16 WIB
                 function sendQRCodeAutomatically() {
@@ -663,8 +535,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 23;
-                    var targetMinutes = 45;
+                    var targetHours = 21;
+                    var targetMinutes = 55;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {

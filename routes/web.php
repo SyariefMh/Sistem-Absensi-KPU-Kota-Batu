@@ -6,9 +6,13 @@ use App\Http\Controllers\cutiController;
 use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
 use App\Http\Controllers\kepegawaianController;
+use App\Http\Controllers\kepegawaianKasubag;
+use App\Http\Controllers\nilaiController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\qrcodeGenController;
 use App\Http\Controllers\rekapController;
+use App\Http\Controllers\rekapKasubagController;
 use App\Http\Controllers\riwayatabsenController;
 use App\Http\Controllers\satpamController;
 use App\Http\Controllers\SesiController;
@@ -83,8 +87,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getPNS', [kepegawaianController::class, 'ambildataPns']);
             Route::get('/kepegawaian/getSatpam', [kepegawaianController::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianController::class, 'ambildataPpnpn']);
-            // Route::post('/kepegawaian/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatang']);
-            // Route::post('/kepegawaian/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatang'])->name('send.qr.code');
             Route::post('kepegawian/send-qr-code/all', [qrcodeGenController::class, 'sendQRCodeToAllEmployees'])->name('send.qr.code.all');
             Route::post('/kepegawaian/qrcodePulang/{id}', [qrcodeGenController::class, 'qrcodepulang']);
         });
@@ -122,7 +124,40 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk kasubag
     Route::middleware(['auth', 'check.role:kasubag umum'])->group(function () {
         Route::get('/dashboardKasubag', [PegawaiController::class, 'kasubag']);
+
+        Route::prefix('/dashboardKasubag')->group(function () {
+            Route::get('/kepegawaian', [kepegawaianKasubag::class, 'index']);
+            Route::get('/kepegawaian/create', [kepegawaianKasubag::class, 'create']);
+            Route::post('/kepegawaian/store', [kepegawaianKasubag::class, 'store']);
+            Route::get('/kepegawaian/edit/{id}', [kepegawaianKasubag::class, 'edit']);
+            Route::put('/kepegawaian/update/{id}', [kepegawaianKasubag::class, 'update']);
+            Route::delete('/kepegawaian/destroy/{id}', [kepegawaianKasubag::class, 'destroy']);
+            Route::get('/kepegawaian/getPNS', [kepegawaianKasubag::class, 'ambildataPns']);
+            Route::get('/kepegawaian/getSatpam', [kepegawaianKasubag::class, 'ambildataSatpam']);
+            Route::get('/kepegawaian/getPPNPN', [kepegawaianKasubag::class, 'ambildataPpnpn']);
+            Route::get('/kepegawaian/nilai/{id}', [nilaiController::class, 'nilai']);
+        });
+        Route::prefix('/dashboardKasubag')->group(function () {
+            Route::get('/cekRekap', [rekapKasubagController::class, 'index']);
+            Route::get('/cekRekap/getPNS', [rekapKasubagController::class, 'rekapPNS']);
+            Route::get('/cekRekap/getSatpam', [rekapKasubagController::class, 'rekapSatpam']);
+            Route::get('/cekRekap/getPPNPN', [rekapKasubagController::class, 'rekapPPNPN']);
+            Route::get('/cekRekap/show/{id}', [rekapKasubagController::class, 'show']);
+        });
+        Route::prefix('/dashboardKasubag')->group(function () {
+            Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
+            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
+        });
+        Route::prefix('/dashboardKasubag')->group(function () {
+            Route::get('/periode', [PeriodeController::class, 'index']);
+            Route::get('/periode/create', [PeriodeController::class, 'create']);
+            Route::post('/periode/store', [PeriodeController::class, 'store']);
+            Route::get('/periode/edit/{id}', [PeriodeController::class, 'edit']);
+            Route::put('/periode/update/{id}', [PeriodeController::class, 'update']);
+            Route::get('/periode/getdataperiode', [PeriodeController::class, 'getdataperiode'])->name('getdataperiode');
+        });
     });
     // Route untuk logout
     Route::get('/logout', [SesiController::class, 'logout']);
 });
+

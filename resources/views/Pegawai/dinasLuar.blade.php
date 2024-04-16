@@ -44,6 +44,16 @@
             <div class="card">
                 <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Dinas Luar</p>
                 <!-- Include a field for the tanggal input -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="mb-3">
                     <label for="tanggal" class="form-label">Tanggal</label>
                     <input class="form-control" type="date" id="tanggal" name="tanggal">

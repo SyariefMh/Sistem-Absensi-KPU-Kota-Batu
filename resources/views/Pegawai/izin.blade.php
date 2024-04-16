@@ -43,6 +43,16 @@
         <div class="container col-4 d-flex justify-content-center" style="margin-top: 60px">
             <div class="card">
                 <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Izin</p>
+                <!-- Include a field for the tanggal input -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 {{-- Tanggal --}}
                 <p style="color: #C72B41">Tanggal awal</p>
                 <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal">

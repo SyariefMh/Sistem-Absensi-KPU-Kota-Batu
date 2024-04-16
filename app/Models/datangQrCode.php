@@ -19,6 +19,7 @@ class datangQrCode extends Model
         'Status',
         'qrcode_id',
         'user_id',
+        'periode_id',
     ];
 
     public function qrcodeGen()
@@ -29,5 +30,10 @@ class datangQrCode extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function periode()
+    {
+        return $this->belongsTo(periode::class);
     }
 }

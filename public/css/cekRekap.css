@@ -32,3 +32,13 @@ color: #C72B41;
     background-color: #BE3144;
     color: #E0E0E0;
 }
+
+.badge-success {
+    color: #fff; /* Warna teks untuk badge hijau */
+    background-color: #28a745; /* Warna latar belakang untuk badge hijau */
+}
+
+.badge-danger {
+    color: #fff; /* Warna teks untuk badge merah */
+    background-color: #dc3545; /* Warna latar belakang untuk badge merah */
+}

@@ -18,7 +18,7 @@ class PegawaiController extends Controller
     }
     function kasubag()
     {
-        return view('dashboardKasubag');
+        return view('kasubag.dashboardKasubag');
         // echo "<a href='logout'> Logout >> </a>";
     }
 }

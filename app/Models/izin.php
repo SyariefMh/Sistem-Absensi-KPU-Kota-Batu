@@ -18,10 +18,15 @@ class izin extends Model
         'keterangan',
         'file',
         'user_id',
+        'periode_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function periode()
+    {
+        return $this->belongsTo(periode::class);
     }
 }

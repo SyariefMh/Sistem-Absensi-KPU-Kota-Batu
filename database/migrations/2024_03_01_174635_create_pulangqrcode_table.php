@@ -20,9 +20,11 @@ return new class extends Migration
             $table->string('Status')->nullable();
             $table->unsignedBigInteger('qrcode_id');
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('periode_id');
             $table->timestamps();
             $table->foreign('qrcode_id')->references('id')->on('qrcode_gens');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('periode_id')->references('id')->on('periode');
         });
     }
 

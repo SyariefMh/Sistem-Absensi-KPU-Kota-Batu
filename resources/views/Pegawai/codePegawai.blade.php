@@ -84,7 +84,7 @@
         // Mendefinisikan fungsi countdown di luar event listener
         function countdown() {
             var seconds = sessionStorage.getItem('countdownSeconds') ||
-                60; // mengambil waktu countdown dari sessionStorage atau default 5 detik
+                60; // Mengambil waktu countdown dari sessionStorage atau default 10 detik
             var countdownElement = document.getElementById('countdown');
 
             function updateCountdown() {
@@ -92,26 +92,38 @@
 
                 if (seconds > 0) {
                     seconds--;
-                    // sessionStorage.setItem('countdownSeconds', seconds); // simpan waktu countdown di sessionStorage
-                    setTimeout(updateCountdown, 1000); // tunggu 1 detik
+                    sessionStorage.setItem('countdownSeconds',
+                        seconds); // Simpan waktu countdown di sessionStorage selama countdown masih berjalan
+                    setTimeout(updateCountdown, 1000); // Tunggu 1 detik
                 } else {
+                    // Hapus waktu countdown dari sessionStorage setelah selesai
+                    // sessionStorage.removeItem('countdownSeconds');
+                    // sessionStorage.setItem('countdownComplete', true); // Tandai countdown telah selesai
+
+                    // Setelah countdown selesai, ganti gambar QR code
+                    var qrCodeImg = document.querySelector('.card-body img');
+                    // Ganti gambar QR code dengan parameter unik untuk menghindari cache
+                    qrCodeImg.src = '{{ url('img/error.png') }}' + '?t=' + new Date().getTime();
+                    qrCodeImg.style.width = '200px';
                     // Setelah countdown selesai, munculkan tombol "Generate QR Code Ulang"
                     document.getElementById('regenerateBtn').style.display = 'block';
 
                     // Panggil fungsi untuk mengupdate status QR Code
                     updateQRStatus('{{ $id }}');
-
-                    regenerateQR('{{ $id }}');
                 }
             }
 
-            updateCountdown(); // panggil fungsi pertama kali
+            updateCountdown(); // Panggil fungsi pertama kali
         }
 
         // Event listener untuk memanggil countdown setelah dokumen HTML dimuat
         document.addEventListener('DOMContentLoaded', function() {
             countdown();
         });
+
+
+
+
 
         // Fungsi regenerateQR untuk mengirim permintaan AJAX
         function regenerateQR(id) {
@@ -149,7 +161,7 @@
         // Fungsi untuk mengupdate status QR Code
         function updateQRStatus(id) {
             fetch(`/dashboardPegawai/codePegawai/qrcodeupdateStat/${id}`, {
-                    method: 'PUT',
+                    method: 'DELETE',
                     body: JSON.stringify({}),
                     headers: {
                         'Content-Type': 'application/json',
@@ -166,6 +178,9 @@
                 .then(data => {
                     // Proses respons atau tindakan lain setelah berhasil mengupdate status QR code
                     console.log(data);
+                    var qrCodeImg = document.querySelector('.card-body img');
+                    qrCodeImg.src = '{{ url('img/error.png') }}' + '?t=' + new Date().getTime();
+                    qrCodeImg.style.width = '200px';
                 })
                 .catch(error => {
                     console.error('There has been a problem with your fetch operation:', error);
