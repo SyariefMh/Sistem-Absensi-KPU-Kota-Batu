@@ -81,10 +81,11 @@
     <!-- Your HTML code -->
 
     <script>
+        var userId = {{ auth()->id() }};    
         // Mendefinisikan fungsi countdown di luar event listener
         function countdown() {
             var seconds = sessionStorage.getItem('countdownSeconds') ||
-                60; // Mengambil waktu countdown dari sessionStorage atau default 10 detik
+                10; // Mengambil waktu countdown dari sessionStorage atau default 10 detik
             var countdownElement = document.getElementById('countdown');
 
             function updateCountdown() {
@@ -126,15 +127,15 @@
 
 
         // Fungsi regenerateQR untuk mengirim permintaan AJAX
-        function regenerateQR(id) {
+        function regenerateQR() {
             // Mengatur kembali nilai seconds ke nilai awal countdown (misalnya 5 detik)
-            var seconds = 60;
+            var seconds = 10;
             sessionStorage.setItem('countdownSeconds', seconds); // simpan kembali waktu countdown di sessionStorage
             countdown(); // panggil kembali fungsi countdown
             // Lakukan pemanggilan AJAX atau pengiriman form sesuai kebutuhan Anda
             // Contoh pengiriman form dengan fetch API
-            fetch(`/dashboardPegawai/codePegawai/qrcodeDatang/${id}`, {
-                    method: 'PUT',
+            fetch(`/dashboardPegawai/codePegawai/qrcodeDatang/${userId}`, {
+                    method: 'POST',
                     body: JSON.stringify({}),
                     headers: {
                         'Content-Type': 'application/json',
