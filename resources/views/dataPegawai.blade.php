@@ -216,9 +216,9 @@
                     var hours = now.getHours();
                     var minutes = now.getMinutes();
 
-                    // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 19;
-                    var targetMinutes = 54;
+                    // Atur waktu target untuk mengirim QR code datang(23:16 WIB)
+                    var targetHours = 20;
+                    var targetMinutes = 09;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {
@@ -258,6 +258,56 @@
 
                 // Panggil fungsi untuk pertama kali
                 sendQRCodeAutomatically();
+            });
+            $(document).ready(function() {
+                // Fungsi untuk mengirim QR code pulang otomatis pada pukul 23:16 WIB
+                function sendQRCodePulangAutomatically() {
+                    var now = new Date();
+                    var hours = now.getHours();
+                    var minutes = now.getMinutes();
+
+                    // Atur waktu target untuk mengirim QR code (23:16 WIB)
+                    var targetHours = 20;
+                    var targetMinutes = 10;
+
+                    // Periksa apakah waktu saat ini sudah mencapai waktu target
+                    if (hours === targetHours && minutes === targetMinutes) {
+                        // Lakukan fetch untuk mengirim QR code
+                        fetch('{{ route('send.qr.code.pulang.all') }}', {
+                                method: 'POST',
+                                headers: {
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Content-Type': 'application/json'
+                                },
+                            })
+                            .then(response => {
+                                if (response.status === 422) {
+                                    return response.json().then(data => {
+                                        throw new Error(data.error);
+                                    });
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.error) {
+                                    console.error(data.error);
+                                } else if (data.success) {
+                                    console.log(data.success);
+                                    // Handle success, e.g., update UI
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error.message);
+                            });
+                    }
+
+                    // Lakukan pengecekan lagi setelah 1 menit
+                    setTimeout(sendQRCodePulangAutomatically,
+                        30000); // Panggil sendQRCodeAutomatically setelah 1 menit
+                }
+
+                // Panggil fungsi untuk pertama kali
+                sendQRCodePulangAutomatically();
             });
 
 
@@ -301,46 +351,46 @@
             //     }
             // });
             // send Pulang Qr Code PNS
-            $('#usersTable').on('click', 'a.sendQr-pulang-users', function(e) {
-                e.preventDefault();
-                var pulang = $(this).data('url');
+            // $('#usersTable').on('click', 'a.sendQr-pulang-users', function(e) {
+            //     e.preventDefault();
+            //     var pulang = $(this).data('url');
 
-                if (confirm('Are you sure?')) {
-                    fetch(pulang, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                        })
-                        .then(response => {
-                            if (response.status === 422) {
-                                return response.json().then(data => {
-                                    throw new Error(data.error);
-                                });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else if (data.successs) {
-                                alert(data.success);
-                                // Handle success, e.g., reload the DataTable
-                                $('#usersTable').DataTable().ajax.reload();
-                                // location.reload();
-                            }
-                        })
-                        .catch(error => {
-                            // Show error popup
-                            alert(error.message);
+            //     if (confirm('Are you sure?')) {
+            //         fetch(pulang, {
+            //                 method: 'POST',
+            //                 headers: {
+            //                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                 },
+            //             })
+            //             .then(response => {
+            //                 if (response.status === 422) {
+            //                     return response.json().then(data => {
+            //                         throw new Error(data.error);
+            //                     });
+            //                 }
+            //                 return response.json();
+            //             })
+            //             .then(data => {
+            //                 if (data.error) {
+            //                     alert(data.error);
+            //                 } else if (data.successs) {
+            //                     alert(data.success);
+            //                     // Handle success, e.g., reload the DataTable
+            //                     $('#usersTable').DataTable().ajax.reload();
+            //                     // location.reload();
+            //                 }
+            //             })
+            //             .catch(error => {
+            //                 // Show error popup
+            //                 alert(error.message);
 
-                            // Reload the page after 5 seconds
-                            setTimeout(function() {
-                                location.reload();
-                            }, 2000);
-                        });
-                }
-            });
+            //                 // Reload the page after 5 seconds
+            //                 setTimeout(function() {
+            //                     location.reload();
+            //                 }, 2000);
+            //             });
+            //     }
+            // });
         });
     </script>
 
@@ -461,8 +511,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 00;
-                    var targetMinutes = 09;
+                    var targetHours = 23;
+                    var targetMinutes = 17;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {

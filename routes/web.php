@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getSatpam', [kepegawaianController::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianController::class, 'ambildataPpnpn']);
             Route::post('kepegawian/send-qr-code/all', [qrcodeGenController::class, 'sendQRCodeToAllEmployees'])->name('send.qr.code.all');
-            Route::post('/kepegawaian/qrcodePulang/{id}', [qrcodeGenController::class, 'qrcodepulang']);
+            Route::post('kepegawian/send-qr-code-pulang/all', [qrcodeGenController::class, 'sendQRPulangCodeToAllEmployees'])->name('send.qr.code.pulang.all');
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/cekRekap', [rekapController::class, 'index']);
@@ -160,4 +160,3 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk logout
     Route::get('/logout', [SesiController::class, 'logout']);
 });
-

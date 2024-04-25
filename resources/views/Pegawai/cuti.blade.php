@@ -33,7 +33,17 @@
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
             <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+                <div class="dropdown">
+                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                        aria-expanded="false" style="color: white; font-weight:bold">
+                        KOMISI PEMILIHAN UMUM KOTA BATU <img src="{{ url('img/profile.png') }}" alt="" width="45"
+                            height="45" style="margin-left: 10px">
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
     {{-- card --}}
