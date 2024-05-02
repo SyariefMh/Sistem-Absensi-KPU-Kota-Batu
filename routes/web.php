@@ -7,6 +7,9 @@ use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
 use App\Http\Controllers\kepegawaianController;
 use App\Http\Controllers\kepegawaianKasubag;
+use App\Http\Controllers\nilaiAController;
+use App\Http\Controllers\nilaiBController;
+use App\Http\Controllers\nilaiCController;
 use App\Http\Controllers\nilaiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PeriodeController;
@@ -99,7 +102,7 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
-            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
+            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatangAdmin']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'index']);
@@ -112,11 +115,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboardSatpam', [satpamController::class, 'index']);
 
         Route::prefix('/dashboardSatpam')->group(function () {
-            Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
-            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
+            Route::get('/scanDatang', [absen_qr_codeController::class, 'indexSatpam']);
+            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatangSatpam']);
         });
         Route::prefix('/dashboardSatpam')->group(function () {
-            Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'index']);
+            Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'indexSatpam']);
             Route::post('/scanPulang/scan/store', [absenPulang_qr_codeController::class, 'scanQrCodeDatang']);
         });
     });
@@ -136,6 +139,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getSatpam', [kepegawaianKasubag::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianKasubag::class, 'ambildataPpnpn']);
             Route::get('/kepegawaian/nilai/{id}', [nilaiController::class, 'nilai']);
+            Route::post('kepegawaian/simpan-nilai-a', [nilaiAController::class, 'simpan'])->name('simpan.nilai.a');
+            Route::post('kepegawaian/simpan-nilai-b', [nilaiBController::class, 'simpan'])->name('simpan.nilai.b');
+            Route::post('kepegawaian/simpan-nilai-c', [nilaiCController::class, 'simpan'])->name('simpan.nilai.c');
+
         });
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/cekRekap', [rekapKasubagController::class, 'index']);

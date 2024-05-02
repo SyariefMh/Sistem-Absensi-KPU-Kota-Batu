@@ -19,10 +19,10 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="{{ url('css/codeAdmin.css') }}">
+    <link rel="stylesheet" href="css/codeAdmin.css">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
+    <link rel="icon" href="img/KPU_Logo.png">
 
     <title>Dashboard</title>
 </head>
@@ -32,7 +32,7 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
+            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
@@ -40,17 +40,19 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="margin-left: 90px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan Absensi Datang</p>
+            <p style="margin-left: 90px; color: #C72B41; font-weight: 800; padding-bottom: 20px">15 JANUARI 2024</p>
+            {{-- <img src="img/qrcode.png" alt="" width="300" height="300"> --}}
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
-            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 150px; font-weight: 800">
+            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 40px; font-weight: 800">
                 KOMISI PEMILIHAN UMUM
                 <br>KOTA BATU
             </p>
         </div>
     </div>
     </div>
+    {{-- <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115"> --}}
 
     <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="pulangModalLabel"
         aria-hidden="true">
@@ -59,16 +61,6 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="errorModalLabel">Absensi Datang</h5>
                 </div>
-                <!-- Include a field for the tanggal input -->
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                 <div class="modal-body">
                     <p>Error sam</p>
                 </div>
@@ -88,8 +80,6 @@
             </div>
         </div>
     </div>
-
-    <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -119,23 +109,20 @@
             $('#qr_code_result').val(decodedText); // Set value to hidden input
             let id = decodedText;
             html5QrcodeScanner.clear().then(_ => {
-                // var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
-                var link = '{{ url('/dashboardAdmin/scanDatang/scan/store') }}';
-                console.log(link);
-                console.log(CSRF_TOKEN);
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                var url = '{{ url('/dashboardSatpam/scanPulang/scan/store') }}';
                 $.ajax({
-                    url: link,
+                    url: url,
                     type: 'POST',
                     data: {
                         _method: "POST",
                         _token: CSRF_TOKEN,
-                        qrcodefilesDtg: id
+                        qrcodefilesPlg: id
                     },
                     success: function(response) {
                         console.log(response);
                         alert('berhasil');
-                        window.location.href = '/dashboardAdmin/scanDatang';
+                        window.location.href = '/dashboardSatpam/scanPulang';
                     },
                     error: function(response) {
                         console.log(response);

@@ -85,7 +85,7 @@
         // Mendefinisikan fungsi countdown di luar event listener
         function countdown() {
             var seconds = sessionStorage.getItem('countdownSeconds') ||
-                10; // Mengambil waktu countdown dari sessionStorage atau default 10 detik
+                120; // Mengambil waktu countdown dari sessionStorage atau default 10 detik
             var countdownElement = document.getElementById('countdown');
 
             function updateCountdown() {
@@ -129,7 +129,7 @@
         // Fungsi regenerateQR untuk mengirim permintaan AJAX
         function regenerateQR() {
             // Mengatur kembali nilai seconds ke nilai awal countdown (misalnya 5 detik)
-            var seconds = 10;
+            var seconds = 120;
             sessionStorage.setItem('countdownSeconds', seconds); // simpan kembali waktu countdown di sessionStorage
             countdown(); // panggil kembali fungsi countdown
             // Lakukan pemanggilan AJAX atau pengiriman form sesuai kebutuhan Anda

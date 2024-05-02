@@ -16,6 +16,11 @@ class absenPulang_qr_codeController extends Controller
     {
         return view('codePulangAdmin');
     }
+    public function indexSatpam()
+    {
+        return view('satpam.codePulangSatpam');
+    }
+
     public function scanQrCodeDatang(Request $request)
     {
         $qrCodeData = $request->input('qrcodefilesPlg');

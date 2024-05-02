@@ -121,7 +121,7 @@
             html5QrcodeScanner.clear().then(_ => {
                 // var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                 var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
-                var link = '{{ url('/dashboardAdmin/scanDatang/scan/store') }}';
+                var link = '{{ url('/dashboardSatpam/scanDatang/scan/store') }}';
                 console.log(link);
                 console.log(CSRF_TOKEN);
                 $.ajax({
@@ -135,7 +135,7 @@
                     success: function(response) {
                         console.log(response);
                         alert('berhasil');
-                        window.location.href = '/dashboardAdmin/scanDatang';
+                        window.location.href = '/dashboardSatpam/scanDatang';
                     },
                     error: function(response) {
                         console.log(response);

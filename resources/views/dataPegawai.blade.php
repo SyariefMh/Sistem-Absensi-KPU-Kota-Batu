@@ -216,7 +216,7 @@
                     var hours = now.getHours();
                     var minutes = now.getMinutes();
 
-                    // Atur waktu target untuk mengirim QR code datang(23:16 WIB)
+                    // Atur waktu target untuk mengirim QR code datang
                     var targetHours = 20;
                     var targetMinutes = 09;
 
@@ -267,8 +267,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 20;
-                    var targetMinutes = 10;
+                    var targetHours = 22;
+                    var targetMinutes = 30;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {
@@ -511,8 +511,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 23;
-                    var targetMinutes = 17;
+                    var targetHours = 22;
+                    var targetMinutes = 25;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {
