@@ -45,7 +45,7 @@
                 </div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
                             format="YYYY-MM-DD">
                         <div style="position: absolute; right: 130px;">
                             <a href="{{ url('/dashboardAdmin/kepegawaian/create') }}">
@@ -217,8 +217,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code datang
-                    var targetHours = 20;
-                    var targetMinutes = 09;
+                    var targetHours = 21;
+                    var targetMinutes = 04;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {
@@ -267,8 +267,8 @@
                     var minutes = now.getMinutes();
 
                     // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 22;
-                    var targetMinutes = 30;
+                    var targetHours = 21;
+                    var targetMinutes = 06;
 
                     // Periksa apakah waktu saat ini sudah mencapai waktu target
                     if (hours === targetHours && minutes === targetMinutes) {

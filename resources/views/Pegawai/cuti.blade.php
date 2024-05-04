@@ -68,20 +68,20 @@
 
                 {{-- Tanggal --}}
                 <p style="color: #C72B41">Tanggal awal</p>
-                <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal">
+                <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal" onchange="checkDateValidity(this)">
                 <p style="color: #C72B41">tanggal akhir</p>
-                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir">
+                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir" onchange="checkDateValidity(this)">
                 {{-- Upload surat --}}
                 <div class="mb-3">
                     <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
-                        Tugas</label>
+                        cuti</label>
                     <input name="file" class="form-control" type="file" id="file">
                 </div>
                 <button type="submit"
                     style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan
                 </button>
                 <p style="padding-bottom: 0px; text-align: center; padding-top: 10px">
-                    <a href="{{ url('Pegawai.dashboardPegawai') }}" class="kembali-btn">Kembali</a>
+                    <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
                 </p>
             </div>
         </div>
@@ -95,6 +95,22 @@
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
+    {{-- Scrip untuk batasan tanggal --}}
+    <script>
+        function checkDateValidity(input) {
+            var selectedDate = new Date(input.value);
+            var currentDate = new Date();
+    
+            // Menghilangkan informasi waktu (jam, menit, detik) dari currentDate
+            currentDate.setHours(0, 0, 0, 0);
+    
+            if (selectedDate < currentDate) {
+                alert("Anda tidak dapat memilih tanggal yang sudah terlewat.");
+                input.value = ''; // Mengosongkan input tanggal
+            }
+        }
     </script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->

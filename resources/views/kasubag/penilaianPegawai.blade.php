@@ -137,7 +137,8 @@
                         </div>
                     </td>
                 </tr>
-                <p>izin &nbsp; hadir &nbsp; cuti</p>
+                <p>izin &nbsp;{{ $jumlahizin }} hadir &nbsp;{{ $totalCount }} cuti &nbsp;{{ $jumlahcuti }}</p>
+                <p>terlambat</p>
                 {{-- <button type="submit"
                     style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
             </tbody>
@@ -236,7 +237,6 @@
                         </div>
                     </td>
                 </tr>
-                <p>izin &nbsp; hadir &nbsp; cuti</p>
                 {{-- <button type="submit"
                     style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
             </tbody>
@@ -335,7 +335,6 @@
                         </div>
                     </td>
                 </tr>
-                <p>izin &nbsp; hadir &nbsp; cuti</p>
                 {{-- <button type="submit"
                     style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
             </tbody>

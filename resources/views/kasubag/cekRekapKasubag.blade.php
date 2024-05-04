@@ -44,8 +44,7 @@
                 </div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
-                            format="YYYY-MM-DD">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="">
                     </div>
                 </div>
             </div>
@@ -156,7 +155,12 @@
             $('#usersTablePNS').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboardKasubag/cekRekap/getPNS') }}',
+                ajax: {
+                    url: '{{ url('/dashboardKasubag/cekRekap/getPNS') }}',
+                    data: function(d) {
+                        d.tgl = $('#tanggal').val(); // Mengirim nilai tanggal ke server
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -187,7 +191,10 @@
                     },
                     {
                         data: 'tanggal',
-                        name: 'tanggal'
+                        name: 'tanggal',
+                        render: function(data) {
+                            return data.split('-').reverse().join('-');
+                        }
                     },
                     {
                         data: 'Keterangan',
@@ -203,6 +210,9 @@
                     }
                 ]
 
+            });
+            $('#tanggal').on('change', function() {
+                $('#usersTablePNS').DataTable().ajax.reload();
             });
 
             $('#usersTablePNS').on('click', 'a.delete-users', function(e) {
@@ -241,7 +251,12 @@
             $('#usersTablesatpam').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboardKasubag/cekRekap/getSatpam') }}',
+                ajax: {
+                    url: '{{ url('/dashboardKasubag/cekRekap/getSatpam') }}',
+                    data: function(d) {
+                        d.tgl = $('#tanggal').val(); // Mengirim nilai tanggal ke server
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -272,7 +287,10 @@
                     },
                     {
                         data: 'tanggal',
-                        name: 'tanggal'
+                        name: 'tanggal',
+                        render: function(data) {
+                            return data.split('-').reverse().join('-');
+                        }
                     },
                     {
                         data: 'Keterangan',
@@ -288,6 +306,9 @@
                     }
                 ]
 
+            });
+            $('#tanggal').on('change', function() {
+                $('#usersTablesatpam').DataTable().ajax.reload();
             });
 
             $('#usersTablesatpam').on('click', 'a.delete-users', function(e) {
@@ -326,7 +347,12 @@
             $('#usersTablePPNPN').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: '{{ url('/dashboardKasubag/cekRekap/getPPNPN') }}',
+                ajax: {
+                    url: '{{ url('/dashboardKasubag/cekRekap/getPPNPN') }}',
+                    data: function(d) {
+                        d.tgl = $('#tanggal').val(); // Mengirim nilai tanggal ke server
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -357,7 +383,10 @@
                     },
                     {
                         data: 'tanggal',
-                        name: 'tanggal'
+                        name: 'tanggal',
+                        render: function(data) {
+                            return data.split('-').reverse().join('-');
+                        }
                     },
                     {
                         data: 'Keterangan',
@@ -373,6 +402,9 @@
                     }
                 ]
 
+            });
+            $('#tanggal').on('change', function() {
+                $('#usersTablePPNPN').DataTable().ajax.reload();
             });
 
             $('#usersTablePPNPN').on('click', 'a.delete-users', function(e) {

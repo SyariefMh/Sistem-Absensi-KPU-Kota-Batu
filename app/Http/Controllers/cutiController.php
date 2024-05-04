@@ -21,26 +21,6 @@ class cutiController extends Controller
         $user = Auth::user();
         $userId = $user->id; // Retrieve the user ID
 
-        // Retrieve records for cuti and izin models for the logged-in user
-        $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
-        $izins = izin::where('user_id', $userId)->pluck('tanggal')->toArray();
-        $qrcode = datangQrCode::whereIn('qrcode_id', function ($query) use ($userId) {
-            $query->select('id')
-                ->from('qrcode_gens')
-                ->whereIn('user_id', [$userId]); // wrap $userId in an array
-        })->pluck('tanggal')->toArray();
-
-        // Combine the dates of cuti, izin, and qrcode records
-        $combinedDates = collect($dinlur)->merge($izins)->merge($qrcode)->unique();
-
-        // Check if there are any records for cuti or izin on today's date
-        $today = now()->toDateString();
-        $absensiDisabled = $combinedDates->contains($today);
-
-        if ($absensiDisabled) {
-            return redirect('dashboardPegawai')->withErrors('Sudah Absen');
-        }
-
         // Check if the user has a "nip"
         if ($user->nip) {
             return view('Pegawai.cuti', compact('user'));
@@ -52,10 +32,6 @@ class cutiController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.

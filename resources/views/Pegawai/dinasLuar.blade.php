@@ -66,7 +66,7 @@
 
                 <div class="mb-3">
                     <label for="tanggal" class="form-label">Tanggal</label>
-                    <input class="form-control" type="date" id="tanggal" name="tanggal">
+                    <input class="form-control" type="date" id="tanggal" name="tanggal" onchange="checkDateValidity(this)">
                 </div>
                 <!-- Include fields for jam_datang and jam_pulang -->
                 <div class="mb-3">
@@ -90,8 +90,8 @@
                 <input type="hidden" id="latitude" name="latitude">
                 <input type="hidden" id="longitude" name="longitude">
 
-                <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white"
-                    onclick="getLocation()">Gunakan lokasi saat ini</button>
+                {{-- <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white"
+                    onclick="getLocation()">Gunakan lokasi saat ini</button> --}}
                 <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white"
                     type="submit">Simpan</button>
                 <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white"
@@ -111,6 +111,22 @@
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+
+    {{-- Script untuk batasan tanggal --}}
+    <script>
+        function checkDateValidity(input) {
+            var selectedDate = new Date(input.value);
+            var currentDate = new Date();
+    
+            // Menghilangkan informasi waktu (jam, menit, detik) dari currentDate
+            currentDate.setHours(0, 0, 0, 0);
+    
+            if (selectedDate < currentDate) {
+                alert("Anda tidak dapat memilih tanggal yang sudah terlewat.");
+                input.value = ''; // Mengosongkan input tanggal
+            }
+        }
     </script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->

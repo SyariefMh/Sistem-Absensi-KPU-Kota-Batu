@@ -45,7 +45,7 @@
                 </div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
                             format="YYYY-MM-DD">
                         <div style="position: absolute; right: 130px;">
                             <a href="{{ url('/dashboardKasubag/kepegawaian/create') }}">

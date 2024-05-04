@@ -6,12 +6,14 @@ use App\Models\cuti;
 use App\Models\datangQrCode;
 use App\Models\dinlur;
 use App\Models\izin;
+use App\Models\periode;
 use App\Models\pulangQrCode;
 use App\Models\qrcodeGen;
 use App\Models\User;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class rekapController extends Controller
 {
@@ -23,34 +25,55 @@ class rekapController extends Controller
 
     public function rekapPNS()
     {
+        $periode = periode::where('status', 1)->pluck('id')->first();
         $users = User::where('jabatan', 'PNS')->get();
         $userIds = $users->pluck('id');
         $cuti = Cuti::whereIn('user_id', $userIds)
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
-            ->addSelect(DB::raw('"Cuti" as source')); // Remove ->get() here
+            ->addSelect(DB::raw('"Cuti" as source'));
 
         $izins = Izin::whereIn('user_id', $userIds)
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
-            ->addSelect(DB::raw('"Izin" as source')); // Remove ->get() here
+            ->addSelect(DB::raw('"Izin" as source'));
 
         $dinlur = Dinlur::whereIn('user_id', $userIds)
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
-            ->addSelect(DB::raw('"Dinlur" as source')); // Remove ->get() here
+            ->addSelect(DB::raw('"Dinlur" as source'));
 
         $qrcode = datangQrCode::whereIn('user_id', $userIds)
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
-            ->addSelect(DB::raw('"QrCode" as source')); // Remove ->get() here
+            ->addSelect(DB::raw('"QrCode" as source'));
 
         $qrcodes = pulangQrCode::whereIn('user_id', $userIds)
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
-            ->addSelect(DB::raw('"QrCode" as source')); // Remove ->get() here
+            ->addSelect(DB::raw('"QrCode" as source'));
 
-        // Adjust columns accordingly
+        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->union($qrcodes)->where('periode_id', $periode)->get();
 
-        // dd($qrcode);
-        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->union($qrcodes)->get();
+        // Jika tidak ada tanggal yang dipilih, tampilkan semua data
+        if (request()->tgl == '') {
+            return DataTables::of($combinedData)
+                ->addColumn('DT_RowIndex', function ($data) {
+                    static $index = 0;
+                    return ++$index;
+                })
+                ->addColumn('name', function ($data) {
+                    return $data->user->name; // Assuming there's a relationship between models
+                })
+                ->addColumn('jabatan', function ($data) {
+                    return $data->user->jabatan; // Assuming there's a relationship between models
+                })
+                ->addColumn('action', function ($row) {
+                    $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                    return '<a href="' . $showUrl . '">Show</a>';
+                })
+                ->toJson();
+        }
 
-        return DataTables::of($combinedData)
+        // Jika ada tanggal yang dipilih, filter data sesuai tanggal yang dipilih
+        $data = $combinedData->where('tanggal', request()->tgl);
+
+        return DataTables::of($data)
             ->addColumn('DT_RowIndex', function ($data) {
                 static $index = 0;
                 return ++$index;
@@ -65,7 +88,6 @@ class rekapController extends Controller
                 $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
                 return '<a href="' . $showUrl . '">Show</a>';
             })
-            // If 'action' column contains HTML
             ->toJson();
     }
 
@@ -92,8 +114,31 @@ class rekapController extends Controller
             ->addSelect(DB::raw('"QrCode" as source'));
 
         $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->get();
+        // dd($combinedData);
 
-        return DataTables::of($combinedData)
+        if (request()->tgl == '') {
+            return DataTables::of($combinedData)
+                ->addColumn('DT_RowIndex', function ($data) {
+                    static $index = 0;
+                    return ++$index;
+                })
+                ->addColumn('name', function ($data) {
+                    return $data->user->name; // Assuming there's a relationship between models
+                })
+                ->addColumn('jabatan', function ($data) {
+                    return $data->user->jabatan; // Assuming there's a relationship between models
+                })
+                ->addColumn('action', function ($row) {
+                    $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                    return '<a href="' . $showUrl . '">Show</a>';
+                })
+                ->toJson();
+        }
+
+        // Jika ada tanggal yang dipilih, filter data sesuai tanggal yang dipilih
+        $data = $combinedData->where('tanggal', request()->tgl);
+
+        return DataTables::of($data)
             ->addColumn('DT_RowIndex', function ($data) {
                 static $index = 0;
                 return ++$index;
@@ -107,7 +152,7 @@ class rekapController extends Controller
             ->addColumn('action', function ($row) {
                 $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
                 return '<a href="' . $showUrl . '">Show</a>';
-            }) // If 'action' column contains HTML
+            })
             ->toJson();
     }
 
@@ -135,7 +180,29 @@ class rekapController extends Controller
         $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->get();
 
 
-        return DataTables::of($combinedData)
+        if (request()->tgl == '') {
+            return DataTables::of($combinedData)
+                ->addColumn('DT_RowIndex', function ($data) {
+                    static $index = 0;
+                    return ++$index;
+                })
+                ->addColumn('name', function ($data) {
+                    return $data->user->name; // Assuming there's a relationship between models
+                })
+                ->addColumn('jabatan', function ($data) {
+                    return $data->user->jabatan; // Assuming there's a relationship between models
+                })
+                ->addColumn('action', function ($row) {
+                    $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                    return '<a href="' . $showUrl . '">Show</a>';
+                })
+                ->toJson();
+        }
+
+        // Jika ada tanggal yang dipilih, filter data sesuai tanggal yang dipilih
+        $data = $combinedData->where('tanggal', request()->tgl);
+
+        return DataTables::of($data)
             ->addColumn('DT_RowIndex', function ($data) {
                 static $index = 0;
                 return ++$index;

@@ -65,9 +65,9 @@
                 @endif
                 {{-- Tanggal --}}
                 <p style="color: #C72B41">Tanggal awal</p>
-                <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal">
+                <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal" onchange="checkDateValidity(this)">
                 <p style="color: #C72B41">tanggal akhir</p>
-                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir">
+                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir" onchange="checkDateValidity(this)">
                 {{-- Upload surat --}}
                 <div class="mb-3">
                     <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
@@ -94,6 +94,21 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 
+    {{-- Script batasan untuk tanggal --}}
+    <script>
+        function checkDateValidity(input) {
+            var selectedDate = new Date(input.value);
+            var currentDate = new Date();
+    
+            // Menghilangkan informasi waktu (jam, menit, detik) dari currentDate
+            currentDate.setHours(0, 0, 0, 0);
+    
+            if (selectedDate < currentDate) {
+                alert("Anda tidak dapat memilih tanggal yang sudah terlewat.");
+                input.value = ''; // Mengosongkan input tanggal
+            }
+        }
+    </script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
