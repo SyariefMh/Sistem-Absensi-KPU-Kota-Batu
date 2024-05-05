@@ -13,6 +13,7 @@ use App\Http\Controllers\nilaiCController;
 use App\Http\Controllers\nilaiController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PeriodeController;
+use App\Http\Controllers\profileController;
 use App\Http\Controllers\qrcodeGenController;
 use App\Http\Controllers\rekapController;
 use App\Http\Controllers\rekapKasubagController;
@@ -73,6 +74,10 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::delete('/codePegawai/qrcodeupdateStat/{id}', [qrcodeGenController::class, 'qrcodeupstat']);
+        });
+        Route::prefix('/dashboardPegawai')->group(function () {
+            Route::get('/profile', [profileController::class, 'index']);
+            Route::put('/profile/update/{id}', [profileController::class, 'update']);
         });
     });
 
