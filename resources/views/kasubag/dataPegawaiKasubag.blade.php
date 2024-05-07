@@ -47,9 +47,12 @@
                     <div class="tgl" style="float: right">
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
                             format="YYYY-MM-DD">
-                        <div style="position: absolute; right: 130px;">
-                            <a href="{{ url('/dashboardKasubag/kepegawaian/create') }}">
-                                <button type="submit" class="btn" style="width: 200px">Tambah Pegawai</button>
+                        <div style="position: absolute; right: 130px; display: flex">
+                            <a href="{{ url('/dashboardKasubag/kepegawaian/laporan') }}">
+                                <button type="submit" class="btn" style="width: 200px">Print Laporan</button>
+                            </a>
+                            <a href="{{ url('/dashboardKasubag/kepegawaian/create') }}" style="margin-left: 10px;">
+                                <button type="submit" class="btn" style="width: 200px;">Tambah Pegawai</button>
                             </a>
                         </div>
                     </div>

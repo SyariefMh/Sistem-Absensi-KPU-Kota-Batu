@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
@@ -13,6 +14,8 @@ class PegawaiController extends Controller
     }
     function admin()
     {
+        $user = User::where('role', 'pegawai')->get();
+        // dd($user);
         return view('dashboardAdmin');
         // echo "<a href='logout'> Logout >> </a>";
     }

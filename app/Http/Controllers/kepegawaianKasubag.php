@@ -79,6 +79,10 @@ class kepegawaianKasubag extends Controller
         return view('kasubag.dataPegawaiKasubag');
     }
 
+    public function laporan(){
+        $users = User::where('role', 'pegawai')->get();
+        return view('printLaporan',compact('users'));
+    }
     /**
      * Show the form for creating a new resource.
      */
