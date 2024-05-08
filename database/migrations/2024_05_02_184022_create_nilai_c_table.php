@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('nilai_c', function (Blueprint $table) {
             $table->id();
-            $table->string('kriteria1');
-            $table->string('kriteria2');
-            $table->string('kriteria3');
-            $table->string('kriteria4');
-            $table->integer('nilai1');
-            $table->integer('nilai2');
-            $table->integer('nilai3');
-            $table->integer('nilai4');
+            $table->string('kriteria1_C');
+            $table->string('kriteria2_C');
+            $table->string('kriteria3_C');
+            $table->string('kriteria4_C');
+            $table->string('kriteria5_C');
+            $table->integer('nilai1_C');
+            $table->integer('nilai2_C');
+            $table->integer('nilai3_C');
+            $table->integer('nilai4_C');
+            $table->integer('nilai5_C');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('periode_id');
             $table->timestamps();

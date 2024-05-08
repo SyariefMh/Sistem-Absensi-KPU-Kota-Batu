@@ -145,9 +145,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getSatpam', [kepegawaianKasubag::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianKasubag::class, 'ambildataPpnpn']);
             Route::get('/kepegawaian/nilai/{id}', [nilaiController::class, 'nilai']);
-            Route::post('kepegawaian/simpan-nilai-a', [nilaiAController::class, 'simpan'])->name('simpan.nilai.a');
-            Route::post('kepegawaian/simpan-nilai-b', [nilaiBController::class, 'simpan'])->name('simpan.nilai.b');
-            Route::post('kepegawaian/simpan-nilai-c', [nilaiCController::class, 'simpan'])->name('simpan.nilai.c');
+            Route::post('/kepegawaian/nilai/store', [nilaiController::class, 'simpan'])->name('simpan.nilai');
+            // Route::post('kepegawaian/simpan-nilai-a', [nilaiAController::class, 'simpan'])->name('simpan.nilai.a');
+            // Route::post('kepegawaian/simpan-nilai-b', [nilaiBController::class, 'simpan'])->name('simpan.nilai.b');
+            // Route::post('kepegawaian/simpan-nilai-c', [nilaiCController::class, 'simpan'])->name('simpan.nilai.c');
 
         });
         Route::prefix('/dashboardKasubag')->group(function () {
@@ -166,6 +167,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/periode/create', [PeriodeController::class, 'create']);
             Route::post('/periode/store', [PeriodeController::class, 'store']);
             Route::get('/periode/edit/{id}', [PeriodeController::class, 'edit']);
+            Route::delete('/periode/destroy/{id}', [PeriodeController::class, 'destroy']);
             Route::put('/periode/update/{id}', [PeriodeController::class, 'update']);
             Route::get('/periode/getdataperiode', [PeriodeController::class, 'getdataperiode'])->name('getdataperiode');
         });

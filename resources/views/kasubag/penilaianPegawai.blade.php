@@ -46,135 +46,38 @@
                 <?php
                 $bulan_tahun = date('F Y');
                 ?>
-                <p style="padding-top: 10px">Periode : {{ $periodeall->periode_bulan }} - {{ $periodeall->periode_tahun }}</p>
+                <p style="padding-top: 10px">Periode : {{ $periodeall->periode_bulan }} -
+                    {{ $periodeall->periode_tahun }}</p>
             </div>
         </div>
 
     </nav>
     {{-- Nilai A --}}
-    <div class="container">
-        <h5>A. Presensi Kehadiran</h5>
-        <table class="table table-bordered">
-            <thead>
-                <colgroup>
-                    <col width="10px">
-                    <col width="500px">
-                    <col width="500px">
-                </colgroup>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Aspek</th>
-                    <th scope="col">Kriteria</th>
-                    <th scope="col">Penilaian</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas dalam
-                        satu bulan</td>
-                    <form action="{{ route('simpan.nilai.a') }}" method="POST">
-                        @csrf
-                        <!-- Input Tersembunyi untuk user_id -->
-                        <input type="hidden" name="user_id" value="{{ $nilai->id }}">
-                        <!-- Input Tersembunyi untuk periode_id (disesuaikan dengan id periode yang ingin disimpan) -->
-                        <input type="hidden" name="periode_id" value="{{ $periode }}">
-                        <!-- Isi formulir -->
-                        <td>
-                            <div class="form" style="width: 480px;">
-                                <div class="form" style="width: 480px;">
-                                    <textarea name="kriteria1" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria1 : '' }}</textarea>
-                                </div>
-                                
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai1" class="form-control"  min="0" max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai1 : '' }}" />
-                            </div>
-                        </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas dalam
-                        satu bulan</td>
-                        <td>
-                            <div class="form" style="width: 480px;">
-                                <textarea name="kriteria2" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria2 : '' }}</textarea>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai2" class="form-control"  min="0" max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai2 : '' }}" />
-                            </div>
-                        </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
-                    <td>
-                        <div class="form" style="width: 480px;">
-                            <textarea name="kriteria3" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria3 : '' }}</textarea>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form" style="width: 100px;">
-                            <input type="number" name="nilai3" class="form-control"  min="0" max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai3 : '' }}" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
-                    <td>
-                        <div class="form" style="width: 480px;">
-                            <textarea name="kriteria4" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria4 : '' }}</textarea>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form" style="width: 100px;">
-                            <input type="number" name="nilai4" class="form-control"  min="0" max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai4 : '' }}" />
-                        </div>
-                    </td>
-                </tr>
-                <p>izin &nbsp;{{ $jumlahizin }} hadir &nbsp;{{ $totalCount }} cuti &nbsp;{{ $jumlahcuti }}</p>
-                <p>terlambat</p>
-                {{-- <button type="submit"
-                    style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
-            </tbody>
-        </table>
+    <form action="{{ route('simpan.nilai') }}" method="POST">
+        @csrf
         <div class="container">
-            <!-- Tombol Simpan -->
-            <button type="submit"
-                style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
-        </div>
-        </form>
-    </div>
+            <h5>A. Presensi Kehadiran</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <colgroup>
+                        <col width="10px">
+                        <col width="500px">
+                        <col width="500px">
+                    </colgroup>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Aspek</th>
+                        <th scope="col">Kriteria</th>
+                        <th scope="col">Penilaian</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-    {{-- Nilai B --}}
-    <div class="container">
-        <h5>B. Presensi Kehadiran</h5>
-        <table class="table table-bordered">
-            <thead>
-                <colgroup>
-                    <col width="10px">
-                    <col width="500px">
-                    <col width="500px">
-                </colgroup>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Aspek</th>
-                    <th scope="col">Kriteria</th>
-                    <th scope="col">Penilaian</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas dalam
-                        satu bulan</td>
-                    <form action="{{ route('simpan.nilai.b') }}" method="POST">
-                        @csrf
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas
+                            dalam
+                            satu bulan</td>
                         <!-- Input Tersembunyi untuk user_id -->
                         <input type="hidden" name="user_id" value="{{ $nilai->id }}">
                         <!-- Input Tersembunyi untuk periode_id (disesuaikan dengan id periode yang ingin disimpan) -->
@@ -183,96 +86,98 @@
                         <td>
                             <div class="form" style="width: 480px;">
                                 <div class="form" style="width: 480px;">
-                                    <textarea name="kriteria1" class="form-control">{{ isset($dataNilaiB) ? $dataNilaiB->kriteria1 : '' }}</textarea>
+                                    <textarea name="kriteria1_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria1_A : '' }}</textarea>
                                 </div>
-                                
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai1" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiB) ? $dataNilaiB->nilai1 : '' }}" />
-                            </div>
-                        </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas dalam
-                        satu bulan</td>
-                        <td>
-                            <div class="form" style="width: 480px;">
-                                <textarea name="kriteria2" class="form-control">{{ isset($dataNilaiB) ? $dataNilaiB->kriteria2 : '' }}</textarea>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai2" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiB) ? $dataNilaiB->nilai2 : '' }}" />
-                            </div>
-                        </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
-                    <td>
-                        <div class="form" style="width: 480px;">
-                            <textarea name="kriteria3" class="form-control">{{ isset($dataNilaiB) ? $dataNilaiB->kriteria3 : '' }}</textarea>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form" style="width: 100px;">
-                            <input type="number" name="nilai3" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiB) ? $dataNilaiB->nilai3 : '' }}" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
-                    <td>
-                        <div class="form" style="width: 480px;">
-                            <textarea name="kriteria4" class="form-control">{{ isset($dataNilaiB) ? $dataNilaiB->kriteria4 : '' }}</textarea>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form" style="width: 100px;">
-                            <input type="number" name="nilai4" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiB) ? $dataNilaiB->nilai4 : '' }}" />
-                        </div>
-                    </td>
-                </tr>
-                {{-- <button type="submit"
-                    style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
-            </tbody>
-        </table>
-        <div class="container">
-            <!-- Tombol Simpan -->
-            <button type="submit"
-                style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
-        </div>
-        </form>
-    </div>
-    {{-- Nilai C --}}
 
-    <div class="container">
-        <h5>C. Presensi Kehadiran</h5>
-        <table class="table table-bordered">
-            <thead>
-                <colgroup>
-                    <col width="10px">
-                    <col width="500px">
-                    <col width="500px">
-                </colgroup>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Aspek</th>
-                    <th scope="col">Kriteria</th>
-                    <th scope="col">Penilaian</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas dalam
-                        satu bulan</td>
-                    <form action="{{ route('simpan.nilai.c') }}" method="POST">
-                        @csrf
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai1_A" class="form-control" min="0" max="100"
+                                    value="{{ isset($dataNilai) ? $dataNilai->nilai1_A : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas
+                            dalam
+                            satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria2_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria2_A : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai2_A" class="form-control" min="0" max="100"
+                                    value="{{ isset($dataNilai) ? $dataNilai->nilai2_A : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria3_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria3_A : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai3_A" class="form-control" min="0" max="100"
+                                    value="{{ isset($dataNilai) ? $dataNilai->nilai3_A : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria4_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria4_A : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai4_A" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai4_A : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <p>izin &nbsp;{{ $jumlahizin }} hadir &nbsp;{{ $totalCount }} cuti &nbsp;{{ $jumlahcuti }}
+                    </p>
+                    <p>terlambat</p>
+                    {{-- <button type="submit"
+                    style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
+                </tbody>
+            </table>
+        </div>
+
+        {{-- Nilai B --}}
+        <div class="container">
+            <h5>B. Presensi Kehadiran</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <colgroup>
+                        <col width="10px">
+                        <col width="500px">
+                        <col width="500px">
+                    </colgroup>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Aspek</th>
+                        <th scope="col">Kriteria</th>
+                        <th scope="col">Penilaian</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas
+                            dalam
+                            satu bulan</td>
+
                         <!-- Input Tersembunyi untuk user_id -->
                         <input type="hidden" name="user_id" value="{{ $nilai->id }}">
                         <!-- Input Tersembunyi untuk periode_id (disesuaikan dengan id periode yang ingin disimpan) -->
@@ -281,72 +186,198 @@
                         <td>
                             <div class="form" style="width: 480px;">
                                 <div class="form" style="width: 480px;">
-                                    <textarea name="kriteria1" class="form-control">{{ isset($dataNilaiC) ? $dataNilaiC->kriteria1 : '' }}</textarea>
+                                    <textarea name="kriteria1_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria1_B : '' }}</textarea>
                                 </div>
-                                
+
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai1" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiC) ? $dataNilaiC->nilai1 : '' }}" />
+                                <input type="number" name="nilai1_B" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai1_B : '' }}" />
                             </div>
                         </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas dalam
-                        satu bulan</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas
+                            dalam
+                            satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria2" class="form-control">{{ isset($dataNilaiC) ? $dataNilaiC->kriteria2 : '' }}</textarea>
+                                <textarea name="kriteria2_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria2_B : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai2" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiC) ? $dataNilaiC->nilai2 : '' }}" />
+                                <input type="number" name="nilai2_B" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai2_B : '' }}" />
                             </div>
                         </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
-                    <td>
-                        <div class="form" style="width: 480px;">
-                            <textarea name="kriteria3" class="form-control">{{ isset($dataNilaiC) ? $dataNilaiC->kriteria3 : '' }}</textarea>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form" style="width: 100px;">
-                            <input type="number" name="nilai3" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiC) ? $dataNilaiC->nilai3 : '' }}" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
-                    <td>
-                        <div class="form" style="width: 480px;">
-                            <textarea name="kriteria4" class="form-control">{{ isset($dataNilaiC) ? $dataNilaiC->kriteria4 : '' }}</textarea>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form" style="width: 100px;">
-                            <input type="number" name="nilai4" class="form-control"  min="0" max="100" value="{{ isset($dataNilaiC) ? $dataNilaiC->nilai4 : '' }}" />
-                        </div>
-                    </td>
-                </tr>
-                {{-- <button type="submit"
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria3_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria3_B : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai3_B" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai3_B : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria4_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria4_B : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai4_B" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai4_B : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria5_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria5_B : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai5_B" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai5_B : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    {{-- <button type="submit"
                     style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
-            </tbody>
-        </table>
-        <div class="container">
-            <!-- Tombol Simpan -->
-            <button type="submit"
-                style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
+                </tbody>
+            </table>
         </div>
-        </form>
-    </div>
-    
+        {{-- Nilai C --}}
+        <div class="container">
+            <h5>C. Presensi Kehadiran</h5>
+            <table class="table table-bordered">
+                <thead>
+                    <colgroup>
+                        <col width="10px">
+                        <col width="500px">
+                        <col width="500px">
+                    </colgroup>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Aspek</th>
+                        <th scope="col">Kriteria</th>
+                        <th scope="col">Penilaian</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas
+                            dalam
+                            satu bulan</td>
+                        <!-- Input Tersembunyi untuk user_id -->
+                        <input type="hidden" name="user_id" value="{{ $nilai->id }}">
+                        <!-- Input Tersembunyi untuk periode_id (disesuaikan dengan id periode yang ingin disimpan) -->
+                        <input type="hidden" name="periode_id" value="{{ $periode }}">
+                        <!-- Isi formulir -->
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <div class="form" style="width: 480px;">
+                                    <textarea name="kriteria1_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria1_C : '' }}</textarea>
+                                </div>
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai1_C" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai1_C : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jumlah Terlambat Hadir Tidak masuk tanpa ijin atau bukan karena alasan Pelaksanaan tugas
+                            dalam
+                            satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria2_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria2_C : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai2_C" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai2_C : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria3_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria3_C : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai3_C" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai3_C : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria4_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria4_C : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">
+                                <input type="number" name="nilai4_C" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai4_C : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
+                        <td>
+                            <div class="form" style="width: 480px;">
+                                <textarea name="kriteria5_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria5_C : '' }}</textarea>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="form" style="width: 100px;">    
+                                <input type="number" name="nilai5_C" class="form-control" min="0"
+                                    max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai5_C : '' }}" />
+                            </div>
+                        </td>
+                    </tr>
+                    {{-- <button type="submit"
+                    style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
+                </tbody>
+            </table>
+        </div>
+        <button type="submit"
+            style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
+    </form>
     {{-- <div class="container">
         <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
     </div> --}}

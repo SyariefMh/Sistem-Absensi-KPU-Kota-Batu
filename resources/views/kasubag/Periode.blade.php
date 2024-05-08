@@ -140,32 +140,37 @@
             });
 
             $('#usersTable').on('click', 'a.delete-users', function(e) {
-                e.preventDefault();
-                var deleteUrl = $(this).data('url');
+    e.preventDefault();
+    var deleteUrl = $(this).data('url');
 
-                if (confirm('Are you sure?')) {
-                    fetch(deleteUrl, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.warning) {
-                                alert(data.warning);
-                            } else {
-                                // Handle success, e.g., reload the DataTable
-                                $('#usersTable').DataTable().ajax.reload();
-                                location.reload();
-                            }
-                        })
-                        .catch(error => {
-                            // Handle error
-                            console.error(error);
-                        });
-                }
-            });
+    if (confirm('Are you sure?')) {
+        fetch(deleteUrl, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                // Handle success, e.g., reload the DataTable
+                $('#usersTable').DataTable().ajax.reload();
+            }
+        })
+        .catch(error => {
+            // Handle error
+            console.error('There was a problem with the fetch operation:', error);
+        });
+    }
+});
+
         });
     </script>
 

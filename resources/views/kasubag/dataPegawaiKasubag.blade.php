@@ -59,6 +59,16 @@
                 </div>
             </div>
             {{-- tabel --}}
+            {{-- @if ($success->any())
+                    <div class="alert alert-success">
+                        <ul>
+                            @foreach ($success->all() as $item)
+                                <li>{{ $item }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+
+                @endif --}}
             <div class="container">
                 <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
                     <p style="margin-top: 40px; margin-left: 25px">PNS</p>

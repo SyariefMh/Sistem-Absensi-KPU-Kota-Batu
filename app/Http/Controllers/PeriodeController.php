@@ -22,7 +22,7 @@ class PeriodeController extends Controller
             })
             ->addColumn('action', function ($row) {
                 $editUrl = url('/dashboardKasubag/periode/edit/' . $row->id);
-                $deleteUrl = url('/dashboardKasubag/kepegawaian/destroy/' . $row->id);
+                $deleteUrl = url('/dashboardKasubag/periode/destroy/' . $row->id);
 
 
                 return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a>';
@@ -105,15 +105,15 @@ class PeriodeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        $periode = periode::findOrFail($id);
-        if (!$periode) {
-            return response()->json(['error' => 'Periode not found'], 404);
-        }
-
-        $periode->delete();
-
-        return response()->json(['message' => 'Periode deleted successfully'], 200);
+    public function destroy($id)
+{
+    $periode = Periode::find($id);
+    if (!$periode) {
+        return response()->json(['error' => 'Periode not found'], 404);
     }
+
+    $periode->delete();
+
+    return response()->json(['message' => 'Periode deleted successfully'], 200);
+}
 }

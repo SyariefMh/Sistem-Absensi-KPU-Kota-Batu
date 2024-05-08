@@ -12,14 +12,16 @@ class nilaiB extends Model
     protected $table = 'nilai_b';
 
     protected $fillable = [
-        'kriteria1',
-        'kriteria2',
-        'kriteria3',
-        'kriteria4',
-        'nilai1',
-        'nilai2',
-        'nilai3',
-        'nilai4',
+        'kriteria1_B',
+        'kriteria2_B',
+        'kriteria3_B',
+        'kriteria4_B',
+        'kriteria5_B',
+        'nilai1_B',
+        'nilai2_B',
+        'nilai3_B',
+        'nilai4_B',
+        'nilai5_B',
         'user_id',
         'periode_id',
     ];

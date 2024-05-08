@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\nilaiA;
+use App\Models\nilaiB;
+use App\Models\nilaiC;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
@@ -79,10 +82,40 @@ class kepegawaianKasubag extends Controller
         return view('kasubag.dataPegawaiKasubag');
     }
 
-    public function laporan(){
+    public function laporan()
+    {
         $users = User::where('role', 'pegawai')->get();
-        return view('printLaporan',compact('users'));
+
+        $user_ids = []; // Array untuk menyimpan id-id user
+        foreach ($users as $user) {
+            $user_ids[] = $user->id; // Mengambil id dari setiap user dan menambahkannya ke array
+        }
+
+        $get_nilai = nilaiA::whereIn('user_id', $user_ids)->get();
+        // $get_nilaiB = nilaiB::whereIn('user_id', $user_ids)->get();
+        // $get_nilaiC = nilaiC::whereIn('user_id', $user_ids)->get();
+
+        
+        // $combined = collect([]); // Membuat koleksi kosong untuk menggabungkan data
+        // $combined = $combined->merge($get_nilaiA)->merge($get_nilaiB)->merge($get_nilaiC);
+
+        // $processedData = $combined->map(function ($item) {
+        //     // Proses data sesuai kebutuhan
+        //     return [
+        //         'user_id' => $item->user_id,
+        //         'nama' => $item->user->name, // Contoh mengambil nama dari relasi user
+        //         'nilai' => $item->nilai, // Contoh mengambil nilai dari model yang sesuai
+        //         // Tambahkan atribut lain sesuai kebutuhan
+        //     ];
+        // });
+
+        // dd($processedData);
+
+        // dd($get_nilaiC, $get_nilaiB, $get_nilai); // Melihat isi array id user
+
+        return view('printLaporan', compact('users', 'get_nilai'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
