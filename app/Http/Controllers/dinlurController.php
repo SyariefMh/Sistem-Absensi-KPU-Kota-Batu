@@ -48,12 +48,32 @@ class dinlurController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
+            'jam_datang'=>'required|time',
+            'jam_pulang'=>'required|time',
             'file' => 'required|file|mimes:jpeg,png,pdf|max:10000',
             'latitude' => 'required',
             'longitude' => 'required',
+        ], [
+            'tanggal.required' => 'Mohon isi tanggal.',
+            'file.required' => 'Mohon unggah file.',
+            'jam_datang.required' => 'Mohon isi jam datang.',
+            'jam_pulang.required' => 'Mohon isi jam pulang.',
+            'latitude.required' => 'Mohon berikan lokasi latitude.',
+            'longitude.required' => 'Mohon berikan lokasi longitude.',
         ]);
+        
+
+        // Check if any of the required fields are empty
+        if (
+            empty($validatedData['tanggal']) || empty($validatedData['file']) ||
+            empty($validatedData['latitude']) || empty($validatedData['longitude'])
+        ) {
+            return redirect('/dashboardPegawai/dinasLuar')->withErrors(['errors' => 'Data belum lengkap']);
+        }
+
+        // Check if tanggal, jam_datang, and jam_pulang are not provided
         $periode = periode::where('status', 1)->first();
-        if(!$periode){
+        if (!$periode) {
             return redirect('/dashboardPegawai/dinasLuar')->withErrors(['errors' => 'Periode Belum Dibuka']);
         }
         // Handle the file upload

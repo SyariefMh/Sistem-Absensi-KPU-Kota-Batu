@@ -33,63 +33,67 @@
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
             <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-                <div class="dropdown">
-                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                        aria-expanded="false" style="color: white; font-weight:bold">
-                        KOMISI PEMILIHAN UMUM KOTA BATU <img src="{{ url('img/profile.png') }}" alt="" width="45"
-                            height="45" style="margin-left: 10px">
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
-                    </ul>
-                </div>
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="color: white; font-weight:bold">
+                    KOMISI PEMILIHAN UMUM KOTA BATU <img src="{{ url('img/profile.png') }}" alt=""
+                        width="45" height="45" style="margin-left: 10px">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                </ul>
             </div>
+        </div>
         </div>
     </nav>
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
-        <div class="card">
-            <p style="font-weight: 900">Riwayat Absen</p>
-            @foreach ($combinedData as $data)
-                <div class="history" style="margin-bottom: 10px">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-3">
-                            <p>{{ $data->tanggal }}</p>
-                        </div>
-                        <div class="col-lg-3">
-                            <p>
-                                @if ($data->jam_datang || $data->jam_pulang)
-                                    {{ $data->jam_datang ?? '-' }} - {{ $data->jam_pulang ?? '-' }}
+        <div class="card"
+            style="width: 700px; height: 550px;">
+            <p style="font-weight: 900;">Riwayat Absen</p>
+            <div class="card2"
+                style="width: 420px;overflow-y: scroll; scrollbar-color: transparent transparent; height: 550px;background: none; border: none;">
+                @foreach ($combinedData as $data)
+                    <div class="history" style="margin-bottom: 10px">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-2">
+                                <p>{{ $data->tanggal }}</p>
+                            </div>
+                            <div class="col-lg-3">
+                                <p>
+                                    @if ($data->jam_datang || $data->jam_pulang)
+                                        {{ $data->jam_datang ?? '-' }} - {{ $data->jam_pulang ?? '-' }}
+                                    @else
+                                        -
+                                    @endif
+                                </p>
+                            </div>
+                            <div class="col-lg-2">
+                                <p>{{ $data->Keterangan }}</p>
+                            </div>
+                            <div class="col-lg-2 d-flex align-items-center">
+                                <p>{{ $data->status }}</p>
+                                @if ($data->status == 'Tepat Waktu')
+                                    &nbsp;
+                                    <img src="{{ asset('img/checklist.png') }}" alt="Tepat Waktu">
+                                @elseif($data->status == 'Terlambat')
+                                    &nbsp;
+                                    <img src="{{ asset('img/grey_checklist.png') }}" alt="Terlambat">
+                                @elseif($data->status == 'Izin')
+                                    &nbsp;
+                                    <img src="{{ asset('img/checklist_blue.png') }}" alt="Izin">
                                 @else
-                                    -
+                                    <img src="{{ asset('img/checklist_blue.png') }}" alt="Lainnya">
                                 @endif
-                            </p>
-
+                            </div>
                         </div>
-                        <div class="col-lg-3">
-                            <p>{{ $data->Keterangan }}</p>
-                        </div>
-                        {{-- <div class="col-lg-2" style="padding-top: 5px">
-                            <img src="img/checklist.png" alt="">
-                        </div> --}}
-                        <div class="col-lg-6" style="padding-top: 5px">
-                            @if ($data->status == 'Tepat Waktu')
-                                <p>{{ $data->status }}</p> <img src="{{ asset('img/checklist.png') }}" alt="">
-                            @elseif($data->status == 'Terlambat')
-                                <p>{{ $data->status }}</p> <img src="{{ asset('img/icon cros.png') }}" alt="">
-                            @else
-                                <p>{{ $data->status }}</p> <img src="{{ asset('img/checklist_blue.png') }}"
-                                    alt="">
-                            @endif
-                        </div>
-
-                        {{-- <p>{{ $data->status }}</p> --}}
-
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
+
+
 
     </div>
     <img src={{ url('img/peta.png') }} alt="" class="map">

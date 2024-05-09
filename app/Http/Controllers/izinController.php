@@ -98,7 +98,7 @@ class izinController extends Controller
             ]);
         }
 
-        return redirect('/dashboardPegawai')->with('success', 'Cuti berhasil disimpan');
+        return redirect('/dashboardPegawai')->with('success', 'Izin berhasil disimpan');
     }
 
 

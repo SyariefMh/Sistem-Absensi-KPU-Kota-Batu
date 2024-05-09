@@ -3,6 +3,7 @@
 use App\Http\Controllers\absen_qr_codeController;
 use App\Http\Controllers\absenPulang_qr_codeController;
 use App\Http\Controllers\cutiController;
+use App\Http\Controllers\dashboardPegawaiController;
 use App\Http\Controllers\dinlurController;
 use App\Http\Controllers\izinController;
 use App\Http\Controllers\kepegawaianController;
@@ -75,9 +76,12 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::delete('/codePegawai/qrcodeupdateStat/{id}', [qrcodeGenController::class, 'qrcodeupstat']);
         });
+        // Route::prefix('/dashboardPegawai')->group(function () {
+        //     Route::get('/profile', [profileController::class, 'index']);
+        //     Route::put('/profile/update/{id}', [profileController::class, 'update']);
+        // });
         Route::prefix('/dashboardPegawai')->group(function () {
-            Route::get('/profile', [profileController::class, 'index']);
-            Route::put('/profile/update/{id}', [profileController::class, 'update']);
+            Route::put('/Pegawaiprofile/update/{id}', [PegawaiController::class, 'update']);
         });
     });
 

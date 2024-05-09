@@ -52,10 +52,10 @@
                 </div>
             </div>
 
-            <div class="card-footer">
+            {{-- <div class="card-footer">
                 <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" download>Download QR Code
                     Pulang</a>
-            </div>
+            </div> --}}
 
             <p style="padding-bottom: 20px; text-align: center; padding-top: 40px">
                 <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>

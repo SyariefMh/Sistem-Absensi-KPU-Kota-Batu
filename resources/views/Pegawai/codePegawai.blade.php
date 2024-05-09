@@ -52,10 +52,10 @@
                 </div>
             </div>
 
-            <div class="card-footer">
+            {{-- <div class="card-footer">
                 <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}" download>Download QR Code
                     Kedatangan</a>
-            </div>
+            </div> --}}
             <button id="regenerateBtn" style="display: none;" onclick="regenerateQR('{{ $id }}')">Generate QR
                 Code Ulang</button>
 

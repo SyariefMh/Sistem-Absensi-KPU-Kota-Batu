@@ -33,17 +33,17 @@
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
             <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-                <div class="dropdown">
-                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                        aria-expanded="false" style="color: white; font-weight:bold">
-                        KOMISI PEMILIHAN UMUM KOTA BATU <img src="{{ url('img/profile.png') }}" alt="" width="45"
-                            height="45" style="margin-left: 10px">
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
-                    </ul>
-                </div>
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="color: white; font-weight:bold">
+                    KOMISI PEMILIHAN UMUM KOTA BATU <img src="{{ url('img/profile.png') }}" alt=""
+                        width="45" height="45" style="margin-left: 10px">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                </ul>
             </div>
+        </div>
         </div>
     </nav>
     {{-- card --}}
@@ -51,23 +51,38 @@
         @csrf
 
         <div class="container col-4 d-flex justify-content-center" style="margin-top: 60px">
-            <div class="card">
+            <div class="card" style="width: 3000px; height: 500px;">
                 <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Izin</p>
                 <!-- Include a field for the tanggal input -->
+                {{-- alert --}}
                 @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
+                            role="img" aria-label="Warning:">
+                            <path
+                                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                        <div class="error-messages" style="font-size: 12px">
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                                <span>{{ $error }}</span>
+                                @if (!$loop->last)
+                                    ,
+                                @endif
                             @endforeach
-                        </ul>
+                        </div>
                     </div>
                 @endif
+
+
+                {{-- end alert --}}
                 {{-- Tanggal --}}
                 <p style="color: #C72B41">Tanggal awal</p>
-                <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal" onchange="checkDateValidity(this)">
+                <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal"
+                    onchange="checkDateValidity(this)">
                 <p style="color: #C72B41">tanggal akhir</p>
-                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir" onchange="checkDateValidity(this)">
+                <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir"
+                    onchange="checkDateValidity(this)">
                 {{-- Upload surat --}}
                 <div class="mb-3">
                     <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
@@ -99,10 +114,10 @@
         function checkDateValidity(input) {
             var selectedDate = new Date(input.value);
             var currentDate = new Date();
-    
+
             // Menghilangkan informasi waktu (jam, menit, detik) dari currentDate
             currentDate.setHours(0, 0, 0, 0);
-    
+
             if (selectedDate < currentDate) {
                 alert("Anda tidak dapat memilih tanggal yang sudah terlewat.");
                 input.value = ''; // Mengosongkan input tanggal

@@ -213,7 +213,7 @@ class qrcodeGenController extends Controller
 
         // Periksa apakah sudah pukul 07.00 WIB
         $now = now()->format('H:i');
-        if ($now !== '08:07') {
+        if ($now !== '12:40') {
             return response()->json(['error' => 'QR Code dapat dikirim hanya pada pukul 10:39 WIB'], 422);
         }
 
@@ -431,7 +431,7 @@ class qrcodeGenController extends Controller
             ->where('user_id', $user->id)->first();
         // handle qr code null
         if ($qrcodeGens  == null) {
-            return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim segera ke Admin!!!');
+            return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim oleh admin');
         }
         $id = $qrcodeGens->id;
         return view('Pegawai.codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id]);
@@ -466,7 +466,7 @@ class qrcodeGenController extends Controller
             ->where('user_id', $user->id)->first();
         // handle null qr code
         if ($qrcodeGens  == null) {
-            return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim segera ke Admin!!!');
+            return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim oleh Admin.');
         }
 
         // Pass the variable as 'qrcodefilesDtg' to the view
