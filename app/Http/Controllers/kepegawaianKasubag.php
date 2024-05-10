@@ -93,7 +93,9 @@ class kepegawaianKasubag extends Controller
             $user_ids[] = $user->id; // Mengambil id dari setiap user dan menambahkannya ke array
         }
         $periode = periode::where('status', 1)->pluck('id')->first();
-        $get_nilai = nilaiA::whereIn('user_id', $user_ids)->where('periode_id', '$periode')->get();
+        // dd($periode);
+        $get_nilai = nilaiA::whereIn('user_id', $user_ids)->where('periode_id', $periode)->get();
+        // dd($get_nilai);
 
 
         return view('printLaporan', compact('users', 'get_nilai'));
