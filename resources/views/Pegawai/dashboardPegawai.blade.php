@@ -55,7 +55,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <form id="profileForm" action="{{ url('dashboardPegawai/Pegawaiprofile/update/' . $users->id) }}"
                     method="POST" enctype="multipart/form-data">
@@ -131,7 +132,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="closeModal" type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -280,6 +282,15 @@
             modal.show();
         }
 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Menambahkan event listener untuk tombol yang menutup modal
+            var closeModalButton = document.getElementById('closeModal');
+            closeModalButton.addEventListener('click', function() {
+                var modalElement = document.getElementById('modal_profile');
+                var modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide(); // Menutup modal
+            });
+        });
         document.addEventListener('DOMContentLoaded', function() {
             var profileLink = document.querySelector('a.dropdown-item[href="#"]');
             profileLink.addEventListener('click', openModal);
