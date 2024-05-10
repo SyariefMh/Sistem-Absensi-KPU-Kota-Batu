@@ -12,8 +12,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('send:qr-code')->dailyAt('13:40');
-        $schedule->command('send:qr-code-pulang')->dailyAt('08:08');
+        $schedule->command('send:qr-code')->dailyAt('15:31');
+        $schedule->command('send:qr-code-pulang')->dailyAt('13:41');
     }
 
     /**

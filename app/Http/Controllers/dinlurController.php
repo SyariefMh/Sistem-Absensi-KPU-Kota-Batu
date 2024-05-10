@@ -23,6 +23,7 @@ class dinlurController extends Controller
         // Retrieve records for cuti and izin models for the logged-in user
         $cuti = Cuti::where('user_id', $userId)->pluck('tanggal')->toArray();
         $izins = Izin::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
         $qrcode = DatangQrCode::whereIn('qrcode_id', function ($query) use ($userId) {
             $query->select('id')
                 ->from('qrcode_gens')
@@ -30,7 +31,7 @@ class dinlurController extends Controller
         })->pluck('tanggal')->toArray();
 
         // Combine the dates of cuti, izin, and qrcode records
-        $combinedDates = collect($cuti)->merge($izins)->merge($qrcode)->unique();
+        $combinedDates = collect($cuti)->merge($izins)->merge($qrcode)->merge($dinlur)->unique();
 
 
 
@@ -48,8 +49,8 @@ class dinlurController extends Controller
     {
         $request->validate([
             'tanggal' => 'required|date',
-            'jam_datang'=>'required|time',
-            'jam_pulang'=>'required|time',
+            'jam_datang' => 'required',
+            'jam_pulang' => 'required',
             'file' => 'required|file|mimes:jpeg,png,pdf|max:10000',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -61,12 +62,12 @@ class dinlurController extends Controller
             'latitude.required' => 'Mohon berikan lokasi latitude.',
             'longitude.required' => 'Mohon berikan lokasi longitude.',
         ]);
-        
+
 
         // Check if any of the required fields are empty
         if (
-            empty($validatedData['tanggal']) || empty($validatedData['file']) ||
-            empty($validatedData['latitude']) || empty($validatedData['longitude'])
+            empty($request['tanggal']) || empty($request['file']) || empty($request['jam_datang']) || empty($request['jam_pulang']) ||
+            empty($request['latitude']) || empty($request['longitude'])
         ) {
             return redirect('/dashboardPegawai/dinasLuar')->withErrors(['errors' => 'Data belum lengkap']);
         }

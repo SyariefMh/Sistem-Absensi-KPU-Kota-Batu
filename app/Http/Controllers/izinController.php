@@ -25,6 +25,7 @@ class izinController extends Controller
 
         // Retrieve records for cuti and izin models for the logged-in user
         $cuti = Cuti::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $izins = Izin::where('user_id', $userId)->pluck('tanggal')->toArray();
         $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
         $qrcode = datangQrCode::whereIn('qrcode_id', function ($query) use ($userId) {
             $query->select('id')
@@ -33,7 +34,7 @@ class izinController extends Controller
         })->pluck('tanggal')->toArray();
 
         // Combine the dates of cuti, izin, and qrcode records
-        $combinedDates = collect($cuti)->merge($dinlur)->merge($qrcode)->unique();
+        $combinedDates = collect($cuti)->merge($dinlur)->merge($izins)->merge($qrcode)->unique();
 
 
 

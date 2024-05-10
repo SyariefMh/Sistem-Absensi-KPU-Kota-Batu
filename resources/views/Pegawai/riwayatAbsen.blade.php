@@ -49,7 +49,7 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card"
-            style="width: 700px; height: 550px;">
+            style="width: 700px; height: 600px;">
             <p style="font-weight: 900;">Riwayat Absen</p>
             <div class="card2"
                 style="width: 420px;overflow-y: scroll; scrollbar-color: transparent transparent; height: 550px;background: none; border: none;">
@@ -90,11 +90,13 @@
                     </div>
                 @endforeach
             </div>
+            {{-- <p style="padding-bottom: 20px; text-align: center; padding-top: 40px; background: white;">
+                <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
+            </p> --}}
+            <a href="{{ url('dashboardPegawai') }}" class="btn btn-danger">Kembali</a>
+
         </div>
     </div>
-
-
-
     </div>
     <img src={{ url('img/peta.png') }} alt="" class="map">
 

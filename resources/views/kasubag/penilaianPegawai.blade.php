@@ -147,7 +147,10 @@
                     </tr>
                     <p>izin &nbsp;{{ $jumlahizin }} hadir &nbsp;{{ $totalCount }} cuti &nbsp;{{ $jumlahcuti }}
                     </p>
-                    <p>terlambat</p>
+                    {{-- parshing data dari javascrip dan di lempar ke HTML --}}
+                    <p class="alfa"></p> 
+
+                    <p>terlambat &nbsp;{{ $terlambat }}</p>
                     {{-- <button type="submit"
                     style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button> --}}
                 </tbody>
@@ -364,7 +367,7 @@
                             </div>
                         </td>
                         <td>
-                            <div class="form" style="width: 100px;">    
+                            <div class="form" style="width: 100px;">
                                 <input type="number" name="nilai5_C" class="form-control" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai5_C : '' }}" />
                             </div>
@@ -400,6 +403,45 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
     </script>
     -->
+    <script>
+        var tanggal = {!! json_encode($combinedData) !!};
+        console.log(tanggal);
+        // Mendapatkan tanggal saat ini
+        var tanggalSekarang = new Date();
+
+        // Mendapatkan tahun dan bulan saat ini
+        var tahunIni = tanggalSekarang.getFullYear();
+        var bulanIni = tanggalSekarang.getMonth() + 1; // Perhatikan bulan dimulai dari 0, jadi tambahkan 1
+
+        // Mendapatkan tanggal awal bulan ini
+        var tanggalAwal = new Date(tahunIni, bulanIni - 1, 1); // Kurangi 1 karena bulan dimulai dari 0
+
+        // Mendapatkan tanggal akhir bulan ini
+        var tanggalAkhir = new Date(tahunIni, bulanIni, 0); // Menggunakan 0 akan memberikan hari terakhir bulan sebelumnya
+
+        // Menampilkan rentang waktu bulan ini
+        console.log('Rentang waktu bulan ini:', tanggalAwal.toDateString(), '-', tanggalAkhir.toDateString());
+        var tanggalTerlewat = 0;
+        var tanggalKosong = 0;
+        var tanggalKosongArray = [];
+        // Iterasi melalui data tanggal
+        // Iterasi melalui rentang tanggalAwal hingga tanggalAkhir
+        for (var tanggalIterasi = new Date(tanggalAwal); tanggalIterasi <= tanggalAkhir; tanggalIterasi.setDate(
+                tanggalIterasi.getDate() + 1)) {
+            // Mengonversi tanggalIterasi ke dalam format yang sesuai dengan tanggalItem dari var tanggal
+            var tanggalItemIterasi = tanggalIterasi.toISOString().slice(0, 10);
+
+            // Jika tanggalItemIterasi tidak ada dalam var tanggal, maka tanggal tersebut kosong atau belum absen
+            if (!tanggal.includes(tanggalItemIterasi)) {
+                tanggalKosong++;
+                tanggalKosongArray.push(tanggalItemIterasi);
+            }
+        }
+        console.log('Tanggal-tanggal yang kosong atau belum absen:', tanggalKosongArray);
+        // Mengisi hasil pengecekan ke dalam elemen HTML dengan class "alfa"
+        var alfaElement = document.querySelector('.alfa');
+        alfaElement.textContent = 'Tanggal kosong atau belum absen: ' + tanggalKosong;
+    </script>
 </body>
 
 </html>

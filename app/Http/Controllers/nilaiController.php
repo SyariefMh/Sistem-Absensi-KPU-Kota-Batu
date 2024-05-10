@@ -40,9 +40,30 @@ class nilaiController extends Controller
         $totalCount = $dinlurCount + $datangQrCodeCount;
         // dd($totalCount);
 
+        $cuti = Cuti::where('user_id', $nilai->id)
+            ->get();
+
+        $izins = Izin::where('user_id', $nilai->id)
+            ->get();
+        // dd($izins);
+        $dinlur = Dinlur::where('user_id', $nilai->id)
+            ->get();
+
+        $qrcode = DatangQrCode::whereIn('qrcode_id', function ($query) use ($nilai) {
+            $query->select('id')
+                ->from('qrcode_gens')
+                ->where('user_id', $nilai->id);
+        })
+            ->get();
+
+        $combinedData = $cuti->merge($izins)->merge($dinlur)->merge($qrcode)->pluck('tanggal');
+        // dd($combinedData);
+
+        $terlambat = datangQrCode::where('Status','Terlambat')
+        ->where('user_id',$nilai->id)->get()->count();
 
         // dd($dataNilai);
-        return view('kasubag.penilaianPegawai', compact('nilai', 'periode', 'periodeall', 'dataNilai', 'jumlahizin', 'totalCount', 'jumlahcuti'));
+        return view('kasubag.penilaianPegawai', compact('nilai', 'periode', 'periodeall', 'dataNilai', 'jumlahizin', 'totalCount', 'jumlahcuti','combinedData','terlambat'));
     }
     // public function simpan(Request $request)
     // {
