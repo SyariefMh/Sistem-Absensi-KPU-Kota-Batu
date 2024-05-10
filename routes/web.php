@@ -140,6 +140,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/kepegawaian', [kepegawaianKasubag::class, 'index']);
             Route::get('/kepegawaian/laporan', [kepegawaianKasubag::class, 'laporan']);
+            Route::get('/kepegawaian/laporan/{periode_id}', [kepegawaianKasubag::class,'laporanfilter'])->name('printLaporan');
             Route::get('/kepegawaian/create', [kepegawaianKasubag::class, 'create']);
             Route::post('/kepegawaian/store', [kepegawaianKasubag::class, 'store']);
             Route::get('/kepegawaian/edit/{id}', [kepegawaianKasubag::class, 'edit']);

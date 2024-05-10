@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\nilaiA;
 use App\Models\nilaiB;
 use App\Models\nilaiC;
+use App\Models\periode;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
@@ -79,7 +80,8 @@ class kepegawaianKasubag extends Controller
     }
     public function index()
     {
-        return view('kasubag.dataPegawaiKasubag');
+        $periode = periode::all();
+        return view('kasubag.dataPegawaiKasubag', compact('periode'));
     }
 
     public function laporan()
@@ -90,29 +92,29 @@ class kepegawaianKasubag extends Controller
         foreach ($users as $user) {
             $user_ids[] = $user->id; // Mengambil id dari setiap user dan menambahkannya ke array
         }
+        $periode = periode::where('status', 1)->pluck('id')->first();
+        $get_nilai = nilaiA::whereIn('user_id', $user_ids)->where('periode_id', '$periode')->get();
 
-        $get_nilai = nilaiA::whereIn('user_id', $user_ids)->get();
-        // $get_nilaiB = nilaiB::whereIn('user_id', $user_ids)->get();
-        // $get_nilaiC = nilaiC::whereIn('user_id', $user_ids)->get();
 
-        
-        // $combined = collect([]); // Membuat koleksi kosong untuk menggabungkan data
-        // $combined = $combined->merge($get_nilaiA)->merge($get_nilaiB)->merge($get_nilaiC);
+        return view('printLaporan', compact('users', 'get_nilai'));
+    }
+    public function laporanfilter(Request $request, $periode_id)
+    {
+        $users = User::where('role', 'pegawai')->get();
+        // dd($users);
 
-        // $processedData = $combined->map(function ($item) {
-        //     // Proses data sesuai kebutuhan
-        //     return [
-        //         'user_id' => $item->user_id,
-        //         'nama' => $item->user->name, // Contoh mengambil nama dari relasi user
-        //         'nilai' => $item->nilai, // Contoh mengambil nilai dari model yang sesuai
-        //         // Tambahkan atribut lain sesuai kebutuhan
-        //     ];
-        // });
+        $user_ids = [];
+        foreach ($users as $user) {
+            $user_ids[] = $user->id;
+        }
 
-        // dd($processedData);
+        // Logika untuk mendapatkan data laporan berdasarkan $periodeId
+        $get_nilai = nilaiA::whereIn('user_id', $user_ids)->where('periode_id', $periode_id)->get();
+        // dd($get_nilai);
 
-        // dd($get_nilaiC, $get_nilaiB, $get_nilai); // Melihat isi array id user
-
+        if ($get_nilai->isEmpty()) {
+            return redirect('/dashboardKasubag/kepegawaian');
+        }
         return view('printLaporan', compact('users', 'get_nilai'));
     }
 

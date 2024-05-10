@@ -184,7 +184,7 @@
                         <!-- Input Tersembunyi untuk user_id -->
                         <input type="hidden" name="user_id" value="{{ $nilai->id }}">
                         <!-- Input Tersembunyi untuk periode_id (disesuaikan dengan id periode yang ingin disimpan) -->
-                        <input type="hidden" name="periode_id" value="{{ $periode }}">
+                        {{-- <input type="hidden" name="periode_id" value="{{ $periode }}"> --}}
                         <!-- Isi formulir -->
                         <td>
                             <div class="form" style="width: 480px;">

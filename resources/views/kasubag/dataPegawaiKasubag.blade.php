@@ -57,6 +57,21 @@
                         </div>
                     </div>
                 </div>
+                {{-- dropdown --}}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Pilih Periode
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        @foreach ($periode as $p)
+                            <li><a class="dropdown-item" href="#"
+                                    data-periode-id="{{ $p->id }}">{{ $p->periode_bulan }},
+                                    {{ $p->periode_tahun }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+                {{-- end dropdown --}}
             </div>
             {{-- tabel --}}
             {{-- @if ($success->any())
@@ -140,6 +155,23 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        var baseUrl = "{{ url('dashboardKasubag/kepegawaian/laporan') }}"
+        document.addEventListener('DOMContentLoaded', function() {
+            var dropdownItems = document.querySelectorAll('.dropdown-item');
+            dropdownItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    var periodeId = item.getAttribute('data-periode-id');
+
+                    if (periodeId) {
+                        window.location.href = baseUrl + '/' + periodeId;
+                    }
+                });
+            });
+        });
+    </script>
+
 
     {{-- PNS --}}
     <script>

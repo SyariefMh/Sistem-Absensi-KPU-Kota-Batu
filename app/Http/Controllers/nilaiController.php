@@ -20,6 +20,7 @@ class nilaiController extends Controller
         $nilai = User::find($id);
         // dd($nilai);
         $periode = periode::where('status', 1)->pluck('id')->first();
+        // dd($periode);
         $periodeall = periode::where('status', 1)->first();
         // dd($periodeall);
         // dd($periode);
@@ -182,6 +183,7 @@ class nilaiController extends Controller
 
     public function simpan(Request $request)
     {
+        $periode = periode::where('status', 1)->pluck('id')->first();
         // Validasi data jika diperlukan
         $validatedData = $request->validate([
             'kriteria1_A' => 'required',
@@ -216,7 +218,7 @@ class nilaiController extends Controller
             'periode_id' => 'required',
         ]);
 
-        $exitingData = NilaiA::where('user_id', $request->user_id)->first();
+        $exitingData = NilaiA::where('user_id', $request->user_id)->where('periode_id',$request->periode_id)->first();
         if ($exitingData) {
             $exitingData->update([
                 'kriteria1_A' => $request->kriteria1_A,
@@ -279,7 +281,7 @@ class nilaiController extends Controller
                 'nilai4_C' => $request->nilai4_C,
                 'nilai5_C' => $request->nilai4_C,
                 'user_id' => $request->user_id,
-                'periode_id' => $request->periode_id,
+                'periode_id' => $periode,
                 // Sesuaikan dengan kolom lain yang ada dalam model NilaiA
             ]);
         }
