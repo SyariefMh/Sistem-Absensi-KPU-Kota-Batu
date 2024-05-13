@@ -19,10 +19,10 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/codeAdmin.css">
+    <link rel="stylesheet" href="{{ url('css/codeAdmin.css') }}">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
 
     <title>Dashboard</title>
 </head>
@@ -32,7 +32,7 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
@@ -40,14 +40,16 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="margin-left: 90px; color: #C72B41; font-weight: 800; padding-bottom: 20px">15 JANUARI 2024</p>
-            {{-- <img src="img/qrcode.png" alt="" width="300" height="300"> --}}
+            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Datang</p>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
-            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 40px; font-weight: 800">
+            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 150px; font-weight: 800">
                 KOMISI PEMILIHAN UMUM
                 <br>KOTA BATU
+            </p>
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardAdmin') }}" class="btn btn-primary" style="background-color: #C72B41;">Kembali</a>
             </p>
         </div>
     </div>
@@ -60,9 +62,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="errorModalLabel">Absensi Datang</h5>
-                </div>
-                <div class="modal-body">
-                    <p>Error sam</p>
                 </div>
             </div>
         </div>
@@ -80,6 +79,8 @@
             </div>
         </div>
     </div>
+
+    <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 

@@ -164,7 +164,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/cekRekap/show/{id}', [rekapKasubagController::class, 'show']);
         });
         Route::prefix('/dashboardKasubag')->group(function () {
-            Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
+            Route::get('/scanDatang', [absen_qr_codeController::class, 'indexKasubag']);
             Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
         });
         Route::prefix('/dashboardKasubag')->group(function () {

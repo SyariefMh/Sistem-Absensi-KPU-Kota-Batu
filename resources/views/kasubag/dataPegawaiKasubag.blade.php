@@ -39,6 +39,10 @@
                     style="margin-left: 10px"></a>
         </div>
         <div class="container" style="color: black">
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
+            </p>
             <div class="container d-flex">
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
                     Data Seluruh Pegawai
@@ -46,7 +50,7 @@
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
-                            format="YYYY-MM-DD">
+                        style="background: #FFFFFF; margin-bottom: 10px">
                         <div style="position: absolute; right: 130px; display: flex">
                             <a href="{{ url('/dashboardKasubag/kepegawaian/laporan') }}">
                                 <button type="submit" class="btn" style="width: 200px">Print Laporan</button>
@@ -54,36 +58,25 @@
                             <a href="{{ url('/dashboardKasubag/kepegawaian/create') }}" style="margin-left: 10px;">
                                 <button type="submit" class="btn" style="width: 200px;">Tambah Pegawai</button>
                             </a>
+                            {{-- dropdown --}}
+                            <div class="dropdown" style="margin-left: 10px">
+                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                    id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Pilih Periode
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    @foreach ($periode as $p)
+                                        <li><a class="dropdown-item" href="#"
+                                                data-periode-id="{{ $p->id }}">{{ $p->periode_bulan }},
+                                                {{ $p->periode_tahun }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            {{-- end dropdown --}}
                         </div>
                     </div>
                 </div>
-                {{-- dropdown --}}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Pilih Periode
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        @foreach ($periode as $p)
-                            <li><a class="dropdown-item" href="#"
-                                    data-periode-id="{{ $p->id }}">{{ $p->periode_bulan }},
-                                    {{ $p->periode_tahun }}</a></li>
-                        @endforeach
-                    </ul>
-                </div>
-                {{-- end dropdown --}}
             </div>
-            {{-- tabel --}}
-            {{-- @if ($success->any())
-                    <div class="alert alert-success">
-                        <ul>
-                            @foreach ($success->all() as $item)
-                                <li>{{ $item }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-
-                @endif --}}
             <div class="container">
                 <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
                     <p style="margin-top: 40px; margin-left: 25px">PNS</p>

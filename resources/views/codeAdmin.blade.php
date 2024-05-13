@@ -40,7 +40,7 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="margin-left: 90px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan Absensi Datang</p>
+            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Datang</p>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
@@ -48,10 +48,12 @@
                 KOMISI PEMILIHAN UMUM
                 <br>KOTA BATU
             </p>
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardAdmin') }}" class="btn btn-primary" style="background-color: #C72B41;">Kembali</a>
+            </p>
         </div>
     </div>
     </div>
-
     <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="pulangModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -69,9 +71,6 @@
                         </ul>
                     </div>
                 @endif
-                <div class="modal-body">
-                    <p>Error sam</p>
-                </div>
             </div>
         </div>
     </div>

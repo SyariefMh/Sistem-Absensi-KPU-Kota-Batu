@@ -2,8 +2,11 @@
     font-family: 'Inter', sans-serif;
 }
 body{
-    background: #E4E4E4;
+    background-image: url('/img/peta.png');
+    background-color: #f0f0f0;
     background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: right -10px bottom -230px;
     height: 100vh;
 }
 
@@ -41,4 +44,85 @@ color: #C72B41;
 .badge-danger {
     color: #fff; /* Warna teks untuk badge merah */
     background-color: #dc3545; /* Warna latar belakang untuk badge merah */
+}
+
+#usersTable_filter label{
+    font-weight: bold;
+    color: #333;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#usersTable_filter input[type="search"] {
+    width: 200px; /* Mengatur lebar input */
+    padding: 5px; /* Menambahkan padding */
+    color: #333; /* Mengatur warna teks */
+    background-color: #f0f0f0; /* Mengatur background */
+    border: 1px solid #ccc; /* Mengatur border */
+}
+#usersTablesatpam_filter input[type="search"] {
+    width: 200px; /* Mengatur lebar input */
+    padding: 5px; /* Menambahkan padding */
+    color: #333; /* Mengatur warna teks */
+    background-color: #f0f0f0; /* Mengatur background */
+    border: 1px solid #ccc; /* Mengatur border */
+}
+#usersTablePPNPN_filter input[type="search"] {
+    width: 200px; /* Mengatur lebar input */
+    padding: 5px; /* Menambahkan padding */
+    color: #333; /* Mengatur warna teks */
+    background-color: #f0f0f0; /* Mengatur background */
+    border: 1px solid #ccc; /* Mengatur border */
+}
+
+#usersTablePNS_length select {
+    font-weight: bold;
+    background-color: #FFFFFF;
+    width: 50px;
+    text-align: center;
+}
+
+#usersTable_length select {
+    font-weight: bold;
+    background-color: #FFFFFF;
+    width: 50px; /* Mengatur lebar select box */
+    text-align: center;
+}
+#usersTablesatpam_length select {
+    font-weight: bold;
+    background-color: #FFFFFF;
+    width: 50px; /* Mengatur lebar select box */
+    text-align: center;
+}
+#usersTablePPNPN_length select {
+    font-weight: bold;
+    background-color: #FFFFFF;
+    width: 50px; /* Mengatur lebar select box */
+    text-align: center;
+}
+
+#usersTable {
+    border-collapse: collapse; /* Menggabungkan border */
+    border-spacing: 0; /* Mengatur jarak antar border */
+}
+#usersTablesatpam {
+    border-collapse: collapse; /* Menggabungkan border */
+    border-spacing: 0; /* Mengatur jarak antar border */
+}
+#usersTablePPNPN {
+    border-collapse: collapse; /* Menggabungkan border */
+    border-spacing: 0; /* Mengatur jarak antar border */
+}
+
+#usersTable th,
+#usersTable td {
+    border: none; /* Menghapus border pada sel dan header */
+}
+#usersTablesatpam th,
+#usersTablesatpam td {
+    border: none; /* Menghapus border pada sel dan header */
+}
+#usersTablePPNPN th,
+#usersTablePPNPN td {
+    border: none; /* Menghapus border pada sel dan header */
 }

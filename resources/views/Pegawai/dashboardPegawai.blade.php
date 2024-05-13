@@ -42,9 +42,9 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     {{-- <li><a class="dropdown-item" href="{{ url('dashboardPegawai/profile') }}">Profil</a></li> --}}
-                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                             data-bs-target="#modal_profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
                 </ul>
             </div>
         </div>
@@ -54,7 +54,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
+                    <h5 class="modal-title">Profile Pegawai</h5>
                     <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -69,83 +69,54 @@
                                 placeholder=".form-control-sm" aria-label=".form-control-sm example"
                                 style="width: 400px" value="{{ $users->name }}">
                         </div>
-                        <p style="padding-top: 10px">Role : </p>
-                        <div class="input" style="margin-right: 800px">
-                            <select name="role" class="form-select form-select-sm"
-                                aria-label=".form-select-sm example" style="width: 400px" disabled>
-                                <option value="pegawai" {{ $users->role == 'pegawai' ? 'selected' : '' }}>Pegawai
-                                </option>
-                                <option value="admin" {{ $users->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="kasubag umum" {{ $users->role == 'kasubag umum' ? 'selected' : '' }}>
-                                    Kasubag Umum
-                                </option>
-                            </select>
-                            <input type="hidden" name="role" value="{{ $users->role }}">
-                        </div>
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data role -->
+                        <input type="hidden" name="role" value="{{ $users->role }}">
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data role -->
                         <p style="padding-top: 10px">Password : </p>
                         <div class="input" style="margin-right: 800px">
                             <input name="password" class="form-control form-control-sm underline" type="password"
+                                placeholder="Masukkan Password" aria-label=".form-control-sm example"
+                                style="width: 400px">
+                        </div>
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data jabatan -->
+                        <input type="hidden" name="jabatan" value="{{ $users->jabatan }}">
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data jabatan -->
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data nip -->
+                        <input type="hidden" name="nip" value="{{ $users->nip }}">
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data nip -->
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
+                        <input type="hidden" name="pangkat" value="{{ $users->pangkat }}">
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
+                        <input type="hidden" name="golongan" value="{{ $users->golongan }}">
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data tanda tangan -->
+                        <input type="hidden" name="tandatanggan" value="{{ $users->tandatanggan }}">
+                        <!-- Sisipkan input tersembunyi untuk menyimpan data tanda tangan -->
+                        <p style="padding-top: 10px">Tanda Tangan : </p>
+                        <div class="input" style="margin-right: 800px">
+                            <input name="tandatanggan" class="form-control form-control-sm underline" type="file"
                                 placeholder=".form-control-sm" aria-label=".form-control-sm example"
                                 style="width: 400px">
                         </div>
-                        <p style="padding-top: 10px">Jabatan : </p>
-                        <div class="input" style="margin-right: 800px">
-                            <select name="jabatan" class="form-select form-select-sm"
-                                aria-label=".form-select-sm example" style="width: 400px" disabled>
-                                <option value="PNS" {{ $users->jabatan == 'PNS' ? 'selected' : '' }}>PNS</option>
-                                <option value="PPNPN" {{ $users->jabatan == 'PPNPN' ? 'selected' : '' }}>PPNPN
-                                </option>
-                                <option value="Jagat Saksana (Satpam)"
-                                    {{ $users->jabatan == 'Jagat Saksana (Satpam)' ? 'selected' : '' }}>Jagat Saksana
-                                    (Satpam)
-                                </option>
-                            </select>
-                            <input type="hidden" name="jabatan" value="{{ $users->jabatan }}">
-                        </div>
-                        <p style="padding-top: 10px">NIP : </p>
-                        <div class="input" style="margin-right: 800px">
-                            <input name="nip" class="form-control form-control-sm underline" type="text"
-                                placeholder=".form-control-sm" aria-label=".form-control-sm example"
-                                style="width: 400px" value="{{ $users->nip }}" disabled>
-                            <input type="hidden" name="nip" value="{{ $users->nip }}">
-                        </div>
-                        <p style="padding-top: 10px">Pangkat : </p>
-                        <div class="input" style="margin-right: 800px">
-                            <input name="pangkat" class="form-control form-control-sm underline" type="text"
-                                placeholder=".form-control-sm" aria-label=".form-control-sm example"
-                                style="width: 400px" value="{{ $users->pangkat }}" disabled>
-                            <input type="hidden" name="pangkat" value="{{ $users->pangkat }}">
-                        </div>
-                        <p style="padding-top: 10px">Golongan : </p>
-                        <div class="input" style="margin-right: 800px">
-                            <input name="golongan" class="form-control form-control-sm underline" type="text"
-                                placeholder=".form-control-sm" aria-label=".form-control-sm example"
-                                style="width: 400px" value="{{ $users->golongan }}" disabled>
-                            <input type="hidden" name="golongan" value="{{ $users->golongan }}">
-                        </div>
-                        <div class="mb-3 d-flex">
-                            <label for="formFileDisabled" class="form-label"
-                                style="padding-top: 10px; color: #C72B41">Tanda
-                                Tangan
-                                : </label>
-                            <input name="tandatanggan" class="form-control" type="file" id="formFileDisabled">
-                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="closeModal" type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="btn btn-danger">Save changes</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    
+    
     {{-- end modal --}}
     <div class="hero">
         <div class="container">
             {{-- alert --}}
-            @if ($errors->any())
-                <div class="alert alert-danger d-flex align-items-center" role="alert">
+            @if ($errors->any() || session('success'))
+                <div id="autoCloseAlert"
+                    class="alert {{ $errors->any() ? 'alert-danger' : 'alert-success' }} d-flex align-items-center"
+                    role="alert">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
                         aria-label="Warning:">
@@ -154,17 +125,15 @@
                     </svg>
                     <div>
                         <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
+                            @if ($errors->any())
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            @else
+                                <li>{{ session('success') }}</li>
+                            @endif
                         </ul>
                     </div>
-                </div>
-            @endif
-
-            @if (session('success'))
-                <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
                 </div>
             @endif
             {{-- end alert --}}
@@ -258,10 +227,13 @@
     <script>
         // Menggunakan setTimeout untuk menutup alert setelah 3 detik
         setTimeout(function() {
-            document.getElementById('successAlert').classList.add('fade');
-            setTimeout(function() {
-                document.getElementById('successAlert').remove();
-            }, 1000); // Menunggu efek fade selesai sebelum menghapus alert
+            var autoCloseAlert = document.getElementById('autoCloseAlert');
+            if (autoCloseAlert) {
+                autoCloseAlert.classList.add('fade');
+                setTimeout(function() {
+                    autoCloseAlert.remove();
+                }, 1000); // Menunggu efek fade selesai sebelum menghapus alert
+            }
         }, 3000);
     </script>
 

@@ -39,14 +39,16 @@
                     style="margin-left: 10px"></a>
         </div>
         <div class="container" style="color: black">
+            <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary"
+                        style="background-color: #C72B41;">Kembali</a>
             <div class="container d-flex">
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
                     Data Seluruh Pegawai
                 </div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="2023-07-21"
-                            format="YYYY-MM-DD">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
+                            style="background: #FFFFFF; margin-bottom: 10px">
                         <div style="position: absolute; right: 130px;">
                             <a href="{{ url('/dashboardKasubag/periode/create') }}">
                                 <button type="submit" class="btn" style="width: 200px">Tambah Periode</button>

@@ -22,7 +22,7 @@
     ">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">  
 
     <title>Dashboard</title>
 </head>
@@ -32,13 +32,15 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
         <div class="container" style="color: black">
-            <p>Tambah Data Pegawai</p>
+            <a href="{{ url('dashboardAdmin/kepegawaian') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
         </div>
+        <p class="" style="margin-left: 80px; margin-top: 10px; font-size: 20px; color: black">Tambah Data Pegawai</p>
         <div class="container">
             <form action="{{ url('dashboardAdmin/kepegawaian/store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
@@ -93,7 +95,7 @@
                         : </label>
                     <input name="tandatanggan" class="form-control" type="file" id="formFileDisabled">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-danger">Submit</button>
             </form>
         </div>
 

@@ -32,24 +32,17 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
         <div class="container" style="color: black">
-            <p>Tambah Data Periode</p>
+            <div class="container" style="color: black">
+                <a href="{{ url('dashboardKasubag/kepegawaian') }}" class="btn btn-primary"
+                        style="background-color: #C72B41;">Kembali</a>
+            </div>
+            <p class="" style="margin-left: 10px; margin-top: 10px; font-size: 20px; color: black">Tambah Data Periode</p>
         </div>
-        {{-- <div class="container">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-        </div> --}}
         <div class="container">
             <form action="{{ url('dashboardKasubag/periode/update/' . $periode->id) }}" method="POST"
                 enctype="multipart/form-data">

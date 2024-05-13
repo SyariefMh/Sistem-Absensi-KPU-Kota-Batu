@@ -15,6 +15,10 @@ class absen_qr_codeController extends Controller
     {
         return view('codeAdmin');
     }
+    public function indexKasubag()
+    {
+        return view('kasubag.scandatang');
+    }
 
     public function indexSatpam()
     {

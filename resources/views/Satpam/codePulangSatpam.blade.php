@@ -40,14 +40,16 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="margin-left: 90px; color: #C72B41; font-weight: 800; padding-bottom: 20px">15 JANUARI 2024</p>
-            {{-- <img src="img/qrcode.png" alt="" width="300" height="300"> --}}
+            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Datang</p>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
-            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 40px; font-weight: 800">
+            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 150px; font-weight: 800">
                 KOMISI PEMILIHAN UMUM
                 <br>KOTA BATU
+            </p>
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardSatpam') }}" class="btn btn-primary" style="background-color: #C72B41;">Kembali</a>
             </p>
         </div>
     </div>
@@ -60,9 +62,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="errorModalLabel">Absensi Datang</h5>
-                </div>
-                <div class="modal-body">
-                    <p>Error sam</p>
                 </div>
             </div>
         </div>

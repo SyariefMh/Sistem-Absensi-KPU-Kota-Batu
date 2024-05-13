@@ -18,14 +18,28 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/cekRekap.css">
+    <link rel="stylesheet" href="{{ url('css/cekRekap.css') }}">
     {{-- data table --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
 
     <title>Dashboard</title>
+    <style>
+        #usersTablePNS_filter input[type="search"] {
+            width: 200px;
+            /* Mengatur lebar input */
+            padding: 5px;
+            /* Menambahkan padding */
+            color: #333;
+            /* Mengatur warna teks */
+            background-color: #f0f0f0;
+            /* Mengatur background */
+            border: 1px solid #ccc;
+            /* Mengatur border */
+        }
+    </style>
 </head>
 
 <body>
@@ -33,18 +47,23 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
         <div class="container" style="color: black">
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
+            </p>
             <div class="container d-flex">
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
                     Cek dan Rekap Absensi Pegawai
                 </div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
+                            style="background: #FFFFFF">
                     </div>
                 </div>
             </div>
@@ -70,7 +89,7 @@
                     </tbody>
                 </table>
                 <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
+                    <button type="submit" class="btn" style="width: 200px; margin-top: 10px">Print Rekap</button>
                 </div>
             </div>
 
@@ -99,7 +118,7 @@
 
 
                 <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
+                    <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
                 </div>
             </div>
 
@@ -128,7 +147,7 @@
 
 
                 <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
+                    <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
                 </div>
             </div>
         </div>
@@ -148,7 +167,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
-    
+
     {{-- rekap PNS --}}
     <script>
         $(document).ready(function() {

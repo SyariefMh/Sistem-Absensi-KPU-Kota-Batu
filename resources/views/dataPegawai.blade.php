@@ -18,13 +18,14 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="{{ asset('css/cekRekap.css') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ url('css/cekRekap.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
 
     <title>Dashboard</title>
+
 </head>
 
 <body>
@@ -32,13 +33,17 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU
                 <img src="{{ asset('img/profile.png') }}" alt="" width="50" height="50"
                     style="margin-left: 10px"></a>
         </div>
         <div class="container" style="color: black">
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardAdmin') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
+            </p>
             <div class="container d-flex">
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
                     Data Seluruh Pegawai
@@ -46,8 +51,8 @@
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
-                            format="YYYY-MM-DD">
-                        <div style="position: absolute; right: 130px;">
+                            format="YYYY-MM-DD" style="background: #FFFFFF;">
+                        <div style="position: absolute; right: 130px; margin-top: 10px">
                             <a href="{{ url('/dashboardAdmin/kepegawaian/create') }}">
                                 <button type="submit" class="btn" style="width: 200px">Tambah Pegawai</button>
                             </a>
@@ -57,7 +62,7 @@
             </div>
             {{-- tabel --}}
             <div class="container">
-                <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
+                <table class="table" id="usersTable" width="100%" cellspacing="0">
                     <p style="margin-top: 40px; margin-left: 25px">PNS</p>
                     <thead>
                         <tr>
@@ -75,7 +80,7 @@
                     </tbody>
                 </table>
 
-                <table class="table table-bordered" id="usersTablesatpam" width="100%" cellspacing="0">
+                <table class="table" id="usersTablesatpam" width="100%" cellspacing="0">
                     <p style="margin-top: 40px; margin-left: 25px">Jagat Saksana (SATPAM)</p>
                     <thead>
                         <tr>
@@ -93,7 +98,7 @@
                     </tbody>
                 </table>
 
-                <table class="table table-bordered" id="usersTablePPNPN" width="100%" cellspacing="0">
+                <table class="table" id="usersTablePPNPN" width="100%" cellspacing="0">
                     <p style="margin-top: 40px; margin-left: 25px">PPNPN</p>
                     <thead>
                         <tr>
@@ -116,7 +121,7 @@
     </nav>
 
     </div>
-    <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
+    {{-- <img src="{{ url('img/peta.png') }}" alt="" class="position-absolute end-0 bottom-0" width="1115"> --}}
 
     <!-- Optional JavaScript; choose one of the two! -->
 

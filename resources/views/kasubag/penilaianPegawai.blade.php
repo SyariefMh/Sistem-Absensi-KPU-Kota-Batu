@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/penilaianPegawai.css">
+    <link rel="stylesheet" href="{{ asset('css/penilaianPegawai.css') }}">
 
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
@@ -31,14 +31,14 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
         <div class="container col-12" style="color: black; justify-content: center">
             <p>Laporan Bulanan Pegawai Pemerintah Non Pegawai Negeri</p>
         </div>
-        <div class="container">
+        <div class="container" style="color: black">
             <div class="row">
                 <p style="padding-top: 10px">Nama : {{ $nilai->name }}</p>
                 <p style="padding-top: 10px">Jabatan : {{ $nilai->jabatan }}</p>
@@ -379,7 +379,9 @@
             </table>
         </div>
         <button type="submit"
-            style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
+            style="margin-top: 10px; background-color: #C72B41; border: none; color: white; margin-left: 70px;width: 100px; height: 40px;border-radius:10px ">Simpan</button>
+            <a href="{{ url('dashboardKasubag/kepegawaian') }}" class="btn btn-primary"
+                        style="background-color: #C72B41;">Kembali</a>
     </form>
     {{-- <div class="container">
         <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>

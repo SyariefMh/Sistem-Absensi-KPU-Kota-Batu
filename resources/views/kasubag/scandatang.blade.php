@@ -48,6 +48,9 @@
                 KOMISI PEMILIHAN UMUM
                 <br>KOTA BATU
             </p>
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary" style="background-color: #C72B41;">Kembali</a>
+            </p>
         </div>
     </div>
     </div>
@@ -58,9 +61,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="errorModalLabel">Absensi Datang</h5>
-                </div>
-                <div class="modal-body">
-                    <p>Error sam</p>
                 </div>
             </div>
         </div>

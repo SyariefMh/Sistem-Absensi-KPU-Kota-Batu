@@ -32,12 +32,18 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
         <div class="container" style="color: black">
-            <p>Tambah Data Periode</p>
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardKasubag/periode') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
+            </p>
+        </div>
+        <div class="container" style=" margin-top: 10px; font-size: 20px; color: black">
+            Cek dan Rekap Absensi Pegawai
         </div>
         {{-- <div class="container">
             @if ($errors->any())

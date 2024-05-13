@@ -18,12 +18,12 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/cekRekap.css">
+    <link rel="stylesheet" href="{{ url('css/cekRekap.css') }}">
     {{-- data table --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
 
     <title>Dashboard</title>
 </head>
@@ -33,18 +33,23 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
         <div class="container" style="color: black">
+            <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
+                <a href="{{ url('dashboardAdmin') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
+            </p>
             <div class="container d-flex">
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
                     Cek dan Rekap Absensi Pegawai
                 </div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value="">
+                        <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
+                            style="background: #FFFFFF">
                     </div>
                 </div>
             </div>
@@ -69,7 +74,7 @@
 
                     </tbody>
                 </table>
-                <div style="position: absolute; right: 130px;">
+                <div style="position: absolute; right: 130px; margin-top: 10px">
                     <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
                 </div>
             </div>
@@ -99,7 +104,7 @@
 
 
                 <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
+                    <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
                 </div>
             </div>
 
@@ -128,7 +133,7 @@
 
 
                 <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
+                    <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
                 </div>
             </div>
         </div>
@@ -136,7 +141,7 @@
     </nav>
 
     </div>
-    <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
+
 
     <!-- Optional JavaScript; choose one of the two! -->
 
