@@ -40,24 +40,26 @@
         .tbl-no span {
             line-height: 1;
         }
+
         @media print {
-        /* CSS for print mode */
+            /* CSS for print mode */
 
-        /* Hide everything after a certain point */
-        .break-before {
-            display: none;
-        }
+            /* Hide everything after a certain point */
+            .break-before {
+                display: none;
+            }
 
-        /* Force page break before this element */
-        .break-before::before {
-            content: "";
-            display: block;
-            page-break-before: always;
+            /* Force page break before this element */
+            .break-before::before {
+                content: "";
+                display: block;
+                page-break-before: always;
+            }
+
+            .print-page2 {
+                page-break-before: always;
+            }
         }
-        .print-page2 {
-            page-break-before: always;
-        }
-    }
     </style>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -66,7 +68,8 @@
 
 <body>
     {{-- kop surat --}}
-    <img src="{{ asset('img/KPU_Logoo.png') }}" class="app-image-style" style="height: 90px; position: absolute; top: 10px; margin-left: 50px" />
+    <img src="{{ asset('img/KPU_Logoo.png') }}" class="app-image-style"
+        style="height: 90px; position: absolute; top: 10px; margin-left: 50px" />
 
     <table align="center" border="0" cellpadding="1" class="main">
         <tbody>
@@ -189,11 +192,219 @@
         <p style="margin-top: 80px">RUDI GUMILAR</p>
     </div>
     {{-- end Penutup halaman awal --}}
-    
+
     {{-- Bagian yang ingin muncul di halaman kedua saat dicetak --}}
     <div class="print-page2">
         @include('printLaporan2')
     </div>
+
+    {{-- tabel PNS --}}
+
+    <table class="table table-bordered" id="usersTablePNS" width="100%" cellspacing="0">
+        <p style="margin-top: 40px; margin-left: 25px">PNS</p>
+        <thead>
+            <tr>
+                <th>Nomer</th>
+                <th>Nama</th>
+                <th>Jabatan</th>
+                <th>Jam Datang</th>
+                <th>Jam Pulang</th>
+                <th>Tanggal</th>
+                <th>Keterangan</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+                @if ($user->jabatan == 'PNS')
+                    @php
+                        $foundUser = $combinedData->where('user', $user)->first();
+                    @endphp
+                    @if ($foundUser)
+                        @foreach ($foundUser['absensi'] as $dataabsensi)
+                            <tr style="background-color: #f0f0f0;">
+                                <td scope="row">{{ $loop->iteration }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->jabatan }}</td>
+                                <td>{{ $user->pangkat }}</td>
+                                <td>{{ $dataabsensi->jam_datang }}</td>
+                                <td>{{ $dataabsensi->jam_pulang }}</td>
+                                <td>{{ $dataabsensi->tanggal }}</td>
+                                <td>{{ $dataabsensi->Keterangan }}</td>
+                                <td>{{ $dataabsensi->Status }}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr style="background-color: #f0f0f0;">
+                            <td scope="row">{{ $loop->iteration }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->jabatan }}</td>
+                            <td>{{ $user->pangkat }}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    @endif
+                @endif
+            @endforeach
+            @foreach ($users as $user)
+                @if ($user->jabatan == 'PPNPN')
+                    @php
+                        $foundUser = $combinedData->where('user', $user)->first();
+                    @endphp
+                    @if ($foundUser)
+                        @foreach ($foundUser['absensi'] as $dataabsensi)
+                            <tr style="background-color: #f0f0f0;">
+                                <td scope="row">{{ $loop->iteration }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->jabatan }}</td>
+                                <td>{{ $user->pangkat }}</td>
+                                <td>{{ $dataabsensi->jam_datang }}</td>
+                                <td>{{ $dataabsensi->jam_pulang }}</td>
+                                <td>{{ $dataabsensi->tanggal }}</td>
+                                <td>{{ $dataabsensi->Keterangan }}</td>
+                                <td>{{ $dataabsensi->Status }}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr style="background-color: #f0f0f0;">
+                            <td scope="row">{{ $loop->iteration }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->jabatan }}</td>
+                            <td>{{ $user->pangkat }}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    @endif
+                @endif
+            @endforeach
+            @foreach ($users as $user)
+                @if ($user->jabatan == 'Satpam')
+                    @php
+                        $foundUser = $combinedData->where('user', $user)->first();
+                    @endphp
+                    @if ($foundUser)
+                        @foreach ($foundUser['absensi'] as $dataabsensi)
+                            <tr style="background-color: #f0f0f0;">
+                                <td scope="row">{{ $loop->iteration }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->jabatan }}</td>
+                                <td>{{ $user->pangkat }}</td>
+                                <td>{{ $dataabsensi->jam_datang }}</td>
+                                <td>{{ $dataabsensi->jam_pulang }}</td>
+                                <td>{{ $dataabsensi->tanggal }}</td>
+                                <td>{{ $dataabsensi->Keterangan }}</td>
+                                <td>{{ $dataabsensi->Status }}</td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr style="background-color: #f0f0f0;">
+                            <td scope="row">{{ $loop->iteration }}</td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->jabatan }}</td>
+                            <td>{{ $user->pangkat }}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    @endif
+                @endif
+            @endforeach
+
+
+            {{-- @dd($combinedData); --}}
+            {{-- @foreach ($combinedData as $dataabsensi)
+                @if (!empty($dataabsensi['user_id']))
+                    <!-- Periksa apakah $dataabsensi adalah array yang berisi data absensi atau bukan -->
+                    @if ($dataabsensi['user']['jabatan'] == 'PNS')
+                        <!-- Mengakses properti jabatan dari user dalam array -->
+                        <tr style="background-color: #f0f0f0;">
+                            <td scope="row">{{ $loop->iteration }}</td>
+                            <td>{{ $dataabsensi['user']['name'] }}</td>
+                            <td>{{ $dataabsensi['user']['jabatan'] }}</td>
+                            <td>{{ $dataabsensi['jam_datang'] }}</td>
+                            <td>{{ $dataabsensi['jam_pulang'] }}</td>
+                            <td>{{ $dataabsensi['tanggal'] }}</td>
+                            <td>{{ $dataabsensi['Keterangan'] }}</td>
+                            <td>{{ $dataabsensi['Status'] }}</td>
+                        </tr>
+                    @endif
+                @else
+                    <tr style="background-color: #f0f0f0;">
+                        <td scope="row">{{ $loop->iteration }}</td>
+                        <td>---</td> <!-- Jika data kosong, tampilkan pengganti seperti '---' -->
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                        <!-- Tambahkan pengganti untuk kolom lainnya jika perlu -->
+                    </tr>
+                @endif
+            @endforeach --}}
+
+            {{-- @foreach ($combinedData as $dataabsensi)
+                @if ($dataabsensi->jabatan == 'Satpam')
+                    <tr style="background-color: #f0f0f0;">
+                        <td scope="row">{{ $loop->iteration }}</td>
+                        <td>{{ $dataabsensi->name }}</td>
+                        <td>{{ $dataabsensi->user->jabatan }}</td>
+                        <td>{{ $dataabsensi->jam_datang }}</td>
+                        <td>{{ $dataabsensi->jam_pulang }}</td>
+                        <td>{{ $dataabsensi->tanggal }}</td>
+                        <td>{{ $dataabsensi->Keterangan }}</td>
+                        <td>{{ $dataabsensi->Status }}</td>
+                    </tr>
+                @endif
+            @endforeach --}}
+            {{-- @foreach ($combinedData as $dataabsensi)
+                @if ($dataabsensi->user->jabatan == 'PPNPN')
+                    <tr style="background-color: #f0f0f0;">
+                        <td scope="row">{{ $loop->iteration }}</td>
+                        <td>{{ $dataabsensi->user->name }}</td>
+                        <td>{{ $dataabsensi->user->jabatan }}</td>
+                        <td>{{ $dataabsensi->jam_datang }}</td>
+                        <td>{{ $dataabsensi->jam_pulang }}</td>
+                        <td>{{ $dataabsensi->tanggal }}</td>
+                        <td>{{ $dataabsensi->Keterangan }}</td>
+                        <td>{{ $dataabsensi->Status }}</td>
+                    </tr>
+                @endif
+            @endforeach --}}
+        </tbody>
+    </table>
+    {{-- <div style="position: absolute; right: 130px; margin-top: 10px">
+            <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
+        </div> --}}
+
+
+    {{-- tabel Satpam --}}
+
+
+
+
+    {{-- <div style="position: absolute; right: 130px;">
+            <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
+        </div> --}}
+
+
+    {{-- tabel PPNPN --}}
+
+
+
+
+    {{-- <div style="position: absolute; right: 130px;">
+            <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
+        </div> --}}
+
 </body>
 
 </html>

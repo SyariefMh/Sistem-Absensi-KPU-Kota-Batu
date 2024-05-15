@@ -11,6 +11,7 @@ class dinlur extends Model
     protected $table = 'dinlurs'; // Specify the table name
     protected $fillable = [
         'tanggal',
+        'kode_absen',
         'jam_datang',
         'jam_pulang',
         'Keterangan',

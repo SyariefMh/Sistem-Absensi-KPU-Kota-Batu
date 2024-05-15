@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('izins', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_absen')->default('izin');
             $table->date('tanggal');
             $table->date('tanggal_awal');
             $table->date('tanggal_akhir');

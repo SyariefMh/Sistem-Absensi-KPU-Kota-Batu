@@ -53,7 +53,7 @@ color: #C72B41;
     border-radius: 10px;
 }
 
-#usersTable_filter input[type="search"] {
+#usersTablePNS_filter input[type="search"] {
     width: 200px; /* Mengatur lebar input */
     padding: 5px; /* Menambahkan padding */
     color: #333; /* Mengatur warna teks */

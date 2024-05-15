@@ -133,12 +133,13 @@
                     },
                     success: function(response) {
                         console.log(response);
-                        alert('berhasil');
+                        alert('berhasil absen');
                         window.location.href = '/dashboardAdmin/scanDatang';
                     },
                     error: function(response) {
                         console.log(response);
-                        alert('gagal');
+                        alert('gagal melakukan absen');
+                        window.location.href = '/dashboardAdmin/scanDatang';
                     }
                     // error: function(error) {
                     //     if (error.responseJSON && error.responseJSON.message) {

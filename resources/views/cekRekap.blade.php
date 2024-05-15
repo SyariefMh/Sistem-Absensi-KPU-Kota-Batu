@@ -74,9 +74,9 @@
 
                     </tbody>
                 </table>
-                <div style="position: absolute; right: 130px; margin-top: 10px">
+                {{-- <div style="position: absolute; right: 130px; margin-top: 10px">
                     <button type="submit" class="btn" style="width: 200px">Print Rekap</button>
-                </div>
+                </div> --}}
             </div>
 
             {{-- tabel Satpam --}}
@@ -103,9 +103,9 @@
 
 
 
-                <div style="position: absolute; right: 130px;">
+                {{-- <div style="position: absolute; right: 130px;">
                     <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
-                </div>
+                </div> --}}
             </div>
 
             {{-- tabel PPNPN --}}
@@ -132,9 +132,9 @@
 
 
 
-                <div style="position: absolute; right: 130px;">
+                {{-- <div style="position: absolute; right: 130px;">
                     <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
-                </div>
+                </div> --}}
             </div>
         </div>
         </div>

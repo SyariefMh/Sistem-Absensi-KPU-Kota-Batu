@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('cutis', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_absen')->default('cuti');
             $table->string('tanggal');
             $table->string('tanggal_awal');
             $table->string('tanggal_akhir');

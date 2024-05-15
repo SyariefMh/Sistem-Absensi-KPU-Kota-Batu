@@ -140,7 +140,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/kepegawaian', [kepegawaianKasubag::class, 'index']);
             Route::get('/kepegawaian/laporan', [kepegawaianKasubag::class, 'laporan']);
-            Route::get('/kepegawaian/laporan/{periode_id}', [kepegawaianKasubag::class,'laporanfilter'])->name('printLaporan');
+            Route::get('/kepegawaian/laporan/{periode_id}', [kepegawaianKasubag::class, 'laporanfilter'])->name('printLaporan');
             Route::get('/kepegawaian/create', [kepegawaianKasubag::class, 'create']);
             Route::post('/kepegawaian/store', [kepegawaianKasubag::class, 'store']);
             Route::get('/kepegawaian/edit/{id}', [kepegawaianKasubag::class, 'edit']);
@@ -161,7 +161,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/cekRekap/getPNS', [rekapKasubagController::class, 'rekapPNS']);
             Route::get('/cekRekap/getSatpam', [rekapKasubagController::class, 'rekapSatpam']);
             Route::get('/cekRekap/getPPNPN', [rekapKasubagController::class, 'rekapPPNPN']);
-            Route::get('/cekRekap/show/{id}', [rekapKasubagController::class, 'show']);
+            Route::get('/cekRekap/show', [rekapKasubagController::class, 'show']);
         });
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/scanDatang', [absen_qr_codeController::class, 'indexKasubag']);
@@ -179,12 +179,11 @@ Route::middleware(['auth'])->group(function () {
     });
     // Route untuk logout
     Route::get('/logout', [SesiController::class, 'logout']);
-
 });
 
-Route::get('/printLaporan',function(){
-    return view ('printlaporan');
+Route::get('/printLaporan', function () {
+    return view('printlaporan');
 });
-Route::get('/printLaporan2',function(){
-    return view ('printlaporan2');
+Route::get('/printLaporan2', function () {
+    return view('printlaporan2');
 });

@@ -49,7 +49,8 @@
                 <br>KOTA BATU
             </p>
             <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
-                <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary" style="background-color: #C72B41;">Kembali</a>
+                <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
             </p>
         </div>
     </div>

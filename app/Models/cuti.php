@@ -11,6 +11,7 @@ class cuti extends Model
 
     protected $fillable = [
         'tanggal',
+        'kode_absen',
         'tanggal_awal',
         'tanggal_akhir',
         'jam_datang',

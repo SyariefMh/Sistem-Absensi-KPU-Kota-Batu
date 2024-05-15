@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dinlurs', function (Blueprint $table) {
             $table->id();
+            $table->string('kode_absen')->default('dinlur');
             $table->string('tanggal');
             $table->time('jam_datang');
             $table->time('jam_pulang');

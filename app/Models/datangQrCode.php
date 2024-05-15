@@ -13,6 +13,7 @@ class datangQrCode extends Model
 
     protected $fillable = [
         'tanggal',
+        'kode_absen',
         'jam_datang',
         'jam_pulang',
         'Keterangan',
