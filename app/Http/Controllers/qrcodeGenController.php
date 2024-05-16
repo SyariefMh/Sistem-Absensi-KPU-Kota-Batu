@@ -421,6 +421,8 @@ class qrcodeGenController extends Controller
         $today = now()->toDateString();
         $absensiDisabled = $combinedDates->contains($today);
 
+        $qrcode = QrCodeGen::where('user_id',$userId)->where('tanggal_kirimDtg',$today)->first();
+
         if ($absensiDisabled) {
             return redirect('dashboardPegawai')->withErrors('Sudah Absen');
         }
@@ -434,7 +436,7 @@ class qrcodeGenController extends Controller
             return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim oleh admin');
         }
         $id = $qrcodeGens->id;
-        return view('Pegawai.codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id]);
+        return view('Pegawai.codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id, 'qrcodeData'=>$qrcode]);
     }
 
     public function indexKaryawanPulang()

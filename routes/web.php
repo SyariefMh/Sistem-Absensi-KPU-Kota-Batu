@@ -48,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk pegawai
     Route::middleware(['auth', 'check.role:pegawai'])->group(function () {
         Route::get('/dashboardPegawai', [PegawaiController::class, 'index']);
+        Route::post('/dashboardPegawai/qrcode', [PegawaiController::class, 'qrcodedatang']);
 
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/izin', [izinController::class, 'index']);

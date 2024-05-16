@@ -107,9 +107,8 @@
             </div>
         </div>
     </div>
-    
-    
     {{-- end modal --}}
+
     <div class="hero">
         <div class="container">
             {{-- alert --}}
@@ -145,11 +144,23 @@
             </p>
 
             <img src="img/KPU_Logoo.png" alt="" class="logo">
+            
+            <div id="alertContainer"></div>
 
             {{-- Card Menu --}}
             <div class="row">
-                <div class="col-md-2">
+                {{-- <div class="col-md-2">
                     <a href="{{ url('/dashboardPegawai/codePegawai') }}" class="cardScan">
+                        <div class="judul">
+                            <p>Qr code</p>
+                        </div>
+                        <div class="icon">
+                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                        </div>
+                    </a>
+                </div> --}}
+                <div class="col-md-2">
+                    <a href="#" class="cardScan" id="qrcodeButton">
                         <div class="judul">
                             <p>Qr code</p>
                         </div>
@@ -236,6 +247,86 @@
             }
         }, 3000);
     </script>
+
+{{-- <script>
+    document.getElementById('qrcodeButton').addEventListener('click', function(e) {
+        e.preventDefault();
+
+        fetch('{{ url('/dashboardPegawai/qrcode') }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            } else if (data.success) {
+                alert(data.success);
+                window.location.href = '{{ url('/dashboardPegawai/codePegawai') }}';
+            } else {
+                alert(data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        });
+    });
+</script> --}}
+<script>
+    document.getElementById('qrcodeButton').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    fetch('{{ url('/dashboardPegawai/qrcode') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.redirect) {
+            window.location.href = data.redirect;
+        } else if (data.success) {
+            showAlert('Success', data.success, 'alert-success');
+            setTimeout(() => {
+                window.location.href = '{{ url('/dashboardPegawai/codePegawai') }}';
+            }, 3000); // Berpindah halaman setelah 3 detik
+        } else {
+            showAlert('Error', data.error, 'alert-danger');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showAlert('Error', 'An error occurred. Please try again.', 'alert-danger');
+    });
+});
+
+function showAlert(title, message, alertType) {
+    const alertContainer = document.getElementById('alertContainer');
+    alertContainer.innerHTML = `
+        <div class="alert ${alertType} d-flex align-items-center mb-4" role="alert">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
+                role="img" aria-label="Warning:">
+                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+            <div>
+                <strong>${title}</strong>
+                <ul>
+                    <li>${message}</li>
+                </ul>
+            </div>
+        </div>
+    `;
+}
+</script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
