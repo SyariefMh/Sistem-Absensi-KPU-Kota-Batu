@@ -12,6 +12,7 @@ use App\Http\Controllers\nilaiAController;
 use App\Http\Controllers\nilaiBController;
 use App\Http\Controllers\nilaiCController;
 use App\Http\Controllers\nilaiController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PeriodeController;
 use App\Http\Controllers\profileController;
@@ -49,6 +50,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth', 'check.role:pegawai'])->group(function () {
         Route::get('/dashboardPegawai', [PegawaiController::class, 'index']);
         Route::post('/dashboardPegawai/qrcode', [PegawaiController::class, 'qrcodedatang']);
+        Route::post('/dashboardPegawai/qrcodepulang', [PegawaiController::class, 'qrcodepulang']);
+        Route::get('/dashboardPegawai/codePegawaiPulang', [qrcodeGenController::class, 'indexKaryawanPulang']);
+
 
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/izin', [izinController::class, 'index']);
@@ -140,7 +144,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/kepegawaian', [kepegawaianKasubag::class, 'index']);
-            Route::get('/kepegawaian/laporan', [kepegawaianKasubag::class, 'laporan']);
+            Route::get('/kepegawaian/laporan', [PdfController::class, 'generatePdf']);
             Route::get('/kepegawaian/laporan/{periode_id}', [kepegawaianKasubag::class, 'laporanfilter'])->name('printLaporan');
             Route::get('/kepegawaian/create', [kepegawaianKasubag::class, 'create']);
             Route::post('/kepegawaian/store', [kepegawaianKasubag::class, 'store']);
@@ -188,3 +192,5 @@ Route::get('/printLaporan', function () {
 Route::get('/printLaporan2', function () {
     return view('printlaporan2');
 });
+
+Route::get('/generate-pdf', [PdfController::class, 'generatePdf']);

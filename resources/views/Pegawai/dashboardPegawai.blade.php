@@ -144,7 +144,7 @@
             </p>
 
             <img src="img/KPU_Logoo.png" alt="" class="logo">
-            
+
             <div id="alertContainer"></div>
 
             {{-- Card Menu --}}
@@ -212,13 +212,23 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-md-2">
+                {{-- <div class="col-md-2">
                     <a href="{{ url('/dashboardPegawai/codePegawai/pulang') }}" class="cardScan">
                         <div class="judul">
                             <p>Pulang</p>
                         </div>
                         <div class="icon">
                             <img src="img/riwayat.png" alt="" width="90" height="92">
+                        </div>
+                    </a>
+                </div> --}}
+                <div class="col-md-2">
+                    <a href="#" id="generateQrCode" class="cardScan">
+                        <div class="judul">
+                            <p>Pulang</p>
+                        </div>
+                        <div class="icon">
+                            <img src="{{ asset('img/riwayat.png') }}" alt="Pulang" width="90" height="92">
                         </div>
                     </a>
                 </div>
@@ -248,7 +258,7 @@
         }, 3000);
     </script>
 
-{{-- <script>
+    {{-- <script>
     document.getElementById('qrcodeButton').addEventListener('click', function(e) {
         e.preventDefault();
 
@@ -277,40 +287,40 @@
         });
     });
 </script> --}}
-<script>
-    document.getElementById('qrcodeButton').addEventListener('click', function(e) {
-    e.preventDefault();
+    <script>
+        document.getElementById('qrcodeButton').addEventListener('click', function(e) {
+            e.preventDefault();
 
-    fetch('{{ url('/dashboardPegawai/qrcode') }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-        },
-        body: JSON.stringify({})
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.redirect) {
-            window.location.href = data.redirect;
-        } else if (data.success) {
-            showAlert('Success', data.success, 'alert-success');
-            setTimeout(() => {
-                window.location.href = '{{ url('/dashboardPegawai/codePegawai') }}';
-            }, 3000); // Berpindah halaman setelah 3 detik
-        } else {
-            showAlert('Error', data.error, 'alert-danger');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showAlert('Error', 'An error occurred. Please try again.', 'alert-danger');
-    });
-});
+            fetch('{{ url('/dashboardPegawai/qrcode') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else if (data.success) {
+                        showAlert('Success', data.success, 'alert-success');
+                        setTimeout(() => {
+                            window.location.href = '{{ url('/dashboardPegawai/codePegawai') }}';
+                        }, 3000); // Berpindah halaman setelah 3 detik
+                    } else {
+                        showAlert('Error', data.error, 'alert-danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error', 'An error occurred. Please try again.', 'alert-danger');
+                });
+        });
 
-function showAlert(title, message, alertType) {
-    const alertContainer = document.getElementById('alertContainer');
-    alertContainer.innerHTML = `
+        function showAlert(title, message, alertType) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
         <div class="alert ${alertType} d-flex align-items-center mb-4" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                 class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
@@ -325,8 +335,46 @@ function showAlert(title, message, alertType) {
             </div>
         </div>
     `;
-}
-</script>
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#generateQrCode').click(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ url('/dashboardPegawai/qrcodepulang') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.redirect) {
+                            window.location.href =
+                                '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
+                        } else if (response.message) {
+                            alert(response.message);
+                            window.location.href =
+                                '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
+                        } else if (response.error) {
+                            alert(response.error);
+                        }
+                    },
+                    error: function(xhr) {
+                        alert('Something went wrong: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--

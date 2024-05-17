@@ -89,11 +89,6 @@ class PegawaiController extends Controller
             return response()->json(['error' => 'Pengguna bukan memiliki peran pegawai'], 403);
         }
 
-        // Periksa apakah sudah pukul 07.00 WIB
-        // $now = now()->format('H:i');
-        // if ($now !== '20:19') {
-        //     return response()->json(['error' => 'QR Code dapat dikirim hanya pada pukul 10:39 WIB'], 422);
-        // }
 
         // Check if a record already exists for the same user ID and date
         $existingRecord = qrcodeGen::where('user_id', $user->id)
@@ -103,7 +98,7 @@ class PegawaiController extends Controller
         // If a record already exists, return an error response
         if ($existingRecord) {
             return response()->json(['redirect' => url('/dashboardPegawai/codePegawai'), 'qrcode' => $existingRecord], 200);
-        }    
+        }
 
         // Generate kode unik untuk QR code
         $code = 'ATTDN' . Str::random(8);
@@ -129,4 +124,41 @@ class PegawaiController extends Controller
         // Jika QR Code berhasil dikirim, kembalikan respons sukses dalam format JSON
         return response()->json(['success' => 'QR Code Datang berhasil dikirim ke ' . $user->name], 200);
     }
+
+    public function qrcodepulang()
+{
+    $user = Auth::user();
+    $userId = $user->id;
+
+    // Cek apakah sudah ada QR code dengan tanggal yang sama
+    $existingRecord = qrcodeGen::where('user_id', $userId)
+        ->whereDate('tanggal_kirimPlg', now()->toDateString())
+        ->first();
+
+    // Jika sudah ada, langsung arahkan ke halaman yang sudah ada QR codenya
+    if ($existingRecord) {
+        return response()->json(['redirect' => true]);
+    }
+
+    // Jika belum ada, buat QR code baru
+    $code = 'PLG' . Str::random(8);
+    $qrCodeData = $code;
+    $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
+    $qrCodePathPulang = 'qrcodesPlg/' . $qrCodeData . '.png';
+    Storage::disk('public')->put($qrCodePathPulang, $qrCode);
+
+    // Simpan QR code baru
+    qrcodeGen::updateOrCreate(
+        ['user_id' => $userId],
+        [
+            'qrcode_pulang' => $qrCodeData,
+            'qrcodefilesPlg' => $qrCodePathPulang,
+            'tanggal_kirimPlg' => now()->toDateString(),
+        ]
+    );
+
+    // Setelah berhasil, arahkan ke halaman yang sudah ada QR codenya
+    return response()->json(['message' => 'QR Code Pulang berhasil dikirim ke ' . $user->name, 'redirect' => true]);
+}
+
 }

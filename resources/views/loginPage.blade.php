@@ -85,7 +85,7 @@
                         <form action="" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <input class="form-control" type="text" name="name" placeholder="Nama"
+                                <input class="form-control" type="text" name="name" placeholder="Username"
                                     aria-label="default input example" value="{{ old('name') }}"
                                     style="background-color: transparent; border: none; border-bottom: 1px solid white; color: #E0E0E0">
                             </div>

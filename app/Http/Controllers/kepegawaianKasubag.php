@@ -12,6 +12,7 @@ use App\Models\nilaiC;
 use App\Models\periode;
 use App\Models\pulangQrCode;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -94,7 +95,7 @@ class kepegawaianKasubag extends Controller
     {
         $users = User::where('role', 'pegawai')->get();
         // dd($users);
-        $userIDDD= $users->pluck('id');
+        $userIDDD = $users->pluck('id');
         // dd($userIDDD);
         $periode = periode::where('status', 1)->pluck('id')->first();
 
@@ -106,7 +107,7 @@ class kepegawaianKasubag extends Controller
         $combinedData = $this->getCombinedData($users, $startDate, $endDate);
         $get_nilai = nilaiA::whereIn('user_id', $userIDDD)->where('periode_id', $periode)->get();
 
-        return view('printLaporan', compact('users', 'combinedData', 'startDate', 'endDate','get_nilai'));
+        return view('printLaporan', compact('users', 'combinedData', 'startDate', 'endDate', 'get_nilai'));
     }
 
     private function getCombinedData($users, $startDate, $endDate)
@@ -175,28 +176,113 @@ class kepegawaianKasubag extends Controller
 
         return $absensi->first();
     }
+    private function filterCombinedData($users, $startDate, $endDate, $periodeId)
+    {
+        $combinedData = collect();
 
+        foreach ($users as $user) {
+            $userCombinedData = collect();
+
+            // Loop melalui setiap tanggal dalam rentang
+            $currentDate = $startDate;
+            while ($currentDate <= $endDate) {
+                // Mencari data absensi untuk pengguna pada tanggal saat ini dan periode yang sesuai
+                $userAbsensi = $this->filterUserAbsensi($user->id, $currentDate,  $periodeId);
+
+                // Menambahkan data absensi ke dalam koleksi jika data ada
+                if ($userAbsensi !== null) {
+                    $userCombinedData->push($userAbsensi);
+                }
+
+                // Maju ke tanggal berikutnya
+                $currentDate = date('Y-m-d', strtotime($currentDate . ' +1 day'));
+            }
+
+            $get_nilai = nilaiA::where('user_id', $user->id)->where('periode_id', $periodeId)->first();
+
+            // Menambahkan koleksi data absensi pengguna ke dalam koleksi gabungan
+            $combinedData->push([
+                'user' => $user,
+                'absensi' => $userCombinedData,
+                'get_nilai' => $get_nilai,
+            ]);
+        }
+
+        return $combinedData;
+    }
+
+    private function filterUserAbsensi($userId, $tanggal, $periodeId)
+    {
+        // Mencari data absensi untuk pengguna pada tanggal tertentu
+        $absensi = collect();
+
+        // Ambil data absensi dari setiap jenis
+        $jenisAbsensi = ['dinlurs', 'cutis', 'izins', 'datangQrCode'];
+        foreach ($jenisAbsensi as $jenis) {
+            $absensiData = DB::table($jenis)
+                ->where('user_id', $userId)
+                ->where('tanggal', $tanggal)
+                ->where(
+                    'periode_id',
+                    $periodeId
+                )
+                ->first();
+
+            if ($absensiData) {
+                $absensi->push($absensiData);
+            }
+        }
+
+        // Jika tidak ada data absensi, kembalikan nilai default
+        if ($absensi->isEmpty()) {
+            return (object)[
+                'user_id' => $userId,
+                'tanggal' => $tanggal,
+                'jam_datang' => '-',
+                'jam_pulang' => '-',
+                'Keterangan' => '-',
+                'Status' => '-',
+            ];
+        }
+
+        return $absensi->first();
+    }
 
 
     public function laporanfilter(Request $request, $periode_id)
     {
         $users = User::where('role', 'pegawai')->get();
         // dd($users);
+        $userIDDD = $users->pluck('id');
+        // dd($userIDDD);
 
-        $user_ids = [];
-        foreach ($users as $user) {
-            $user_ids[] = $user->id;
-        }
+        $periodeId = $periode_id; // Gunakan periode_id dari parameter route
+        $periode = periode::find($periodeId); // Ambil periode berdasarkan periode_id dari parameter route
 
-        // Logika untuk mendapatkan data laporan berdasarkan $periodeId
-        $get_nilai = nilaiA::whereIn('user_id', $user_ids)->where('periode_id', $periode_id)->get();
+        date_default_timezone_set('Asia/Jakarta');
+        // Menghitung tanggal awal dan akhir bulan
+        $startDate = date('Y-m-01'); // Untuk bulan saat ini
+        $endDate = date('Y-m-t'); // Untuk bulan saat ini
+
+        $combinedData = $this->filterCombinedData($users, $startDate, $endDate, $periodeId);
+        // dd($combinedData);
+
+        $get_nilai = nilaiA::whereIn('user_id', $userIDDD)->where('periode_id', $periodeId)->get();
+
+        // // Logika untuk mendapatkan data laporan berdasarkan $periodeId
+        // $get_nilai = nilaiA::whereIn('user_id', $user_ids)->where('periode_id', $periode_id)->get();
         // dd($get_nilai);
 
         if ($get_nilai->isEmpty()) {
             return redirect('/dashboardKasubag/kepegawaian');
         }
-        return view('printLaporan', compact('users', 'get_nilai'));
+        $pdf = PDF::loadView('kasubag.pdfLaporan', compact('users', 'combinedData', 'startDate', 'endDate', 'get_nilai'));
+
+        // Menggunakan metode stream untuk menampilkan PDF di browser
+        return $pdf->stream('my_pdf_file.pdf');
+        // return view('printLaporan', compact('users', 'get_nilai'));
     }
+
 
     /**
      * Show the form for creating a new resource.

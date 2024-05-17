@@ -39,7 +39,7 @@ class SesiController extends Controller
                 return redirect('dashboardSatpam');
             }
         } else {
-            return redirect('')->withErrors('Nama dan password tidak sesuai')->withInput();
+            return redirect('')->withErrors('Username dan password tidak sesuai')->withInput();
         }
     }
 

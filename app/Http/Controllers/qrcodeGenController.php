@@ -421,7 +421,7 @@ class qrcodeGenController extends Controller
         $today = now()->toDateString();
         $absensiDisabled = $combinedDates->contains($today);
 
-        $qrcode = QrCodeGen::where('user_id',$userId)->where('tanggal_kirimDtg',$today)->first();
+        $qrcode = QrCodeGen::where('user_id', $userId)->where('tanggal_kirimDtg', $today)->first();
 
         if ($absensiDisabled) {
             return redirect('dashboardPegawai')->withErrors('Sudah Absen');
@@ -436,42 +436,64 @@ class qrcodeGenController extends Controller
             return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim oleh admin');
         }
         $id = $qrcodeGens->id;
-        return view('Pegawai.codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id, 'qrcodeData'=>$qrcode]);
+        return view('Pegawai.codePegawai', ['qrcodefilesDtg' => $qrcodeGens, 'id' => $id, 'qrcodeData' => $qrcode]);
     }
 
     public function indexKaryawanPulang()
     {
         $user = Auth::user();
-        $userId = $user->id; // Retrieve the user ID
+        $userId = $user->id;
 
-        // Retrieve records for cuti and izin models for the logged-in user
-        $cuti = cuti::where('user_id', $userId)->pluck('tanggal')->toArray();
-        $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
-        $izins = Izin::where('user_id', $userId)->pluck('tanggal')->toArray();
-
-        // Combine the dates of cuti, izin, and qrcode records
-        $combinedDates = collect($cuti)->merge($dinlur)->merge($izins)->unique();
-
-
-
-        // Check if there are any records for cuti or izin on today's date
         $today = now()->toDateString();
-        $absensiDisabled = $combinedDates->contains($today);
-
-        if ($absensiDisabled) {
-            return redirect('dashboardPegawai')->withErrors('Sudah Absen');
-        }
-        // Controller method
-        $user = auth()->user();
-        $today = now()->format('Y-m-d');
         $qrcodeGens = qrcodeGen::where('tanggal_kirimPlg', $today)
-            ->where('user_id', $user->id)->first();
-        // handle null qr code
-        if ($qrcodeGens  == null) {
-            return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim oleh Admin.');
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$qrcodeGens) {
+            return redirect('dashboardPegawai')->withErrors('QR code belum dikirim oleh Admin.');
         }
 
-        // Pass the variable as 'qrcodefilesDtg' to the view
+        // Pastikan nama variabel yang dikirim ke tampilan sesuai dengan yang digunakan di Blade
         return view('Pegawai.codePegawaiPulang', ['qrcodefilesDtg' => $qrcodeGens]);
     }
+
+
+
+
+
+    // public function indexKaryawanPulang()
+    // {
+    //     $user = Auth::user();
+    //     $userId = $user->id; // Retrieve the user ID
+
+    //     // Retrieve records for cuti and izin models for the logged-in user
+    //     $cuti = cuti::where('user_id', $userId)->pluck('tanggal')->toArray();
+    //     $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
+    //     $izins = Izin::where('user_id', $userId)->pluck('tanggal')->toArray();
+
+    //     // Combine the dates of cuti, izin, and qrcode records
+    //     $combinedDates = collect($cuti)->merge($dinlur)->merge($izins)->unique();
+
+
+
+    //     // Check if there are any records for cuti or izin on today's date
+    //     $today = now()->toDateString();
+    //     $absensiDisabled = $combinedDates->contains($today);
+
+    //     if ($absensiDisabled) {
+    //         return redirect('dashboardPegawai')->withErrors('Sudah Absen');
+    //     }
+    //     // Controller method
+    //     $user = auth()->user();
+    //     $today = now()->format('Y-m-d');
+    //     $qrcodeGens = qrcodeGen::where('tanggal_kirimPlg', $today)
+    //         ->where('user_id', $user->id)->first();
+    //     // handle null qr code
+    //     if ($qrcodeGens  == null) {
+    //         return redirect('dashboardPegawai')->withErrors('Qr code Belum dikirim oleh Admin.');
+    //     }
+
+    //     // Pass the variable as 'qrcodefilesDtg' to the view
+    //     return view('Pegawai.codePegawaiPulang', ['qrcodefilesDtg' => $qrcodeGens]);
+    // }
 }
