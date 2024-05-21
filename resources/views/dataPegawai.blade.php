@@ -56,6 +56,14 @@
                             <a href="{{ url('/dashboardAdmin/kepegawaian/create') }}">
                                 <button type="submit" class="btn" style="width: 200px">Tambah Pegawai</button>
                             </a>
+                            <form action="{{ route('import.file') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <label for="file">
+                                    <input type="file" id="file" name="file">Import File User
+                                </label>
+                            
+                                <button type="submit">Submit</button>
+                            </form>
                         </div>
                     </div>
                 </div>

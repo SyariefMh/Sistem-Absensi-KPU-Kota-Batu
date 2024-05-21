@@ -31,13 +31,13 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>SISTEM ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="img/KPU_Logo.png" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <div class="dropdown">
                 <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                     aria-expanded="false" style="color: white; font-weight:bold">
-                    KOMISI PEMILIHAN UMUM KOTA BATU <img src="img/profile.png" alt="" width="45"
+                    Pegawai, {{ auth()->user()->name }} <img src="img/profile.png" alt="" width="45"
                         height="45" style="margin-left: 10px">
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -56,13 +56,15 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Profile Pegawai</h5>
                     <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    aria-label="Close"></button>
                 </div>
                 <form id="profileForm" action="{{ url('dashboardPegawai/Pegawaiprofile/update/' . $users->id) }}"
                     method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
+                        <div id="updateBerhasil" class="alert alert-success" style="display: none">alert Berhasil</div>
+                        <div id="updateGagal" class="alert alert-danger" style="display: none">alert gagal</div>
                         <p style="padding-top: 10px">Nama : </p>
                         <div class="input" style="margin-right: 800px">
                             <input name="name" class="form-control form-control-sm underline" type="text"
@@ -90,8 +92,6 @@
                         <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
                         <input type="hidden" name="golongan" value="{{ $users->golongan }}">
                         <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data tanda tangan -->
-                        <input type="hidden" name="tandatanggan" value="{{ $users->tandatanggan }}">
                         <!-- Sisipkan input tersembunyi untuk menyimpan data tanda tangan -->
                         <p style="padding-top: 10px">Tanda Tangan : </p>
                         <div class="input" style="margin-right: 800px">
@@ -258,35 +258,6 @@
         }, 3000);
     </script>
 
-    {{-- <script>
-    document.getElementById('qrcodeButton').addEventListener('click', function(e) {
-        e.preventDefault();
-
-        fetch('{{ url('/dashboardPegawai/qrcode') }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({})
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.redirect) {
-                window.location.href = data.redirect;
-            } else if (data.success) {
-                alert(data.success);
-                window.location.href = '{{ url('/dashboardPegawai/codePegawai') }}';
-            } else {
-                alert(data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        });
-    });
-</script> --}}
     <script>
         document.getElementById('qrcodeButton').addEventListener('click', function(e) {
             e.preventDefault();
@@ -371,81 +342,70 @@
         });
     </script>
 
-
-
-
-
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-    -->
-
-    <!-- Letakkan skrip JavaScript ini di bawah tag </body> -->
-    <script>
-        function openModal() {
-            var modal = new bootstrap.Modal(document.getElementById('modal_profile'));
-            modal.show();
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Menambahkan event listener untuk tombol yang menutup modal
-            var closeModalButton = document.getElementById('closeModal');
-            closeModalButton.addEventListener('click', function() {
-                var modalElement = document.getElementById('modal_profile');
-                var modal = bootstrap.Modal.getInstance(modalElement);
-                modal.hide(); // Menutup modal
-            });
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Open the modal when the profile link is clicked
+        var profileLink = document.querySelector('a.dropdown-item[href="#"]');
+        profileLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            $('#modal_profile').modal('show');
         });
-        document.addEventListener('DOMContentLoaded', function() {
-            var profileLink = document.querySelector('a.dropdown-item[href="#"]');
-            profileLink.addEventListener('click', openModal);
-            var profileForm = document.getElementById('profileForm');
 
-            $('#profileForm').submit(function(event) {
-                event.preventDefault(); // Mencegah pengiriman form biasa
+        // Add event listener for form submission
+        var profileForm = document.getElementById('profileForm');
+        profileForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
 
-                var formData = new FormData(this); // Buat objek FormData dari form
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            var formData = new FormData(this); // Create FormData object from the form
+            var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                // Menambahkan token CSRF ke dalam formData
-                formData.append('_token', CSRF_TOKEN);
-
-                $.ajax({
-                    url: $(this).attr('action'), // URL endpoint untuk permintaan AJAX
-                    method: 'PUT', // Metode HTTP yang akan digunakan
-                    data: formData, // Data yang akan dikirim
-                    contentType: false, // Hindari default contentType untuk FormData
-                    processData: false, // Hindari pemrosesan data FormData oleh jQuery
-                    success: function(data) {
-                        if (data.success) {
-                            // Tutup modal jika berhasil
-                            var modal = new bootstrap.Modal(document.getElementById(
-                                'modal_profile'));
-                            modal.hide();
-                            // Tampilkan pesan sukses atau lakukan tindakan lain yang sesuai
-                            console.log(data.message);
-                        } else {
-                            // Tampilkan pesan kesalahan jika diperlukan
-                            console.error('Gagal memperbarui data');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Terjadi kesalahan:', error);
-                        console.error('Status HTTP:', xhr.status);
-                        console.error('Pesan Respons:', xhr.statusText);
+            $.ajax({
+                url: this.action, // The form action URL
+                method: 'POST', // Use POST method
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN // Set the CSRF token in headers
+                },
+                data: formData,
+                contentType: false, // Prevent jQuery from overriding content type
+                processData: false, // Prevent jQuery from processing data
+                success: function(data) {
+                    if (data.success) {
+                        $('#updateBerhasil').show();
+                        setTimeout(function(){
+                            $('#modal_profile').modal('hide');
+                            location.reload();
+                        }, 2000); // Optional delay before reload
+                    } else {
+                        $('#updateGagal').show();
+                        setTimeout(function(){
+                            $('#updateGagal').hide();
+                        }, 2000); // Hide after 2 seconds
+                        profileForm.reset();
+                        console.error('Gagal memperbarui data');
                     }
-                });
+                },
+                error: function(xhr, status, error) {
+                    $('#updateGagal').show();
+                    setTimeout(function(){
+                        $('#updateGagal').hide();
+                    }, 2000); // Hide after 2 seconds
+                    profileForm.reset();
+                    console.error('Terjadi kesalahan:', error);
+                    console.error('Status HTTP:', xhr.status);
+                    console.error('Pesan Respons:', xhr.statusText);
+                }
             });
-
-
         });
-    </script>
+
+        // Close the modal when the close button is clicked
+        var closeModalButton = document.getElementById('closeModal');
+        closeModalButton.addEventListener('click', function() {
+            var modal = bootstrap.Modal.getInstance(document.getElementById('modal_profile'));
+            modal.hide();
+        });
+    });
+</script>
+
 
 
 </body>

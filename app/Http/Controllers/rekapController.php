@@ -44,11 +44,8 @@ class rekapController extends Controller
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
             ->addSelect(DB::raw('"QrCode" as source'));
 
-        $qrcodes = pulangQrCode::whereIn('user_id', $userIds)
-            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status'])
-            ->addSelect(DB::raw('"QrCode" as source'));
-
-        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->union($qrcodes)->where('periode_id', $periode)->get();
+        
+        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->where('periode_id', $periode)->get();
 
         // Jika tidak ada tanggal yang dipilih, tampilkan semua data
         if (request()->tgl == '') {
@@ -64,7 +61,7 @@ class rekapController extends Controller
                     return $data->user->jabatan; // Assuming there's a relationship between models
                 })
                 ->addColumn('action', function ($row) {
-                    $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                    $showUrl = url('/dashboardAdmin/cekRekap/show/?id=' . $row->id.'&kode_absen=' . $row->source);
                     return '<a href="' . $showUrl . '">Show</a>';
                 })
                 ->toJson();
@@ -85,7 +82,7 @@ class rekapController extends Controller
                 return $data->user->jabatan; // Assuming there's a relationship between models
             })
             ->addColumn('action', function ($row) {
-                $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                $showUrl = url('/dashboardAdmin/cekRekap/show/?id=' . $row->id.'&kode_absen='. $row->source);
                 return '<a href="' . $showUrl . '">Show</a>';
             })
             ->toJson();
@@ -129,7 +126,7 @@ class rekapController extends Controller
                     return $data->user->jabatan; // Assuming there's a relationship between models
                 })
                 ->addColumn('action', function ($row) {
-                    $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                    $showUrl = url('/dashboardAdmin/cekRekap/show/?id=' . $row->id.'&kode_absen='. $row->source);
                     return '<a href="' . $showUrl . '">Show</a>';
                 })
                 ->toJson();
@@ -150,7 +147,7 @@ class rekapController extends Controller
                 return $data->user->jabatan; // Assuming there's a relationship between models
             })
             ->addColumn('action', function ($row) {
-                $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id.'&kode_absen='. $row->source);
                 return '<a href="' . $showUrl . '">Show</a>';
             })
             ->toJson();
@@ -193,7 +190,7 @@ class rekapController extends Controller
                     return $data->user->jabatan; // Assuming there's a relationship between models
                 })
                 ->addColumn('action', function ($row) {
-                    $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                    $showUrl = url('/dashboardAdmin/cekRekap/show/?id=' . $row->id.'&kode_absen='. $row->source);
                     return '<a href="' . $showUrl . '">Show</a>';
                 })
                 ->toJson();
@@ -214,48 +211,31 @@ class rekapController extends Controller
                 return $data->user->jabatan; // Assuming there's a relationship between models
             })
             ->addColumn('action', function ($row) {
-                $showUrl = url('/dashboardAdmin/cekRekap/show/' . $row->id);
+                $showUrl = url('/dashboardAdmin/cekRekap/show/?id=' . $row->id.'&kode_absen='. $row->source);
                 return '<a href="' . $showUrl . '">Show</a>';
             })
             ->toJson();
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        $users = User::where('jabatan', 'Jagat Saksana (Satpam)')->get();
-        $userIds = $users->pluck('id');
-        $users = User::where('jabatan', 'PNS')->get();
-        $userIds = $users->pluck('id');
-        $users = User::where('jabatan', 'PPNPN')->get();
-        $userIds = $users->pluck('id');
-        $cutiData = Cuti::find($id);
-        $izinData = Izin::find($id);
-        $dinlurData = Dinlur::find($id);
-        $qrcodeData = datangQrCode::find($id);
+        $id = $request->query('id');
+        $kode_absen = $request->query('kode_absen');
 
-        if ($cutiData !== null) {
-            $cutiAttributes = $cutiData->toArray();
-            return view('showCekRekap', compact('cutiAttributes'));
-            // Display data from Cuti
-            // Do something with $cutiData
-        } elseif ($izinData !== null) {
-            $izinAttributes = $izinData->toArray();
-            return view('showCekRekap', compact('izinAttributes'));
-            // Display data from Izin
-            // Do something with $izinData
-        } elseif ($dinlurData !== null) {
-            $dinlurAttributes = $dinlurData->toArray();
-            return view('showCekRekap', compact('dinlurAttributes'));
-            // Display data from Dinlur
-            // Do something with $dinlurData
-        } elseif ($qrcodeData !== null) {
-            $qrcodeAttributes = $qrcodeData->toArray();
-            return view('showCekRekap', compact('qrcodeAttributes'));
-            // Display data from QrCode
-            // Do something with $qrcodeData
+        if ($kode_absen == 'Cuti') {
+            $data = Cuti::with('user')->find($id);
+        } elseif ($kode_absen == 'Izin') {
+            $data = Izin::with('user')->find($id);
+        } elseif ($kode_absen == 'Dinlur') {
+            $data = Dinlur::with('user')->find($id);
+        } elseif ($kode_absen == 'QrCode') {
+            // Anda mungkin perlu menentukan apakah ini untuk datang atau pulang
+            // Misalnya, untuk sekarang menggunakan datangQrCode
+            $data = datangQrCode::with('user')->find($id);
         } else {
-            // Handle case where no data is found
-            echo "No data found.";
+            return redirect()->back()->with('error', 'Data tidak ditemukan atau kode absen tidak valid.');
         }
+
+        return view('showCekRekapAdmin', ['data' => $data]);
     }
 }

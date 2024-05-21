@@ -44,12 +44,11 @@ class rekapKasubagController extends Controller
             ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status', 'periode_id'])
             ->addSelect(DB::raw('"QrCode" as source'));
 
-        $qrcodes = pulangQrCode::whereIn('user_id', $userIds)
-            ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status', 'periode_id'])
-            ->addSelect(DB::raw('"QrCode" as source'));
+        // $qrcodes = pulangQrCode::whereIn('user_id', $userIds)
+        //     ->select(['id', 'user_id', 'tanggal', 'jam_datang', 'jam_pulang', 'Keterangan', 'Status', 'periode_id'])
+        //     ->addSelect(DB::raw('"QrCode" as source'));
 
-        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->union($qrcodes)->where('periode_id', $periode)->get();
-
+        $combinedData = $cuti->union($izins)->union($dinlur)->union($qrcode)->where('periode_id', $periode)->get();
         if (request()->tgl == '') {
             return DataTables::of($combinedData)
                 ->addColumn('DT_RowIndex', function ($data) {

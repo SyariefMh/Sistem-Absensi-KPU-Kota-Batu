@@ -34,18 +34,60 @@
             background-position: right -10px bottom -230px;
             ;
         }
+
+        @media (max-width: 768px) {
+            .judul img {
+                width: 80px;
+                height: 89px;
+            }
+
+            .judul h1 {
+                font-size: 1.5rem;
+            }
+            #errorAlert {
+                font-size: 0.9rem;
+            }
+
+            #errorAlert svg {
+                width: 20px;
+                height: 20px;
+            }
+            .container {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .judul img {
+                width: 60px;
+                height: 65px;
+            }
+            #errorAlert {
+                font-size: 0.8rem;
+            }
+
+            #errorAlert svg {
+                width: 16px;
+                height: 16px;
+            }
+            .container {
+                width: 100%;
+                padding: 0 15px;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     {{-- Navbar --}}
-    <nav class="navbar">
-        <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
-        </div>
-    </nav>
+    <div class="container-fluid">
+        <nav class="navbar">
+            <div class="container col-12">
+                <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+                <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+            </div>
+        </nav>
+    </div>
 
     {{-- Form Login --}}
     <div class="container col-12">
@@ -81,7 +123,7 @@
                 {{-- end alert --}}
 
                 <div class="isi" style="margin-top: 0">
-                    <div class="container col-10">
+                    <div class="container col-lg-6 col-md-8 col-sm-10">
                         <form action="" method="POST">
                             @csrf
                             <div class="mb-3">

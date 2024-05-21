@@ -331,6 +331,7 @@
                 <th>Tanggal</th>
                 <th>Keterangan</th>
                 <th>Status</th>
+                <th>Kode Absen</th>
             </tr>
         </thead>
         <tbody>
@@ -351,6 +352,7 @@
                                 <td>{{ $dataabsensi->tanggal }}</td>
                                 <td>{{ $dataabsensi->Keterangan }}</td>
                                 <td>{{ $dataabsensi->Status }}</td>
+                                <td>{{ $dataabsensi->kode_absen }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -359,6 +361,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->jabatan }}</td>
                             <td>{{ $user->pangkat }}</td>
+                            <td>-</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
@@ -385,6 +388,7 @@
                                 <td>{{ $dataabsensi->tanggal }}</td>
                                 <td>{{ $dataabsensi->Keterangan }}</td>
                                 <td>{{ $dataabsensi->Status }}</td>
+                                <td>{{ $dataabsensi->kode_absen }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -393,6 +397,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->jabatan }}</td>
                             <td>{{ $user->pangkat }}</td>
+                            <td>-</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>
@@ -419,6 +424,7 @@
                                 <td>{{ $dataabsensi->tanggal }}</td>
                                 <td>{{ $dataabsensi->Keterangan }}</td>
                                 <td>{{ $dataabsensi->Status }}</td>
+                                <td>{{ $dataabsensi->kode_absen }}</td>
                             </tr>
                         @endforeach
                     @else
@@ -427,6 +433,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->jabatan }}</td>
                             <td>{{ $user->pangkat }}</td>
+                            <td>-</td>
                             <td>-</td>
                             <td>-</td>
                             <td>-</td>

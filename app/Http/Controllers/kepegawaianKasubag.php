@@ -11,6 +11,8 @@ use App\Models\nilaiB;
 use App\Models\nilaiC;
 use App\Models\periode;
 use App\Models\pulangQrCode;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\User;
@@ -292,9 +294,6 @@ class kepegawaianKasubag extends Controller
         return view('kasubag.tambahPegawaiKasubag');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -305,7 +304,7 @@ class kepegawaianKasubag extends Controller
             'nip' => 'nullable',
             'pangkat' => 'nullable',
             'golongan' => 'nullable',
-            'tandatanggan' => 'required|file|mimes:jpeg,png,pdf|max:10000' // Sesuaikan dengan jenis file yang diizinkan dan ukuran maksimal
+            'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000' // Sesuaikan dengan jenis file yang diizinkan dan ukuran maksimal
         ]);
 
         // dd($request->all());
@@ -406,5 +405,14 @@ class kepegawaianKasubag extends Controller
 
         // Return a JSON response indicating success
         return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
+    }
+
+    public function importUsers(Request $request)
+    {
+        $file = $request->file('file');
+
+        Excel::import(new UsersImport, $file);
+
+        return redirect()->back()->with('success', 'Data imported successfully.');
     }
 }

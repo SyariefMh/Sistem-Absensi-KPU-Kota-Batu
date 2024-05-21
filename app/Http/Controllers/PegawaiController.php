@@ -31,21 +31,67 @@ class PegawaiController extends Controller
         return view('kasubag.dashboardKasubag');
         // echo "<a href='logout'> Logout >> </a>";
     }
-    public function update(Request $request)
+    // public function update(Request $request)
+    // {
+    //     // Validasi data
+    //     $request->validate([
+    //         'name' => 'required',
+    //         'role' => ['required', Rule::in(['pegawai', 'admin', 'kasubag umum'])],
+    //         'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Satpam'])],
+    //         'nip' => 'nullable',
+    //         'pangkat' => 'nullable',
+    //         'golongan' => 'nullable',
+    //         'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000' // Sesuaikan jenis file yang diizinkan dan ukuran maksimum
+    //     ]);
+
+    //     // Ambil user yang sedang login
+    //     $user = Auth::user();
+
+    //     // Update data user
+    //     $user->update($request->only(['name', 'role', 'jabatan', 'nip', 'pangkat', 'golongan']));
+
+    //     // Update password jika password baru disediakan
+    //     if ($request->filled('password')) {
+    //         $user->password = bcrypt($request->password);
+    //     }
+
+    //     // Update tandatangan jika file baru disediakan
+    //     if ($request->hasFile('tandatanggan')) {
+    //         $tandatanganPath = $request->file('tandatanggan')->store('tandatanggan', 'public');
+
+    //         // Hapus tandatangan yang ada jika ada
+    //         if ($user->tandatanggan) {
+    //             Storage::disk('public')->delete($user->tandatanggan);
+    //         }
+
+    //         $user->tandatanggan = $tandatanganPath;
+    //     }
+
+    //     // Simpan perubahan
+    //     $user->save();
+
+    //     // Redirect ke dashboardPegawai setelah berhasil
+    //     return redirect('/dashboardPegawai')->with('success', 'Data Pegawai Berhasil Diperbarui');
+    // }
+
+    public function update(Request $request, $id)
     {
+        // dd($request->all()); // Tambahkan ini untuk debugging
+
         // Validasi data
         $request->validate([
             'name' => 'required',
+            'password' => 'nullable|min:6',
             'role' => ['required', Rule::in(['pegawai', 'admin', 'kasubag umum'])],
             'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Satpam'])],
             'nip' => 'nullable',
             'pangkat' => 'nullable',
             'golongan' => 'nullable',
-            'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000' // Sesuaikan jenis file yang diizinkan dan ukuran maksimum
+            'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000'
         ]);
 
         // Ambil user yang sedang login
-        $user = Auth::user();
+        $user = User::find($id);
 
         // Update data user
         $user->update($request->only(['name', 'role', 'jabatan', 'nip', 'pangkat', 'golongan']));
@@ -71,7 +117,10 @@ class PegawaiController extends Controller
         $user->save();
 
         // Redirect ke dashboardPegawai setelah berhasil
-        return redirect('/dashboardPegawai')->with('success', 'Data Pegawai Berhasil Diperbarui');
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Pegawai Berhasil Diperbarui',
+        ]);
     }
 
     public function qrcodedatang()
@@ -126,39 +175,38 @@ class PegawaiController extends Controller
     }
 
     public function qrcodepulang()
-{
-    $user = Auth::user();
-    $userId = $user->id;
+    {
+        $user = Auth::user();
+        $userId = $user->id;
 
-    // Cek apakah sudah ada QR code dengan tanggal yang sama
-    $existingRecord = qrcodeGen::where('user_id', $userId)
-        ->whereDate('tanggal_kirimPlg', now()->toDateString())
-        ->first();
+        // Cek apakah sudah ada QR code dengan tanggal yang sama
+        $existingRecord = qrcodeGen::where('user_id', $userId)
+            ->whereDate('tanggal_kirimPlg', now()->toDateString())
+            ->first();
 
-    // Jika sudah ada, langsung arahkan ke halaman yang sudah ada QR codenya
-    if ($existingRecord) {
-        return response()->json(['redirect' => true]);
+        // Jika sudah ada, langsung arahkan ke halaman yang sudah ada QR codenya
+        if ($existingRecord) {
+            return response()->json(['redirect' => true]);
+        }
+
+        // Jika belum ada, buat QR code baru
+        $code = 'PLG' . Str::random(8);
+        $qrCodeData = $code;
+        $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
+        $qrCodePathPulang = 'qrcodesPlg/' . $qrCodeData . '.png';
+        Storage::disk('public')->put($qrCodePathPulang, $qrCode);
+
+        // Simpan QR code baru
+        qrcodeGen::updateOrCreate(
+            ['user_id' => $userId],
+            [
+                'qrcode_pulang' => $qrCodeData,
+                'qrcodefilesPlg' => $qrCodePathPulang,
+                'tanggal_kirimPlg' => now()->toDateString(),
+            ]
+        );
+
+        // Setelah berhasil, arahkan ke halaman yang sudah ada QR codenya
+        return response()->json(['message' => 'QR Code Pulang berhasil dikirim ke ' . $user->name, 'redirect' => true]);
     }
-
-    // Jika belum ada, buat QR code baru
-    $code = 'PLG' . Str::random(8);
-    $qrCodeData = $code;
-    $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
-    $qrCodePathPulang = 'qrcodesPlg/' . $qrCodeData . '.png';
-    Storage::disk('public')->put($qrCodePathPulang, $qrCode);
-
-    // Simpan QR code baru
-    qrcodeGen::updateOrCreate(
-        ['user_id' => $userId],
-        [
-            'qrcode_pulang' => $qrCodeData,
-            'qrcodefilesPlg' => $qrCodePathPulang,
-            'tanggal_kirimPlg' => now()->toDateString(),
-        ]
-    );
-
-    // Setelah berhasil, arahkan ke halaman yang sudah ada QR codenya
-    return response()->json(['message' => 'QR Code Pulang berhasil dikirim ke ' . $user->name, 'redirect' => true]);
-}
-
 }

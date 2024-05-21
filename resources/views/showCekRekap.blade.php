@@ -18,58 +18,99 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/cekRekap.css">
+    <link rel="stylesheet" href="{{ url('css/cekRekap.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap4.min.css">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="img/KPU_Logo.png">
+    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
 
     <title>Dashboard</title>
+    <style>
+        #map-datang {
+            height: 200px;
+        }
+    </style>
 </head>
 
 <body>
+    <nav class="navbar">
+        <div class="container col-12">
+            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
+                class="d-inline-block align-text-center">
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+        </div>
+    </nav>
 
-    @if (isset($cutiAttributes))
-        <p>{{ $cutiAttributes['jam_datang'] }}</p>
-        {{-- Display data from Cuti --}}
-        {{-- Access $cutiAttributes here --}}
-    @elseif(isset($izinAttributes))
-        <p>{{ $izinAttributes['jam_datang'] }}</p>
-        {{-- Display data from Izin --}}
-        {{-- Access $izinAttributes here --}}
-    @elseif(isset($dinlurAttributes))
-        <p>{{ $dinlurAttributes['jam_datang'] }}</p>
-        {{-- Display data from Dinlur --}}
-        {{-- Access $dinlurAttributes here --}}
-    @elseif(isset($qrcodeAttributes))
-        <p>{{ $qrcodeAttributes['jam_datang'] }}</p>
-        {{-- Display data from QrCode --}}
-        {{-- Access $qrcodeAttributes here --}}
-    @else
-        {{-- Handle case where no data is found --}}
-        No data found.
-    @endif
+    <div class="d-flex align-items-center">
+        @if ($data)
+            {{-- @dd($data); --}}
+            <div class="container">
+                <h1>Detail {{ $data->source }}</h1>
+                <p>Nama: {{ $data->user->name }}</p>
+                <p>Tanggal: {{ $data->tanggal }}</p>
+                @if ($data->kode_absen === 'dinlur')
+                    <p>Jenis Absen: Absen Dinas Luar</p>
+                @elseif($data->kode_absen === 'izin')
+                    <p>Jenis Absen: Absen Izin</p>
+                @elseif($data->kode_absen === 'qrcode')
+                    <p>Jenis Absen: Absen Qr Code Kantor</p>
+                @elseif($data->kode_absen === 'cuti')
+                    <p>Jenis Absen: Absen Cuti</p>
+                @endif
+                <p>Jam Datang: {{ $data->jam_datang }}</p>
+                <p>Jam Pulang: {{ $data->jam_pulang }}</p>
+                <p>Keterangan: {{ $data->Keterangan }}</p>
+                <p>Status: {{ $data->Status }}</p>
+                <p>Surat Tugas:
+                    @if ($data->kode_absen === 'dinlur' || $data->kode_absen === 'cuti' || $data->kode_absen === 'izin')
+                        @php
+                            $fileExtension = pathinfo($data->file, PATHINFO_EXTENSION);
+                            $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp'];
+                        @endphp
 
-
+                        @if (in_array($fileExtension, $imageExtensions))
+                            <img src="{{ asset('storage/' . $data->file) }}" alt="file"
+                                style="max-width: 100px; height: auto;">
+                        @else
+                            <a href="{{ asset('storage/' . $data->file) }}" target="_blank">Lampiran surat</a>
+                        @endif
+                    @endif
+                </p>
+                </p>
+                @if ($data->kode_absen === 'dinlur')
+                    <div id="map-datang"></div>
+                @endif
+            @else
+                <p>Data tidak ditemukan.</p>
+        @endif
     </div>
+    </div>
+
     <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115">
 
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-    </script>
-    -->
+    {{-- digunakan agar ketika data diambil dari tabel dinlur maka script leaflet dijalan kan --}}
+    @if ($data->kode_absen === 'dinlur')
+        <!-- Leaflet JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var datangMap = L.map('map-datang').setView([{{ $data->latitude }},
+                    {{ $data->longitude }}
+                ], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(datangMap);
+                L.marker([{{ $data->latitude }}, {{ $data->longitude }}]).addTo(datangMap)
+                    .bindPopup('Lokasi Datang')
+                    .openPopup();
+            });
+        </script>
+    @endif
+    <script></script>
 </body>
 
 </html>

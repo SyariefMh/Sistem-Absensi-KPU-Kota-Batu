@@ -112,7 +112,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/cekRekap/getPNS', [rekapController::class, 'rekapPNS']);
             Route::get('/cekRekap/getSatpam', [rekapController::class, 'rekapSatpam']);
             Route::get('/cekRekap/getPPNPN', [rekapController::class, 'rekapPPNPN']);
-            Route::get('/cekRekap/show/{id}', [rekapController::class, 'show']);
+            Route::get('/cekRekap/show', [rekapController::class, 'show']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/scanDatang', [absen_qr_codeController::class, 'index']);
@@ -121,6 +121,9 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'index']);
             Route::post('/scanPulang/scan/store', [absenPulang_qr_codeController::class, 'scanQrCodeDatang']);
+        });
+        Route::prefix('/dashboardAdmin')->group(function () {
+            Route::post('/import-excel', [kepegawaianController::class,'importUsers'])->name('import.file');
         });
     });
 
@@ -180,6 +183,9 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/periode/destroy/{id}', [PeriodeController::class, 'destroy']);
             Route::put('/periode/update/{id}', [PeriodeController::class, 'update']);
             Route::get('/periode/getdataperiode', [PeriodeController::class, 'getdataperiode'])->name('getdataperiode');
+        });
+        Route::prefix('/dashboardKasubag')->group(function () {
+            Route::post('/import-excel', [kepegawaianKasubag::class,'importUsers'])->name('import.process');
         });
     });
     // Route untuk logout

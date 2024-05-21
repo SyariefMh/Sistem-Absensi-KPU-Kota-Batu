@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
 
@@ -105,7 +107,7 @@ class kepegawaianController extends Controller
             'nip' => 'nullable',
             'pangkat' => 'nullable',
             'golongan' => 'nullable',
-            'tandatanggan' => 'required|file|mimes:jpeg,png,pdf|max:10000' // Sesuaikan dengan jenis file yang diizinkan dan ukuran maksimal
+            'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000' // Sesuaikan dengan jenis file yang diizinkan dan ukuran maksimal
         ]);
 
         // dd($request->all());
@@ -129,14 +131,6 @@ class kepegawaianController extends Controller
         return redirect('/dashboardAdmin/kepegawaian')->with('success', 'Data Pegawai Berhasil Ditambahkan');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -212,5 +206,18 @@ class kepegawaianController extends Controller
 
         // Return a JSON response indicating success
         return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
+    }
+    public function importUsers(Request $request)
+    {
+        $file = $request->file('file');
+
+        try {
+            $import = new UsersImport();
+            Excel::import($import, $file);
+
+            return redirect()->back()->with('success', 'Data berhasil diimpor.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat mengimpor data.');
+        }
     }
 }

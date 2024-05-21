@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('datangqrcode', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_absen')->default('qrcode');
+            $table->string('kode_absen')->default('absen kantor');
             $table->string('tanggal');
             $table->time('jam_datang')->nullable();
             $table->time('jam_pulang')->nullable();

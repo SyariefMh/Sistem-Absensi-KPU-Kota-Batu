@@ -94,6 +94,7 @@ class PdfController extends Controller
                 'jam_pulang' => '-',
                 'Keterangan' => '-',
                 'Status' => '-',
+                'kode_absen' => '-',
             ];
         }
         return $absensi->first();

@@ -31,12 +31,19 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU
-                <img src="{{ asset('img/profile.png') }}" alt="" width="50" height="50"
-                    style="margin-left: 10px"></a>
+                <div class="dropdown">
+                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                        aria-expanded="false" style="color: #C72B41; font-weight:bold; background-color: #f0f0f0">
+                        {{ auth()->user()->name }} <img src="{{ asset('img/profile.png') }}" alt="" width="45"
+                            height="45" style="margin-left: 10px">
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                    </ul>
+                </div>
         </div>
         <div class="container" style="color: black">
             <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary"
