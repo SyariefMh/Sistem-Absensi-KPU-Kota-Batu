@@ -25,7 +25,7 @@ class cutiController extends Controller
         if ($user->nip) {
             return view('Pegawai.cuti', compact('user'));
         } else {
-            return redirect('/dashboardPegawai');
+            return redirect('/dashboardPegawai')->with('error', 'Anda tidak dapat cuti karena tidak memiliki NIP');
         }
     }
 

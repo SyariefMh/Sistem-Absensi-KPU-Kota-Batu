@@ -209,4 +209,15 @@ class PegawaiController extends Controller
         // Setelah berhasil, arahkan ke halaman yang sudah ada QR codenya
         return response()->json(['message' => 'QR Code Pulang berhasil dikirim ke ' . $user->name, 'redirect' => true]);
     }
+
+    public function handleQrCodeRequest(Request $request)
+    {
+        // Lakukan operasi yang diperlukan, misalnya pengambilan data dari database atau pemrosesan lainnya.
+
+        // Simpan user ID dalam session atau cookie
+        session(['active_user_id' => auth()->user()->id]);
+
+        // Kirim respons JSON kembali ke frontend
+        return response()->json(['success' => 'QR code request processed successfully']);
+    }
 }

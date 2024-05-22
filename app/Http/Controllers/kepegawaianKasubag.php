@@ -229,6 +229,7 @@ class kepegawaianKasubag extends Controller
                     $periodeId
                 )
                 ->first();
+                // dd($absensiData);
 
             if ($absensiData) {
                 $absensi->push($absensiData);
@@ -244,6 +245,7 @@ class kepegawaianKasubag extends Controller
                 'jam_pulang' => '-',
                 'Keterangan' => '-',
                 'Status' => '-',
+                'kode_absen' => '-',
             ];
         }
 

@@ -24,6 +24,22 @@
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
 
+    <style>
+        .sticky-alert {
+            position: fixed;
+            top: 20px;
+            /* Sesuaikan dengan posisi vertikal yang diinginkan */
+            right: 500px;
+            padding: 10px;
+            transition: opacity 0.5s ease-in-out;
+            /* Efek transisi opacity */
+        }
+
+        .sticky-alert.fade-out {
+            opacity: 0;
+        }
+    </style>
+
     <title>Dashboard</title>
 </head>
 
@@ -56,7 +72,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title">Profile Pegawai</h5>
                     <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                        aria-label="Close"></button>
                 </div>
                 <form id="profileForm" action="{{ url('dashboardPegawai/Pegawaiprofile/update/' . $users->id) }}"
                     method="POST" enctype="multipart/form-data">
@@ -111,6 +127,24 @@
 
     <div class="hero">
         <div class="container">
+            <!-- Alert Cuti -->
+            <div id="stickyAlert" class="sticky-alert">
+                @if (session('error'))
+                    <div id="errorCuti" class="alert alert-danger d-flex align-items-center" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
+                            role="img" aria-label="Warning:">
+                            <path
+                                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                        <div>
+                            {{ session('error') }}
+                        </div>
+                    </div>
+                @endif
+            </div>
+            <!-- End Alert Cuti -->
+
             {{-- alert --}}
             @if ($errors->any() || session('success'))
                 <div id="autoCloseAlert"
@@ -149,16 +183,6 @@
 
             {{-- Card Menu --}}
             <div class="row">
-                {{-- <div class="col-md-2">
-                    <a href="{{ url('/dashboardPegawai/codePegawai') }}" class="cardScan">
-                        <div class="judul">
-                            <p>Qr code</p>
-                        </div>
-                        <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
-                        </div>
-                    </a>
-                </div> --}}
                 <div class="col-md-2">
                     <a href="#" class="cardScan" id="qrcodeButton">
                         <div class="judul">
@@ -212,16 +236,6 @@
                         </div>
                     </a>
                 </div>
-                {{-- <div class="col-md-2">
-                    <a href="{{ url('/dashboardPegawai/codePegawai/pulang') }}" class="cardScan">
-                        <div class="judul">
-                            <p>Pulang</p>
-                        </div>
-                        <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
-                        </div>
-                    </a>
-                </div> --}}
                 <div class="col-md-2">
                     <a href="#" id="generateQrCode" class="cardScan">
                         <div class="judul">
@@ -235,7 +249,14 @@
             </div>
         </div>
     </div>
-    </div>
+
+    <style>
+        .fade-out {
+            transition: opacity 1s ease-out;
+            opacity: 0;
+        }
+    </style>
+
     <img src="img/peta.png" alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
@@ -292,6 +313,56 @@
         function showAlert(title, message, alertType) {
             const alertContainer = document.getElementById('alertContainer');
             alertContainer.innerHTML = `
+            <div class="alert ${alertType} d-flex align-items-center mb-4" role="alert">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                    class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
+                    role="img" aria-label="Warning:">
+                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                </svg>
+                <div>
+                    <strong>${title}</strong>
+                    <ul>
+                        <li>${message}</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        }
+    </script>
+    {{-- <script>
+        document.getElementById('qrcodeButton').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            fetch('{{ url('/dashboardPegawai/qrcode') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else if (data.success) {
+                        showAlert('Success', data.success, 'alert-success');
+                        setTimeout(() => {
+                            window.location.href = '{{ url('/dashboardPegawai/codePegawai') }}';
+                        }, 3000); // Berpindah halaman setelah 3 detik
+                    } else {
+                        showAlert('Error', data.error, 'alert-danger');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showAlert('Error', 'An error occurred. Please try again.', 'alert-danger');
+                });
+        });
+
+        function showAlert(title, message, alertType) {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `
         <div class="alert ${alertType} d-flex align-items-center mb-4" role="alert">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                 class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
@@ -307,7 +378,7 @@
         </div>
     `;
         }
-    </script>
+    </script> --}}
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -342,69 +413,83 @@
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Open the modal when the profile link is clicked
-        var profileLink = document.querySelector('a.dropdown-item[href="#"]');
-        profileLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            $('#modal_profile').modal('show');
-        });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Open the modal when the profile link is clicked
+            var profileLink = document.querySelector('a.dropdown-item[href="#"]');
+            profileLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                $('#modal_profile').modal('show');
+            });
 
-        // Add event listener for form submission
-        var profileForm = document.getElementById('profileForm');
-        profileForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            // Add event listener for form submission
+            var profileForm = document.getElementById('profileForm');
+            profileForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission
 
-            var formData = new FormData(this); // Create FormData object from the form
-            var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                var formData = new FormData(this); // Create FormData object from the form
+                var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-            $.ajax({
-                url: this.action, // The form action URL
-                method: 'POST', // Use POST method
-                headers: {
-                    'X-CSRF-TOKEN': CSRF_TOKEN // Set the CSRF token in headers
-                },
-                data: formData,
-                contentType: false, // Prevent jQuery from overriding content type
-                processData: false, // Prevent jQuery from processing data
-                success: function(data) {
-                    if (data.success) {
-                        $('#updateBerhasil').show();
-                        setTimeout(function(){
-                            $('#modal_profile').modal('hide');
-                            location.reload();
-                        }, 2000); // Optional delay before reload
-                    } else {
+                $.ajax({
+                    url: this.action, // The form action URL
+                    method: 'POST', // Use POST method
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF_TOKEN // Set the CSRF token in headers
+                    },
+                    data: formData,
+                    contentType: false, // Prevent jQuery from overriding content type
+                    processData: false, // Prevent jQuery from processing data
+                    success: function(data) {
+                        if (data.success) {
+                            $('#updateBerhasil').show();
+                            setTimeout(function() {
+                                $('#modal_profile').modal('hide');
+                                location.reload();
+                            }, 2000); // Optional delay before reload
+                        } else {
+                            $('#updateGagal').show();
+                            setTimeout(function() {
+                                $('#updateGagal').hide();
+                            }, 2000); // Hide after 2 seconds
+                            profileForm.reset();
+                            console.error('Gagal memperbarui data');
+                        }
+                    },
+                    error: function(xhr, status, error) {
                         $('#updateGagal').show();
-                        setTimeout(function(){
+                        setTimeout(function() {
                             $('#updateGagal').hide();
                         }, 2000); // Hide after 2 seconds
                         profileForm.reset();
-                        console.error('Gagal memperbarui data');
+                        console.error('Terjadi kesalahan:', error);
+                        console.error('Status HTTP:', xhr.status);
+                        console.error('Pesan Respons:', xhr.statusText);
                     }
-                },
-                error: function(xhr, status, error) {
-                    $('#updateGagal').show();
-                    setTimeout(function(){
-                        $('#updateGagal').hide();
-                    }, 2000); // Hide after 2 seconds
-                    profileForm.reset();
-                    console.error('Terjadi kesalahan:', error);
-                    console.error('Status HTTP:', xhr.status);
-                    console.error('Pesan Respons:', xhr.statusText);
-                }
+                });
+            });
+
+            // Close the modal when the close button is clicked
+            var closeModalButton = document.getElementById('closeModal');
+            closeModalButton.addEventListener('click', function() {
+                var modal = bootstrap.Modal.getInstance(document.getElementById('modal_profile'));
+                modal.hide();
             });
         });
+    </script>
 
-        // Close the modal when the close button is clicked
-        var closeModalButton = document.getElementById('closeModal');
-        closeModalButton.addEventListener('click', function() {
-            var modal = bootstrap.Modal.getInstance(document.getElementById('modal_profile'));
-            modal.hide();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var stickyAlert = document.getElementById('stickyAlert');
+            if (stickyAlert) {
+                setTimeout(function() {
+                    stickyAlert.classList.add('fade-out');
+                    setTimeout(function() {
+                        stickyAlert.remove();
+                    }, 500); // Tunggu sampai transisi selesai sebelum menghapus elemen
+                }, 2000); // Mulai transisi setelah 5 detik
+            }
         });
-    });
-</script>
+    </script>
 
 
 
