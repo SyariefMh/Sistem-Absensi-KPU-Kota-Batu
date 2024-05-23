@@ -23,6 +23,14 @@
     {{-- Logo Title Bar --}}
     <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
 
+    <style>
+        @media (max-width: 768px) {
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+
     <title>Dashboard</title>
 </head>
 
@@ -37,38 +45,37 @@
         </div>
     </nav>
     {{-- card --}}
-    <div class="container col-4 d-flex justify-content-center">
-        <div class="card">
-            <span id="countdown"></span>
-            <p style="margin-left: 95px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code</p>
-
-            {{-- tempat menaruh Qr code --}}
-            <div class="card-body">
-                @php
-                    $qrcodeGenPath = 'storage/qrcodes/' . $qrcodefilesDtg->qrcodefilesDtg . '.png';
-                @endphp
-                <div style="text-align: center;">
-                    <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}" alt="QR Code Kedatangan">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="card">
+                    <span id="countdown"></span>
+                    <div class="card-body text-center">
+                        <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code</p>
+                        {{-- tempat menaruh Qr code --}}
+                        <div class="card-body text-center">
+                            <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}"
+                                alt="QR Code Kedatangan">
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}" download>Download QR Code
+                            Kedatangan</a>
+                    </div>
+                    <button id="regenerateBtn" style="display: none;"
+                        onclick="regenerateQR('{{ $id }}')">Generate QR
+                        Code Ulang</button>
+                    <div class="text-center">
+                        <a href="{{ url('dashboardPegawai') }}" class="btn btn-danger">Kembali</a>
+                    </div>
+                    <p style="padding-bottom: 20px; padding-top: 40px">
+                    </p>
                 </div>
             </div>
-
-            <div class="card-footer">
-                <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesDtg) }}" download>Download QR Code
-                    Kedatangan</a>
-            </div>
-            <button id="regenerateBtn" style="display: none;" onclick="regenerateQR('{{ $id }}')">Generate QR
-                Code Ulang</button>
-
-
-            <p style="padding-bottom: 20px; text-align: center; padding-top: 40px">
-                <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
-            </p>
-
         </div>
     </div>
 
 
-    </div>
 
     <img src={{ url('img/peta.png') }} alt="" class="map">
 
@@ -81,7 +88,7 @@
     <!-- Your HTML code -->
 
     <script>
-        var userId = {{ auth()->id() }};    
+        var userId = {{ auth()->id() }};
         // Mendefinisikan fungsi countdown di luar event listener
         function countdown() {
             var seconds = sessionStorage.getItem('countdownSeconds') ||
@@ -152,6 +159,7 @@
                 .then(data => {
                     // Proses respons atau tindakan lain setelah berhasil menghasilkan QR code
                     console.log(data);
+                    console.log('Memuat ulang halaman.');
                     window.location.reload();
                 })
                 .catch(error => {

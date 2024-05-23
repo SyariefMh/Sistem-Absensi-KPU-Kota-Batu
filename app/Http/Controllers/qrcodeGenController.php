@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cuti;
+use App\Models\datangQrCode;
 use App\Models\dinlur;
 use App\Models\izin;
 use App\Models\qrcodeGen;
@@ -411,9 +412,10 @@ class qrcodeGenController extends Controller
         $cuti = cuti::where('user_id', $userId)->pluck('tanggal')->toArray();
         $dinlur = dinlur::where('user_id', $userId)->pluck('tanggal')->toArray();
         $izins = Izin::where('user_id', $userId)->pluck('tanggal')->toArray();
+        $qrcodes = datangQrCode::where('user_id', $userId)->pluck('tanggal')->toArray();
 
         // Combine the dates of cuti, izin, and qrcode records
-        $combinedDates = collect($cuti)->merge($dinlur)->merge($izins)->unique();
+        $combinedDates = collect($cuti)->merge($dinlur)->merge($izins)->merge($qrcodes)->unique();
 
 
 

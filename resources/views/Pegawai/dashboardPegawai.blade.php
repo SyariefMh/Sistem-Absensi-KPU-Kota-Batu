@@ -25,6 +25,11 @@
     <link rel="icon" href="img/KPU_Logo.png">
 
     <style>
+        .fade-out {
+            transition: opacity 1s ease-out;
+            opacity: 0;
+        }
+
         .sticky-alert {
             position: fixed;
             top: 20px;
@@ -37,6 +42,33 @@
 
         .sticky-alert.fade-out {
             opacity: 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background: linear-gradient(to bottom, #C72B41, #000000);
+                background-repeat: no-repeat;
+                height: 650px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .scroll-container {
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 10px;
+            }
+
+            .scroll-container .row1,
+            .scroll-container .row2 {
+                display: inline-flex;
+            }
         }
     </style>
 
@@ -57,7 +89,6 @@
                         height="45" style="margin-left: 10px">
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    {{-- <li><a class="dropdown-item" href="{{ url('dashboardPegawai/profile') }}">Profil</a></li> --}}
                     <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                             data-bs-target="#modal_profile">Profile</a></li>
                     <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
@@ -148,7 +179,7 @@
             {{-- alert --}}
             @if ($errors->any() || session('success'))
                 <div id="autoCloseAlert"
-                    class="alert {{ $errors->any() ? 'alert-danger' : 'alert-success' }} d-flex align-items-center"
+                    class="alert {{ $errors->any() ? 'alert-danger' : 'alert-success' }} d-flex align-items-center sticky-alert"
                     role="alert">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                         class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img"
@@ -182,82 +213,78 @@
             <div id="alertContainer"></div>
 
             {{-- Card Menu --}}
-            <div class="row">
-                <div class="col-md-2">
-                    <a href="#" class="cardScan" id="qrcodeButton">
-                        <div class="judul">
-                            <p>Qr code</p>
-                        </div>
-                        <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
-                        </div>
-                    </a>
+            <div class="scroll-container">
+                <div class="row1" style="display: flex;">
+                    <div class="col-md-2">
+                        <a href="#" class="cardScan" id="qrcodeButton">
+                            <div class="judul">
+                                <p>Qr code</p>
+                            </div>
+                            <div class="icon">
+                                <img src="img/riwayat.png" alt="" width="90" height="92">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ url('/dashboardPegawai/dinasLuar') }}" class="cardScan">
+                            <div class="judul">
+                                <p>Dinas Luar</p>
+                            </div>
+                            <div class="icon">
+                                <img src="img/riwayat.png" alt="" width="90" height="92">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ url('/dashboardPegawai/izin') }}" class="cardScan">
+                            <div class="judul">
+                                <p>Izin</p>
+                            </div>
+                            <div class="icon">
+                                <img src="img/izin.png" alt="" width="90" height="92">
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <a href="{{ url('/dashboardPegawai/dinasLuar') }}" class="cardScan">
-                        <div class="judul">
-                            <p>Dinas Luar</p>
-                        </div>
-                        <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-2">
-                    <a href="{{ url('/dashboardPegawai/izin') }}" class="cardScan">
-                        <div class="judul">
-                            <p>Izin</p>
-                        </div>
-                        <div class="icon">
-                            <img src="img/izin.png" alt="" width="90" height="92">
-                        </div>
-                    </a>
+                <br>
+                <div class="row2" style="display: flex;">
+                    <div class="col-md-2">
+                        <a href="{{ url('/dashboardPegawai/cuti') }}" class="cardScan">
+                            <div class="judul">
+                                <p>Cuti</p>
+                            </div>
+                            <div class="icon">
+                                <img src="img/izin.png" alt="" width="90" height="92">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="{{ url('/dashboardPegawai/riwayatAbsen') }}" class="cardScan">
+                            <div class="judul">
+                                <p>Riwayat Absen</p>
+                            </div>
+                            <div class="icon">
+                                <img src="img/riwayat.png" alt="" width="90" height="92">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="#" id="generateQrCode" class="cardScan">
+                            <div class="judul">
+                                <p>Pulang</p>
+                            </div>
+                            <div class="icon">
+                                <img src="{{ asset('img/riwayat.png') }}" alt="Pulang" width="90"
+                                    height="92">
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <br>
-            <div class="row">
-                <div class="col-md-2">
-                    <a href="{{ url('/dashboardPegawai/cuti') }}" class="cardScan">
-                        <div class="judul">
-                            <p>Cuti</p>
-                        </div>
-                        <div class="icon">
-                            <img src="img/izin.png" alt="" width="90" height="92">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-2">
-                    <a href="{{ url('/dashboardPegawai/riwayatAbsen') }}" class="cardScan">
-                        <div class="judul">
-                            <p>Riwayat Absen</p>
-                        </div>
-                        <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-2">
-                    <a href="#" id="generateQrCode" class="cardScan">
-                        <div class="judul">
-                            <p>Pulang</p>
-                        </div>
-                        <div class="icon">
-                            <img src="{{ asset('img/riwayat.png') }}" alt="Pulang" width="90" height="92">
-                        </div>
-                    </a>
-                </div>
-            </div>
+            {{-- end card menu --}}
         </div>
+        <img src="img/peta.png" alt="" class="map">
     </div>
-
-    <style>
-        .fade-out {
-            transition: opacity 1s ease-out;
-            opacity: 0;
-        }
-    </style>
-
-    <img src="img/peta.png" alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 
