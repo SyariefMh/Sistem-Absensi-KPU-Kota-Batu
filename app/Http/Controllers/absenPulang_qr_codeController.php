@@ -26,24 +26,26 @@ class absenPulang_qr_codeController extends Controller
         $qrCodeData = $request->input('qrcodefilesPlg');
         $qrCodes = qrcodeGen::where('qrcode_pulang', $qrCodeData) // Use $desiredUserId directly as the user ID
             ->first();
-
+        // dd($qrCodes);
         if (!$qrCodes) {
             return response()->json(['error' => 'QR code not found'], 400);
         }
 
 
-        $qrCodeScan = pulangQrCode::where('qrcode_id', $qrCodes->id)
+        $qrCodeScan = datangQrCode::where('qrcode_id', $qrCodes->id)
             ->whereDate('tanggal', now()->toDateString())
-            ->exists();
-
+            ->first();
+        // dd($qrCodeScan);
         if ($qrCodeScan) {
-            // return redirect('/dashboardkaryawan/Absensi/LiveLocation')->with('error', 'QR Code sudah discan sebelumnya.');
-            return response()->json(['message' => 'QR Code sudah discan sebelumnya.'], 400);
+            if (!is_null($qrCodeScan->jam_pulang)) {
+                return response()->json(['message' => 'QR Code sudah discan sebelumnya atau sudah ada jam pulang.'], 400);
+            }
         }
         $jamDatang = datangQrCode::get('jam_datang');
         // print_r($jamDatang);
         // dd($jamDatang);
         $userId = $qrCodes->user_id;
+        // dd($userId);
         // datangQrCode::updateOrCreate([
         //     'qrcode_id' => $qrCodes->id,
         //     'user_id' => $userId,

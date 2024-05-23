@@ -30,39 +30,49 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="color: white; font-weight:bold">
+                    Pegawai, {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt=""
+                        width="45" height="45" style="margin-left: 10px">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                            data-bs-target="#modal_profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
     {{-- card --}}
-    <div class="container col-4 d-flex justify-content-center">
-        <div class="card">
-            <p style="margin-left: 95px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code
-            </p>
-            {{-- <img src="img/Group.png" alt="" width="300" height="300"> --}}
-            {{-- tempat menaruh Qr code --}}
+    <div class="container col-md-8 col-lg-6 col-xl-4 d-flex justify-content-center" style="margin-top: 60px">
+        <div class="card w-80" style="max-width: 500px;">
+            <p style="margin-left: 95px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan QR Code</p>
+            
             <div class="card-body">
                 @php
                     $qrcodeGenPath = 'storage/qrcodes/' . $qrcodefilesDtg->qrcodefilesPlg . '.png';
                 @endphp
                 <div style="text-align: center;">
-                    <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" alt="QR Code Kedatangan">
+                    <img src="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" alt="QR Code Kedatangan" class="img-fluid">
                 </div>
             </div>
-
-            <div class="card-footer">
-                <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" download>Download QR Code
-                    Pulang</a>
+    
+            <div class="card-footer text-center">
+                <a href="{{ asset('storage/' . $qrcodefilesDtg->qrcodefilesPlg) }}" download>Download QR Code Pulang</a>
             </div>
-
+    
             <p style="padding-bottom: 20px; text-align: center; padding-top: 40px">
-                <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
+                <a href="{{ url('dashboardPegawai') }}" class="btn btn-danger">Kembali</a>
             </p>
         </div>
     </div>
-    </div>
+    
+    
+
     <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->

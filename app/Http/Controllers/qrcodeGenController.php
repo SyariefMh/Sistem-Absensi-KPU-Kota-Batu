@@ -379,7 +379,7 @@ class qrcodeGenController extends Controller
             Storage::disk('public')->put($qrCodePathPulang, $qrCode);
 
             // Perbarui informasi QR code di database jika sudah ada, jika tidak, buat entri baru
-            $qrCodeGen = QrCodeGen::where('user_id', $user->id)->first();
+            $qrCodeGen = QrCodeGen::where('user_id', $user->id)->whereDate('tanggal_kirimDtg', now()->toDateString())->first();
             if ($qrCodeGen) {
                 $qrCodeGen->update([
                     'qrcode_pulang' => $qrCodeData,
@@ -448,8 +448,7 @@ class qrcodeGenController extends Controller
 
         $today = now()->toDateString();
         $qrcodeGens = qrcodeGen::where('tanggal_kirimPlg', $today)
-            ->where('user_id', $userId)
-            ->first();
+            ->where('user_id', $user->id)->first();
 
         if (!$qrcodeGens) {
             return redirect('dashboardPegawai')->withErrors('QR code belum dikirim oleh Admin.');

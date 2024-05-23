@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/codePegawai', [qrcodeGenController::class, 'indexKaryawan']);
         });
         Route::prefix('/dashboardPegawai')->group(function () {
-            Route::get('/codePegawai/pulang', [qrcodeGenController::class, 'indexKaryawanPulang']);
+            // Route::get('/codePegawai/pulang', [qrcodeGenController::class, 'indexKaryawanPulang']);
         });
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::post('/codePegawai/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatanggenul']);

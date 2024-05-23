@@ -30,28 +30,29 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <div class="dropdown">
                 <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                     aria-expanded="false" style="color: white; font-weight:bold">
-                    KOMISI PEMILIHAN UMUM KOTA BATU <img src="{{ url('img/profile.png') }}" alt=""
+                    Pegawai, {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt=""
                         width="45" height="45" style="margin-left: 10px">
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                            data-bs-target="#modal_profile">Profile</a></li>
                     <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
                 </ul>
             </div>
-        </div>
         </div>
     </nav>
     {{-- card --}}
     <form action="{{ url('/dashboardPegawai/izin/store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-
-        <div class="container col-4 d-flex justify-content-center" style="margin-top: 60px">
-            <div class="card" style="width: 3000px; height: 500px;">
+    
+        <div class="container col-md-4 col-sm-8 col-12 d-flex justify-content-center" style="margin-top: 60px">
+            <div class="card w-100" style="max-width: 500px; height: 500px;">
                 <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px">Form Absensi Izin</p>
                 <!-- Include a field for the tanggal input -->
                 {{-- alert --}}
@@ -73,8 +74,7 @@
                         </div>
                     </div>
                 @endif
-
-
+    
                 {{-- end alert --}}
                 {{-- Tanggal --}}
                 <p style="color: #C72B41">Tanggal awal</p>
@@ -98,6 +98,7 @@
             </div>
         </div>
     </form>
+    
 
     </div>
     <img src={{ url('img/peta.png') }} alt="" class="map">

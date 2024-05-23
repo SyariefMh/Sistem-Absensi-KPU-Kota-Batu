@@ -413,7 +413,7 @@
         $(document).ready(function() {
             $('#generateQrCode').click(function(e) {
                 e.preventDefault();
-
+        
                 $.ajax({
                     url: '{{ url('/dashboardPegawai/qrcodepulang') }}',
                     method: 'POST',
@@ -421,24 +421,21 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(response) {
-                        if (response.redirect) {
-                            window.location.href =
-                                '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
-                        } else if (response.message) {
+                        if (response.message) {
                             alert(response.message);
-                            window.location.href =
-                                '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
+                            window.location.href = '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
                         } else if (response.error) {
                             alert(response.error);
                         }
                     },
                     error: function(xhr) {
-                        alert('Something went wrong: ' + xhr.responseText);
+                        alert('Silahkan buat qr code datang dahulu');
                     }
                 });
             });
         });
-    </script>
+        </script>
+        
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

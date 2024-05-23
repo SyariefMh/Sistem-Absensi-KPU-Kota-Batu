@@ -30,36 +30,35 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <div class="dropdown">
                 <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                     aria-expanded="false" style="color: white; font-weight:bold">
-                    KOMISI PEMILIHAN UMUM KOTA BATU <img src="{{ url('img/profile.png') }}" alt=""
+                    Pegawai, {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt=""
                         width="45" height="45" style="margin-left: 10px">
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                            data-bs-target="#modal_profile">Profile</a></li>
                     <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
                 </ul>
             </div>
         </div>
-        </div>
     </nav>
     {{-- card --}}
-    <div class="container col-4 d-flex justify-content-center">
-        <div class="card"
-            style="width: 700px; height: 600px;">
-            <p style="font-weight: 900;">Riwayat Absen</p>
-            <div class="card2"
-                style="width: 420px;overflow-y: scroll; scrollbar-color: transparent transparent; height: 550px;background: none; border: none;">
+    <div class="container col-md-8 col-lg-6 col-xl-4 d-flex justify-content-center" style="margin-top: 0px">
+        <div class="card w-100" style="max-width: 700px; height: 600px;">
+            <p style="font-weight: 900; text-align: center;">Riwayat Absen</p>
+            <div class="card2" style="width: 100%; overflow-y: scroll; scrollbar-color: transparent transparent; height: 550px; background: none; border: none;">
                 @foreach ($combinedData as $data)
                     <div class="history" style="margin-bottom: 10px">
                         <div class="row justify-content-center">
-                            <div class="col-lg-2">
+                            <div class="col-4 col-lg-2">
                                 <p>{{ $data->tanggal }}</p>
                             </div>
-                            <div class="col-lg-3">
+                            <div class="col-4 col-lg-3">
                                 <p>
                                     @if ($data->jam_datang || $data->jam_pulang)
                                         {{ $data->jam_datang ?? '-' }} - {{ $data->jam_pulang ?? '-' }}
@@ -68,10 +67,10 @@
                                     @endif
                                 </p>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-4 col-lg-2">
                                 <p>{{ $data->Keterangan }}</p>
                             </div>
-                            <div class="col-lg-2 d-flex align-items-center">
+                            <div class="col-4 col-lg-2 d-flex align-items-center">
                                 <p>{{ $data->status }}</p>
                                 @if ($data->status == 'Tepat Waktu')
                                     &nbsp;
@@ -90,14 +89,13 @@
                     </div>
                 @endforeach
             </div>
-            {{-- <p style="padding-bottom: 20px; text-align: center; padding-top: 40px; background: white;">
-                <a href="{{ url('dashboardPegawai') }}" class="kembali-btn">Kembali</a>
-            </p> --}}
-            <a href="{{ url('dashboardPegawai') }}" class="btn btn-danger">Kembali</a>
-
+            <div class="text-center" style="padding-bottom: 20px; padding-top: 20px;">
+                <a href="{{ url('dashboardPegawai') }}" class="btn btn-danger">Kembali</a>
+            </div>
         </div>
     </div>
-    </div>
+    
+    
     <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->

@@ -178,37 +178,65 @@ class PegawaiController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
+        $tanggal = now()->toDateString();
 
         // Cek apakah sudah ada QR code dengan tanggal yang sama
         $existingRecord = qrcodeGen::where('user_id', $userId)
-            ->whereDate('tanggal_kirimPlg', now()->toDateString())
+            ->whereDate('tanggal', $tanggal)
             ->first();
-
-        // Jika sudah ada, langsung arahkan ke halaman yang sudah ada QR codenya
+        // dd($existingRecord);
         if ($existingRecord) {
-            return response()->json(['redirect' => true]);
-        }
+            // dd($existingRecord->tanggal==$tanggal);
+            if ($existingRecord->tanggal == $tanggal && $existingRecord->qrcode_pulang) {
+                // Jika sudah ada QR code untuk tanggal hari ini, kembalikan record yang ada
+                return response()->json(['message' => 'QR Code Pulang sudah ada', 'redirect' => true]);
+            } else {
+                if (!$existingRecord->qrcode_datang) {
+                    return response()->json(['message' => 'QR Code datang tidak ada', 'redirect' => false]);
+                }
+                $code = 'PLG' . Str::random(8);
+                $qrCodeData = $code;
+                $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
+                $qrCodePathPulang = 'qrcodesPlg/' . $qrCodeData . '.png';
+                Storage::disk('public')->put($qrCodePathPulang, $qrCode);
 
-        // Jika belum ada, buat QR code baru
-        $code = 'PLG' . Str::random(8);
-        $qrCodeData = $code;
-        $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
-        $qrCodePathPulang = 'qrcodesPlg/' . $qrCodeData . '.png';
-        Storage::disk('public')->put($qrCodePathPulang, $qrCode);
+                // Simpan QR code baru
+                qrcodeGen::updateOrCreate(
+                    ['user_id' => $userId, 'tanggal' => $tanggal],
+                    [
+                        'qrcode_pulang' => $qrCodeData,
+                        'qrcodefilesPlg' => $qrCodePathPulang,
+                        'tanggal_kirimPlg' => $tanggal,
+                    ]
+                );
 
-        // Simpan QR code baru
-        qrcodeGen::updateOrCreate(
-            ['user_id' => $userId],
-            [
+                return response()->json(['message' => 'QR Code Pulang berhasil dikirim ke ' . $user->name, 'redirect' => true]);
+            }
+        } else {
+            // Jika belum ada, buat QR code baru untuk tanggal hari ini
+            $code = 'PLG' . Str::random(8);
+            $qrCodeData = $code;
+            $qrCode = QrCode::format('png')->size(200)->generate($qrCodeData);
+            $qrCodePathPulang = 'qrcodesPlg/' . $qrCodeData . '.png';
+            Storage::disk('public')->put($qrCodePathPulang, $qrCode);
+
+            // Simpan QR code baru
+            qrcodeGen::create([
+                'user_id' => $userId,
                 'qrcode_pulang' => $qrCodeData,
                 'qrcodefilesPlg' => $qrCodePathPulang,
-                'tanggal_kirimPlg' => now()->toDateString(),
-            ]
-        );
+                'tanggal' => $tanggal,
+                'tanggal_kirimPlg' => $tanggal,
+            ]);
 
-        // Setelah berhasil, arahkan ke halaman yang sudah ada QR codenya
-        return response()->json(['message' => 'QR Code Pulang berhasil dikirim ke ' . $user->name, 'redirect' => true]);
+            return response()->json(['message' => 'QR Code Pulang berhasil dikirim ke ' . $user->name, 'redirect' => true]);
+        }
+
+        return response()->json(['message' => 'Tidak bisa membuat QR code baru karena tanggal berbeda dengan tanggal sekarang.'], 400);
     }
+
+
+
 
     public function handleQrCodeRequest(Request $request)
     {
