@@ -47,4 +47,29 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    // Relationships
+    public function datangqrcode()
+    {
+        return $this->hasMany(DatangQrCode::class)->onDelete('cascade');
+    }
+
+    public function izins()
+    {
+        return $this->hasMany(Izin::class)->onDelete('cascade');
+    }
+
+    public function cutis()
+    {
+        return $this->hasMany(cuti::class)->onDelete('cascade');
+    }
+
+    public function dinlurs()
+    {
+        return $this->hasMany(Dinlur::class)->onDelete('cascade');
+    }
+
+    public function qrcodeGens()
+    {
+        return $this->hasMany(QrCodeGen::class)->onDelete('cascade');
+    }
 }

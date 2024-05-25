@@ -18,6 +18,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
 
@@ -229,7 +230,7 @@ class kepegawaianKasubag extends Controller
                     $periodeId
                 )
                 ->first();
-                // dd($absensiData);
+            // dd($absensiData);
 
             if ($absensiData) {
                 $absensi->push($absensiData);
@@ -394,20 +395,57 @@ class kepegawaianKasubag extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
+{
+    DB::beginTransaction();
+    try {
         $user = User::findOrFail($id);
 
-        // Delete the user's tandatangan file if it exists
+        // Hapus semua relasi yang terkait dengan user tersebut
+        DB::table('datangqrcode')->where('user_id', $id)->delete();
+        DB::table('izins')->where('user_id', $id)->delete();
+        DB::table('cutis')->where('user_id', $id)->delete();
+        DB::table('dinlurs')->where('user_id', $id)->delete();
+        DB::table('qrcode_gens')->where('user_id', $id)->delete();
+
+        // Hapus file tandatangan user jika ada
         if ($user->tandatanggan) {
             Storage::disk('public')->delete($user->tandatanggan);
         }
 
-        // Delete the user
+        // Hapus user
         $user->delete();
 
-        // Return a JSON response indicating success
+        // Commit transaksi
+        DB::commit();
+
+        // Return JSON response indicating success
         return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
+    } catch (\Exception $e) {
+        // Rollback transaksi jika terjadi kesalahan
+        DB::rollBack();
+        // Return JSON response indicating failure
+        return response()->json(['message' => 'Gagal menghapus data pegawai: ' . $e->getMessage()], 500);
     }
+}
+
+
+
+
+    // public function destroy(string $id)
+    // {
+    //     $user = User::findOrFail($id);
+
+    //     // Delete the user's tandatangan file if it exists
+    //     if ($user->tandatanggan) {
+    //         Storage::disk('public')->delete($user->tandatanggan);
+    //     }
+
+    //     // Delete the user
+    //     $user->delete();
+
+    //     // Return a JSON response indicating success
+    //     return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
+    // }
 
     public function importUsers(Request $request)
     {

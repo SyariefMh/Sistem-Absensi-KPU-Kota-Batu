@@ -4,6 +4,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
@@ -50,7 +51,7 @@
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
-                        style="background: #FFFFFF; margin-bottom: 10px">
+                            style="background: #FFFFFF; margin-bottom: 10px">
                         <div style="position: absolute; right: 130px; display: flex">
                             <a href="{{ url('/dashboardKasubag/kepegawaian/laporan') }}">
                                 <button type="submit" class="btn" style="width: 200px">Print Laporan</button>
@@ -63,7 +64,7 @@
                                 <label for="file">
                                     <input type="file" id="file" name="file">Import File User
                                 </label>
-                                
+
                                 <button type="submit">Submit</button>
                             </form>
                             {{-- dropdown --}}
@@ -175,7 +176,7 @@
 
 
     {{-- PNS --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#usersTable').DataTable({
                 processing: true,
@@ -338,6 +339,57 @@
                 }
             });
         });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+    $('#usersTable').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{{ url('/dashboardKasubag/kepegawaian/getPNS') }}',
+        columns: [
+            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+            { data: 'name', name: 'name' },
+            { data: 'jabatan', name: 'jabatan' },
+            { data: 'nip', name: 'nip' },
+            { data: 'pangkat', name: 'pangkat' },
+            { data: 'golongan', name: 'golongan' },
+            { data: 'action', name: 'action', orderable: false, searchable: false }
+        ]
+    });
+
+    $('#usersTable').on('click', 'a.delete-users', function(e) {
+        e.preventDefault();
+        var deleteUrl = $(this).data('url');
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        if (confirm('Are you sure?')) {
+            fetch(deleteUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message || 'Failed to delete user');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Data Pegawai Berhasil Dihapus');
+                    $('#usersTable').DataTable().ajax.reload();
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+    });
+
+    // Functions for sending QR codes are not related to the delete functionality
+});
     </script>
 
     <script>
