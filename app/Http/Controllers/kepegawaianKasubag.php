@@ -395,38 +395,38 @@ class kepegawaianKasubag extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-{
-    DB::beginTransaction();
-    try {
-        $user = User::findOrFail($id);
+    {
+        DB::beginTransaction();
+        try {
+            $user = User::findOrFail($id);
 
-        // Hapus semua relasi yang terkait dengan user tersebut
-        DB::table('datangqrcode')->where('user_id', $id)->delete();
-        DB::table('izins')->where('user_id', $id)->delete();
-        DB::table('cutis')->where('user_id', $id)->delete();
-        DB::table('dinlurs')->where('user_id', $id)->delete();
-        DB::table('qrcode_gens')->where('user_id', $id)->delete();
+            // Hapus semua relasi yang terkait dengan user tersebut
+            DB::table('datangqrcode')->where('user_id', $id)->delete();
+            DB::table('izins')->where('user_id', $id)->delete();
+            DB::table('cutis')->where('user_id', $id)->delete();
+            DB::table('dinlurs')->where('user_id', $id)->delete();
+            DB::table('qrcode_gens')->where('user_id', $id)->delete();
 
-        // Hapus file tandatangan user jika ada
-        if ($user->tandatanggan) {
-            Storage::disk('public')->delete($user->tandatanggan);
+            // Hapus file tandatangan user jika ada
+            if ($user->tandatanggan) {
+                Storage::disk('public')->delete($user->tandatanggan);
+            }
+
+            // Hapus user
+            $user->delete();
+
+            // Commit transaksi
+            DB::commit();
+
+            // Return JSON response indicating success
+            return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            DB::rollBack();
+            // Return JSON response indicating failure
+            return response()->json(['message' => 'Gagal menghapus data pegawai: ' . $e->getMessage()], 500);
         }
-
-        // Hapus user
-        $user->delete();
-
-        // Commit transaksi
-        DB::commit();
-
-        // Return JSON response indicating success
-        return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
-    } catch (\Exception $e) {
-        // Rollback transaksi jika terjadi kesalahan
-        DB::rollBack();
-        // Return JSON response indicating failure
-        return response()->json(['message' => 'Gagal menghapus data pegawai: ' . $e->getMessage()], 500);
     }
-}
 
 
 

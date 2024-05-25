@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use App\Imports\UsersImport;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Storage;
@@ -194,18 +196,36 @@ class kepegawaianController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
+        DB::beginTransaction();
+        try{
+            $user = User::findOrFail($id);
 
-        // Delete the user's tandatangan file if it exists
-        if ($user->tandatanggan) {
-            Storage::disk('public')->delete($user->tandatanggan);
+            //Hapus semua relasi
+            DB::table('datangqrcode')->where('user_id', $id)->delete();
+            DB::table('izins')->where('user_id', $id)->delete();
+            DB::table('cutis')->where('user_id', $id)->delete();
+            DB::table('dinlurs')->where('user_id', $id)->delete();
+            DB::table('qrcode_gens')->where('user_id', $id)->delete();
+            // Delete the user's tandatangan file if it exists
+            if ($user->tandatanggan) {
+                Storage::disk('public')->delete($user->tandatanggan);
+            }
+    
+            // Delete the user
+            $user->delete();
+
+            DB::commit();
+
+            // Return a JSON response indicating success
+            return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            DB::rollBack();
+            // Return JSON response indicating failure
+            return response()->json(['message' => 'Gagal menghapus data pegawai: ' . $e->getMessage()], 500);
         }
 
-        // Delete the user
-        $user->delete();
 
-        // Return a JSON response indicating success
-        return response()->json(['message' => 'Data Pegawai Berhasil Dihapus']);
     }
     public function importUsers(Request $request)
     {
