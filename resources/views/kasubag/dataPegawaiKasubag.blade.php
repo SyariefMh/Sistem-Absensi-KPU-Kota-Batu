@@ -48,6 +48,12 @@
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
                     Data Seluruh Pegawai
                 </div>
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert" id="error-alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
@@ -158,6 +164,16 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var errorAlert = document.getElementById('error-alert');
+            if (errorAlert) {
+                setTimeout(function() {
+                    errorAlert.style.display = 'none';
+                }, 3000); // 3000 ms = 3 detik
+            }
+        });
+    </script>
     <script>
         var baseUrl = "{{ url('dashboardKasubag/kepegawaian/laporan') }}"
         document.addEventListener('DOMContentLoaded', function() {
@@ -342,54 +358,78 @@
     </script> --}}
     <script>
         $(document).ready(function() {
-    $('#usersTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{{ url('/dashboardKasubag/kepegawaian/getPNS') }}',
-        columns: [
-            { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-            { data: 'name', name: 'name' },
-            { data: 'jabatan', name: 'jabatan' },
-            { data: 'nip', name: 'nip' },
-            { data: 'pangkat', name: 'pangkat' },
-            { data: 'golongan', name: 'golongan' },
-            { data: 'action', name: 'action', orderable: false, searchable: false }
-        ]
-    });
-
-    $('#usersTable').on('click', 'a.delete-users', function(e) {
-        e.preventDefault();
-        var deleteUrl = $(this).data('url');
-        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        if (confirm('Are you sure?')) {
-            fetch(deleteUrl, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json'
+            $('#usersTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('/dashboardKasubag/kepegawaian/getPNS') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'nip',
+                        name: 'nip'
+                    },
+                    {
+                        data: 'pangkat',
+                        name: 'pangkat'
+                    },
+                    {
+                        data: 'golongan',
+                        name: 'golongan'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(data => {
-                            throw new Error(data.message || 'Failed to delete user');
+                ]
+            });
+
+            $('#usersTable').on('click', 'a.delete-users', function(e) {
+                e.preventDefault();
+                var deleteUrl = $(this).data('url');
+                var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                if (confirm('Are you sure?')) {
+                    fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': csrfToken,
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(data => {
+                                    throw new Error(data.message || 'Failed to delete user');
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            alert('Data Pegawai Berhasil Dihapus');
+                            $('#usersTable').DataTable().ajax.reload();
+                        })
+                        .catch(error => {
+                            alert(error.message);
                         });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    alert('Data Pegawai Berhasil Dihapus');
-                    $('#usersTable').DataTable().ajax.reload();
-                })
-                .catch(error => {
-                    alert(error.message);
-                });
-        }
-    });
+                }
+            });
 
-    // Functions for sending QR codes are not related to the delete functionality
-});
+            // Functions for sending QR codes are not related to the delete functionality
+        });
     </script>
 
     <script>

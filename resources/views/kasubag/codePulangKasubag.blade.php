@@ -19,10 +19,10 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="{{ url('css/codeAdmin.css') }}">
+    <link rel="stylesheet" href="css/codeAdmin.css">
 
     {{-- Logo Title Bar --}}
-    <link rel="icon" href="{{ url('img/KPU_Logo.png') }}">
+    <link rel="icon" href="img/KPU_Logo.png">
 
     <title>Dashboard</title>
 </head>
@@ -32,7 +32,7 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
+            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>
@@ -40,7 +40,7 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="margin-left: 90px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan Absensi Datang</p>
+            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Datang</p>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
@@ -49,12 +49,12 @@
                 <br>KOTA BATU
             </p>
             <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
-                <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary"
-                    style="background-color: #C72B41;">Kembali</a>
+                <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary" style="background-color: #C72B41;">Kembali</a>
             </p>
         </div>
     </div>
     </div>
+    {{-- <img src="img/peta.png" alt="" class="position-absolute end-0 bottom-0" width="1115"> --}}
 
     <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="pulangModalLabel"
         aria-hidden="true">
@@ -79,8 +79,6 @@
             </div>
         </div>
     </div>
-
-    <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -111,19 +109,19 @@
             let id = decodedText;
             html5QrcodeScanner.clear().then(_ => {
                 var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var url = '{{ url('/dashboardKasubag/scanDatang/scan/store') }}';
+                var url = '{{ url('/dashboardKasubag/scanPulang/scan/store') }}';
                 $.ajax({
                     url: url,
                     type: 'POST',
                     data: {
                         _method: "POST",
                         _token: CSRF_TOKEN,
-                        qrcodefilesDtg: id
+                        qrcodefilesPlg: id
                     },
                     success: function(response) {
                         console.log(response);
                         alert('berhasil');
-                        window.location.href = '/dashboardKasubag/scanDatang';
+                        window.location.href = '/dashboardKasubag/scanPulang';
                     },
                     error: function(response) {
                         console.log(response);

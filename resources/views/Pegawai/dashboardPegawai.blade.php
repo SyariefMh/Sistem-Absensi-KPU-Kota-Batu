@@ -44,6 +44,13 @@
             opacity: 0;
         }
 
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+
         @media (max-width: 768px) {
             body {
                 background: linear-gradient(to bottom, #C72B41, #000000);
@@ -69,7 +76,6 @@
             .scroll-container .row2 {
                 display: inline-flex;
             }
-        }
     </style>
 
     <title>Dashboard</title>
@@ -110,7 +116,8 @@
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
-                        <div id="updateBerhasil" class="alert alert-success" style="display: none">alert Berhasil</div>
+                        <div id="updateBerhasil" class="alert alert-success" style="display: none">Berhasil di update
+                        </div>
                         <div id="updateGagal" class="alert alert-danger" style="display: none">alert gagal</div>
                         <p style="padding-top: 10px">Nama : </p>
                         <div class="input" style="margin-right: 800px">
@@ -413,7 +420,7 @@
         $(document).ready(function() {
             $('#generateQrCode').click(function(e) {
                 e.preventDefault();
-        
+
                 $.ajax({
                     url: '{{ url('/dashboardPegawai/qrcodepulang') }}',
                     method: 'POST',
@@ -423,7 +430,8 @@
                     success: function(response) {
                         if (response.message) {
                             alert(response.message);
-                            window.location.href = '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
+                            window.location.href =
+                                '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
                         } else if (response.error) {
                             alert(response.error);
                         }
@@ -434,8 +442,8 @@
                 });
             });
         });
-        </script>
-        
+    </script>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

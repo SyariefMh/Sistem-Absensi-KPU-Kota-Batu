@@ -20,6 +20,10 @@ class absenPulang_qr_codeController extends Controller
     {
         return view('satpam.codePulangSatpam');
     }
+    public function indexKasubag()
+    {
+        return view('kasubag.codePulangKasubag');
+    }
 
     public function scanQrCodeDatang(Request $request)
     {

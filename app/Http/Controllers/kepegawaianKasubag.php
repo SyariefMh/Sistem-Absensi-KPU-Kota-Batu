@@ -279,7 +279,7 @@ class kepegawaianKasubag extends Controller
         // dd($get_nilai);
 
         if ($get_nilai->isEmpty()) {
-            return redirect('/dashboardKasubag/kepegawaian');
+            return redirect('/dashboardKasubag/kepegawaian')->with('error', 'Data nilai tidak ditemukan untuk periode yang dipilih.');
         }
         $pdf = PDF::loadView('kasubag.pdfLaporan', compact('users', 'combinedData', 'startDate', 'endDate', 'get_nilai'));
 

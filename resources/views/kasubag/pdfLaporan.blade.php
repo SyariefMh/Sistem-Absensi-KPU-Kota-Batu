@@ -13,7 +13,7 @@
         }
 
         header {
-            position: fixed;
+            /* position: fixed; */
             margin: auto;
             top: -30;
             left: 0;

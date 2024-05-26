@@ -123,7 +123,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/scanPulang/scan/store', [absenPulang_qr_codeController::class, 'scanQrCodeDatang']);
         });
         Route::prefix('/dashboardAdmin')->group(function () {
-            Route::post('/import-excel', [kepegawaianController::class,'importUsers'])->name('import.file');
+            Route::post('/import-excel', [kepegawaianController::class, 'importUsers'])->name('import.file');
         });
     });
 
@@ -173,7 +173,11 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/scanDatang', [absen_qr_codeController::class, 'indexKasubag']);
-            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatang']);
+            Route::post('/scanDatang/scan/store', [absen_qr_codeController::class, 'scanQrCodeDatangKasubag']);
+        });
+        Route::prefix('/dashboardKasubag')->group(function () {
+            Route::get('/scanPulang', [absenPulang_qr_codeController::class, 'indexKasubag']);
+            Route::post('/scanPulang/scan/store', [absenPulang_qr_codeController::class, 'scanQrCodeDatang']);
         });
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/periode', [PeriodeController::class, 'index']);
@@ -185,7 +189,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/periode/getdataperiode', [PeriodeController::class, 'getdataperiode'])->name('getdataperiode');
         });
         Route::prefix('/dashboardKasubag')->group(function () {
-            Route::post('/import-excel', [kepegawaianKasubag::class,'importUsers'])->name('import.process');
+            Route::post('/import-excel', [kepegawaianKasubag::class, 'importUsers'])->name('import.process');
         });
     });
     // Route untuk logout

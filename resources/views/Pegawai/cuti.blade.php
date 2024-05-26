@@ -57,7 +57,7 @@
                 <!-- Include a field for the tanggal input -->
                 {{-- alert --}}
                 @if ($errors->any())
-                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <div id="cuti-alert" class="alert alert-danger d-flex align-items-center" role="alert">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
                             role="img" aria-label="Warning:">
@@ -126,6 +126,20 @@
         }
     </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            var alertMessage = document.getElementById('cuti-alert');
+            if (alertMessage) {
+                alertMessage.style.transition = "opacity 0.5s ease";
+                alertMessage.style.opacity = "0";
+                setTimeout(function() {
+                    alertMessage.remove();
+                }, 500); // Waktu tambahan untuk transisi
+            }
+        }, 2000); // Waktu tunggu 2 detik
+    });
+</script>
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
