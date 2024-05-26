@@ -24,6 +24,25 @@
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
 
+    <style>
+        /* Gaya untuk elemen pencarian di DataTables */
+        #usersTable_filter {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+
+        #usersTable_filter label {
+            font-weight: bold;
+        }
+
+        #usersTable_filter input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+            width: 300px;
+        }
+    </style>
+
     <title>Dashboard</title>
 </head>
 
@@ -34,28 +53,26 @@
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-                <div class="dropdown">
-                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                        aria-expanded="false" style="color: #C72B41; font-weight:bold; background-color: #f0f0f0">
-                        {{ auth()->user()->name }} <img src="{{ asset('img/profile.png') }}" alt="" width="45"
-                            height="45" style="margin-left: 10px">
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
-                    </ul>
-                </div>
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="color: #C72B41; font-weight:bold; background-color: #f0f0f0">
+                    {{ auth()->user()->name }} <img src="{{ asset('img/profile.png') }}" alt="" width="45"
+                        height="45" style="margin-left: 10px">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                </ul>
+            </div>
         </div>
         <div class="container" style="color: black">
             <a href="{{ url('dashboardKasubag') }}" class="btn btn-primary"
-                        style="background-color: #C72B41;">Kembali</a>
+                style="background-color: #C72B41;">Kembali</a>
             <div class="container d-flex">
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
-                    Data Seluruh Pegawai
+                    Data Periode
                 </div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
-                            style="background: #FFFFFF; margin-bottom: 10px">
                         <div style="position: absolute; right: 130px;">
                             <a href="{{ url('/dashboardKasubag/periode/create') }}">
                                 <button type="submit" class="btn" style="width: 200px">Tambah Periode</button>
@@ -67,7 +84,6 @@
             {{-- tabel --}}
             <div class="container">
                 <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
-                    <p style="margin-top: 40px; margin-left: 25px">PNS</p>
                     <thead>
                         <tr>
                             <th>Nomer</th>
@@ -149,36 +165,36 @@
             });
 
             $('#usersTable').on('click', 'a.delete-users', function(e) {
-    e.preventDefault();
-    var deleteUrl = $(this).data('url');
+                e.preventDefault();
+                var deleteUrl = $(this).data('url');
 
-    if (confirm('Are you sure?')) {
-        fetch(deleteUrl, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-            } else {
-                // Handle success, e.g., reload the DataTable
-                $('#usersTable').DataTable().ajax.reload();
-            }
-        })
-        .catch(error => {
-            // Handle error
-            console.error('There was a problem with the fetch operation:', error);
-        });
-    }
-});
+                if (confirm('Are you sure?')) {
+                    fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                            } else {
+                                // Handle success, e.g., reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                            }
+                        })
+                        .catch(error => {
+                            // Handle error
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
+                }
+            });
 
         });
     </script>

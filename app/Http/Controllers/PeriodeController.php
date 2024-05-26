@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\periode;
+use App\Models\Izin;
+use App\Models\Cuti;
+use App\Models\Dinlur;
+use App\Models\DatangQrCode;
+use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+
 
 class PeriodeController extends Controller
 {
@@ -41,7 +47,7 @@ class PeriodeController extends Controller
     {
         $bulanOptions = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
-        return view('kasubag.tambahperiode',compact('bulanOptions'));
+        return view('kasubag.tambahperiode', compact('bulanOptions'));
     }
 
     /**
@@ -79,7 +85,7 @@ class PeriodeController extends Controller
         $periode = periode::findOrFail($id);
         $bulanOptions = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
-        return view('kasubag.editPeriode', compact('periode','bulanOptions'));
+        return view('kasubag.editPeriode', compact('periode', 'bulanOptions'));
     }
 
     /**
@@ -106,14 +112,51 @@ class PeriodeController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    $periode = Periode::find($id);
-    if (!$periode) {
-        return response()->json(['error' => 'Periode not found'], 404);
+    {
+        Log::info('Destroy method called with id: ' . $id);
+
+        try {
+            $periode = Periode::find($id);
+            if (!$periode) {
+                Log::error('Periode not found with id: ' . $id);
+                return response()->json(['error' => 'Periode not found'], 404);
+            }
+
+            // Hapus data terkait di tabel izins, cutis, dinlurs, dan datangqrcode
+            Izin::where('periode_id', $id)->delete();
+            Log::info('Related izins deleted for periode id: ' . $id);
+
+            Cuti::where('periode_id', $id)->delete();
+            Log::info('Related cutis deleted for periode id: ' . $id);
+
+            Dinlur::where('periode_id', $id)->delete();
+            Log::info('Related dinlurs deleted for periode id: ' . $id);
+
+            DatangQrCode::where('periode_id', $id)->delete();
+            Log::info('Related datangqrcode deleted for periode id: ' . $id);
+
+            // Hapus periode
+            $periode->delete();
+            Log::info('Periode deleted successfully with id: ' . $id);
+
+            return response()->json(['message' => 'Periode deleted successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error deleting periode: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    $periode->delete();
 
-    return response()->json(['message' => 'Periode deleted successfully'], 200);
-}
+
+    // public function destroy($id)
+    // {
+    //     $periode = Periode::find($id);
+    //     if (!$periode) {
+    //         return response()->json(['error' => 'Periode not found'], 404);
+    //     }
+
+    //     $periode->delete();
+
+    //     return response()->json(['message' => 'Periode deleted successfully'], 200);
+    // }
 }
