@@ -59,20 +59,20 @@
                         <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
                             style="background: #FFFFFF; margin-bottom: 10px">
                         <div style="position: absolute; right: 130px; display: flex">
-                            <a href="{{ url('/dashboardKasubag/kepegawaian/laporan') }}">
+                            <a href="{{ url('/dashboardKasubag/kepegawaian/laporan') }}" target="_blank">
                                 <button type="submit" class="btn" style="width: 200px">Print Laporan</button>
                             </a>
                             <a href="{{ url('/dashboardKasubag/kepegawaian/create') }}" style="margin-left: 10px;">
                                 <button type="submit" class="btn" style="width: 200px;">Tambah Pegawai</button>
                             </a>
-                            <form action="{{ route('import.process') }}" method="POST" enctype="multipart/form-data">
+                            {{-- <form action="{{ route('import.process') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <label for="file">
                                     <input type="file" id="file" name="file">Import File User
                                 </label>
 
                                 <button type="submit">Submit</button>
-                            </form>
+                            </form> --}}
                             {{-- dropdown --}}
                             <div class="dropdown" style="margin-left: 10px">
                                 <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -183,7 +183,8 @@
                     var periodeId = item.getAttribute('data-periode-id');
 
                     if (periodeId) {
-                        window.location.href = baseUrl + '/' + periodeId;
+                        var url = baseUrl + '/' + periodeId;
+                        window.open(url, '_blank');
                     }
                 });
             });

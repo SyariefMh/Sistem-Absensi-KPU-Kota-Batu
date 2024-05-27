@@ -53,7 +53,7 @@
 
     </nav>
     {{-- Nilai A --}}
-    <form action="{{ route('simpan.nilai') }}" method="POST">
+    <form action="{{ route('simpan.nilai') }}" method="POST" onsubmit="return validateForm()">
         @csrf
         <div class="container">
             <h5>A. Presensi Kehadiran</h5>
@@ -148,7 +148,7 @@
                     <p>izin &nbsp;{{ $jumlahizin }} hadir &nbsp;{{ $totalCount }} cuti &nbsp;{{ $jumlahcuti }}
                     </p>
                     {{-- parshing data dari javascrip dan di lempar ke HTML --}}
-                    <p class="alfa"></p> 
+                    <p class="alfa"></p>
 
                     <p>terlambat &nbsp;{{ $terlambat }}</p>
                     {{-- <button type="submit"
@@ -378,10 +378,13 @@
                 </tbody>
             </table>
         </div>
-        <button type="submit"
-            style="margin-top: 10px; background-color: #C72B41; border: none; color: white; margin-left: 70px;width: 100px; height: 40px;border-radius:10px ">Simpan</button>
+        <div class="button-bawah d-flex" style="margin-left: 85px">
+            <button type="submit"
+                style="margin-top: 10px; margin-right: 10px; background-color: #C72B41; border: none; color: white; width: 100px; height: 40px; border-radius: 10px;">Simpan</button>
             <a href="{{ url('dashboardKasubag/kepegawaian') }}" class="btn btn-primary"
-                        style="background-color: #C72B41;">Kembali</a>
+                style="background-color: #C72B41; height: 40px; margin-top: 10px">Kembali</a>
+        </div>
+
     </form>
     {{-- <div class="container">
         <button style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>
@@ -444,6 +447,27 @@
         var alfaElement = document.querySelector('.alfa');
         alfaElement.textContent = 'Tanggal kosong atau belum absen: ' + tanggalKosong;
     </script>
+
+    <script>
+        function validateForm() {
+            // Mendapatkan nilai dari input form
+            var kriteria1_A = document.getElementsByName('kriteria1_A')[0].value;
+            var kriteria2_A = document.getElementsByName('kriteria2_A')[0].value;
+            var kriteria3_A = document.getElementsByName('kriteria3_A')[0].value;
+            var kriteria4_A = document.getElementsByName('kriteria4_A')[0].value;
+
+            // Memeriksa apakah input form kosong
+            if (kriteria1_A.trim() === '' || kriteria2_A.trim() === '' || kriteria3_A.trim() === '' || kriteria4_A
+                .trim() === '') {
+                alert('Inputan harus diisi');
+                return false; // Mencegah form untuk melakukan submit
+            }
+
+            // Jika semua input sudah diisi, form akan di-submit
+            return true;
+        }
+    </script>
+
 </body>
 
 </html>
