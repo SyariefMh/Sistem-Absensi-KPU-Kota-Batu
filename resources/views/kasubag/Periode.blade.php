@@ -71,6 +71,8 @@
                 <div class="container col-6" style="text-align: start; margin-top: 10px; font-size: 20px">
                     Data Periode
                 </div>
+                <div id="message" class="status"></div>
+                <div id="message-error" class="status-error"></div>
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
                         <div style="position: absolute; right: 130px;">
@@ -120,7 +122,7 @@
 
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable({
+            var table = $('#usersTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ url('/dashboardKasubag/periode/getdataperiode') }}',
@@ -149,10 +151,15 @@
                     {
                         data: 'status',
                         name: 'status',
-                        render: function(data) {
-                            return data == 1 ? '<span class="badge badge-success">Active</span>' :
-                                data == 0 ? '<span class="badge badge-danger">Non-Active</span>' :
-                                '';
+                        render: function(data, type, row) {
+                            var statusLabel = data == 1 ? 'Active' : 'Non-Active';
+                            var badgeClass = data == 1 ? 'badge-success' : 'badge-danger';
+                            return `
+                        <select class="form-select update-status" data-id="${row.id}">
+                            <option value="1" ${data == 1 ? 'selected' : ''}>Active</option>
+                            <option value="0" ${data == 0 ? 'selected' : ''}>Non-Active</option>
+                        </select>
+                    `;
                         }
                     },
                     {
@@ -196,6 +203,54 @@
                 }
             });
 
+            // Event listener untuk perubahan status
+            $('#usersTable').on('change', '.update-status', function() {
+                var status = $(this).val();
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '{{ url('/dashboardKasubag/periode/updateStatus') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: id,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            table.ajax.reload(); // Reload DataTable
+                            var message = '';
+                            if (status == 1) {
+                                message =
+                                    '<div class="alert alert-success" role="alert">Data Status Periode telah di aktifkan</div>';
+                            } else {
+                                message =
+                                    '<div class="alert alert-danger" role="alert">Data Status Periode telah nonaktifkan</div>';
+                            }
+                            $('#message').html(message);
+                            setTimeout(function() {
+                                $('#message').html(
+                                    ''); // Hapus pesan setelah beberapa detik
+                            }, 3000);
+                        } else {
+                            var message = '';
+                            message =
+                                '<div class="alert alert-danger" role="alert">Ada periode lain yang sudah aktif. Nonaktifkan terlebih dahulu.</div>';
+                            $('#message-error').html(message);
+                            setTimeout(function() {
+                                $('#message-error').html(
+                                    ''
+                                ); // Hapus pesan setelah beberapa detik
+                                location.reload();
+                            }, 5000);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        alert('An error occurred while updating status');
+                    }
+                });
+            });
         });
     </script>
 

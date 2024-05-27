@@ -40,7 +40,9 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Datang</p>
+            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan
+                Absensi Datang</p>
+                <div id="alertPlaceholder"></div>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
@@ -49,7 +51,8 @@
                 <br>KOTA BATU
             </p>
             <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
-                <a href="{{ url('dashboardAdmin') }}" class="btn btn-primary" style="background-color: #C72B41;">Kembali</a>
+                <a href="{{ url('dashboardAdmin') }}" class="btn btn-primary"
+                    style="background-color: #C72B41;">Kembali</a>
             </p>
         </div>
     </div>
@@ -112,7 +115,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         function onScanSuccess(decodedText, decodedResult) {
             console.log(`Code matched = ${decodedText}`, decodedResult);
             $('#qr_code_result').val(decodedText); // Set value to hidden input
@@ -141,27 +144,79 @@
                         alert('gagal melakukan absen');
                         window.location.href = '/dashboardAdmin/scanDatang';
                     }
-                    // error: function(error) {
-                    //     if (error.responseJSON && error.responseJSON.message) {
-                    //         $('#infoModal').modal('show');
-                    //         console.log(error.responseJSON.message);
-                    //         setTimeout(function() {
-                    //             $('#infoModal').modal('hide');
-                    //             window.location.href = '/dashboardAdmin/scanDatang';
-                    //         }, 2500);
-                    //     } else {
-                    //         $('#errorModal').modal('show');
-                    //         console.log(error);
-                    //         setTimeout(function() {
-                    //             $('#errorModal').modal('hide');
-                    //             window.location.href = '/dashboardAdmin/scanDatang';
-                    //         }, 2500);
-                    //     }
-                    // }
                 });
             }).catch(error => {
                 alert('something wrong');
             });
+        }
+
+        let config = {
+            fps: 100,
+            qrbox: {
+                width: 150,
+                height: 150
+            },
+            rememberLastUsedCamera: true,
+            // Only support camera scan type.
+            supportedScanTypes: [
+                Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+                Html5QrcodeScanType.SCAN_TYPE_FILE
+            ]
+        };
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", config, /* verbose= */ false);
+        html5QrcodeScanner.render(onScanSuccess);
+    </script> --}}
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            $('#qr_code_result').val(decodedText); // Set value to hidden input
+            let id = decodedText;
+            html5QrcodeScanner.clear().then(_ => {
+                var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
+                var link = '{{ url('/dashboardAdmin/scanDatang/scan/store') }}';
+                console.log(link);
+                console.log(CSRF_TOKEN);
+                $.ajax({
+                    url: link,
+                    type: 'POST',
+                    data: {
+                        _method: "POST",
+                        _token: CSRF_TOKEN,
+                        qrcodefilesDtg: id
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        showAlert('berhasil absen', 'primary');
+                        setTimeout(function() {
+                            window.location.href = '/dashboardAdmin/scanDatang';
+                        }, 2000);
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        showAlert('gagal melakukan absen', 'danger');
+                        setTimeout(function() {
+                            window.location.href = '/dashboardAdmin/scanDatang';
+                        }, 2000);
+                    }
+                });
+            }).catch(error => {
+                alert('something wrong');
+            });
+        }
+
+        function showAlert(message, type) {
+            const alertPlaceholder = document.getElementById('alertPlaceholder');
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+        <div class="alert alert-${type} d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+            <div>${message}</div>
+        </div>
+    `;
+            alertPlaceholder.append(wrapper);
         }
 
         let config = {

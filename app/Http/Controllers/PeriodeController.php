@@ -29,9 +29,11 @@ class PeriodeController extends Controller
             ->addColumn('action', function ($row) {
                 $editUrl = url('/dashboardKasubag/periode/edit/' . $row->id);
                 $deleteUrl = url('/dashboardKasubag/periode/destroy/' . $row->id);
-
-
-                return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a>';
+                if ($row->status != 1) {
+                    return '<a href="' . $editUrl . '">Edit</a> | <a href="#" class="delete-users" data-url="' . $deleteUrl . '">Delete</a>';
+                } else {
+                    return '<a href="' . $editUrl . '">Edit</a>';
+                }
             })
             ->toJson();
     }
@@ -67,6 +69,31 @@ class PeriodeController extends Controller
 
         return redirect('/dashboardKasubag/periode')
             ->with('success', 'Periode created successfully.');
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|exists:periode,id',
+            'status' => 'required|boolean',
+        ]);
+
+        $periode = Periode::find($request->id);
+        // Validasi jika status yang akan diaktifkan adalah 1 (Active)
+        if ($request->status == 1) {
+            // Cek apakah ada periode lain yang sudah aktif
+            $existingActivePeriode = Periode::where('status', 1)
+                ->where('id', '!=', $request->id) // Exclude the current periode
+                ->first();
+
+            if ($existingActivePeriode) {
+                return response()->json(['success' => false, 'message' => 'Ada periode lain yang sudah aktif. Nonaktifkan terlebih dahulu.']);
+            }
+        }
+        $periode->status = $request->status;
+        $periode->save();
+
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -121,6 +148,7 @@ class PeriodeController extends Controller
                 Log::error('Periode not found with id: ' . $id);
                 return response()->json(['error' => 'Periode not found'], 404);
             }
+
 
             // Hapus data terkait di tabel izins, cutis, dinlurs, dan datangqrcode
             Izin::where('periode_id', $id)->delete();

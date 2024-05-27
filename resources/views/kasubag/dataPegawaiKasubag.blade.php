@@ -363,10 +363,13 @@
                 serverSide: true,
                 ajax: '{{ url('/dashboardKasubag/kepegawaian/getPNS') }}',
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: null,
                         name: 'DT_RowIndex',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'name',
@@ -440,10 +443,13 @@
                 serverSide: true,
                 ajax: '{{ url('/dashboardKasubag/kepegawaian/getSatpam') }}',
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: null,
                         name: 'DT_RowIndex',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'name',
@@ -603,10 +609,13 @@
                 serverSide: true,
                 ajax: '{{ url('/dashboardKasubag/kepegawaian/getPPNPN') }}',
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: null,
                         name: 'DT_RowIndex',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'name',

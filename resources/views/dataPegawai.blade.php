@@ -61,7 +61,7 @@
                                 <label for="file">
                                     <input type="file" id="file" name="file">Import File User
                                 </label>
-                            
+
                                 <button type="submit">Submit</button>
                             </form>
                         </div>
@@ -409,73 +409,75 @@
 
     <script>
         $(document).ready(function() {
-    $('#usersTable').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: '{{ url('/dashboardAdmin/kepegawaian/getPNS') }}',
-        columns: [{
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex',
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: 'name',
-                name: 'name'
-            },
-            {
-                data: 'jabatan',
-                name: 'jabatan'
-            },
-            {
-                data: 'nip',
-                name: 'nip'
-            },
-            {
-                data: 'pangkat',
-                name: 'pangkat',
-            },
-            {
-                data: 'golongan',
-                name: 'golongan',
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            },
-        ]
-    });
-
-    $('#usersTable').on('click', 'a.delete-users', function(e) {
-        e.preventDefault();
-        var deleteUrl = $(this).data('url');
-
-        if (confirm('Are you sure?')) {
-            fetch(deleteUrl, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            $('#usersTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ url('/dashboardAdmin/kepegawaian/getPNS') }}',
+                columns: [{
+                        data: null,
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        alert(data.message);
-                        // Reload the DataTable
-                        $('#usersTable').DataTable().ajax.reload();
-                    } else {
-                        alert('Error occurred');
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        }
-    });
-});
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'nip',
+                        name: 'nip'
+                    },
+                    {
+                        data: 'pangkat',
+                        name: 'pangkat',
+                    },
+                    {
+                        data: 'golongan',
+                        name: 'golongan',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
 
+            $('#usersTable').on('click', 'a.delete-users', function(e) {
+                e.preventDefault();
+                var deleteUrl = $(this).data('url');
+
+                if (confirm('Are you sure?')) {
+                    fetch(deleteUrl, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            },
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                alert(data.message);
+                                // Reload the DataTable
+                                $('#usersTable').DataTable().ajax.reload();
+                            } else {
+                                alert('Error occurred');
+                            }
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+            });
+        });
     </script>
 
     <script>
@@ -486,10 +488,13 @@
                 serverSide: true,
                 ajax: '{{ url('/dashboardAdmin/kepegawaian/getSatpam') }}',
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: null,
                         name: 'DT_RowIndex',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'name',
@@ -688,10 +693,13 @@
                 serverSide: true,
                 ajax: '{{ url('/dashboardAdmin/kepegawaian/getPPNPN') }}',
                 columns: [{
-                        data: 'DT_RowIndex',
+                        data: null,
                         name: 'DT_RowIndex',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'name',

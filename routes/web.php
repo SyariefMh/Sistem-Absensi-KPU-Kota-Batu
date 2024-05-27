@@ -187,6 +187,7 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/periode/destroy/{id}', [PeriodeController::class, 'destroy']);
             Route::put('/periode/update/{id}', [PeriodeController::class, 'update']);
             Route::get('/periode/getdataperiode', [PeriodeController::class, 'getdataperiode'])->name('getdataperiode');
+            Route::post('/periode/updateStatus', [PeriodeController::class, 'updateStatus'])->name('periode.updateStatus');
         });
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::post('/import-excel', [kepegawaianKasubag::class, 'importUsers'])->name('import.process');

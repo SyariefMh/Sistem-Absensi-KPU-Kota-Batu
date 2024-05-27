@@ -24,6 +24,8 @@
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
 
+    
+
     <title>Dashboard</title>
 </head>
 
@@ -40,6 +42,7 @@
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
+            <div id="alertPlaceholder"></div>
             <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Datang</p>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
@@ -102,7 +105,74 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
-    <script type="text/javascript">
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            console.log(`Code matched = ${decodedText}`, decodedResult);
+            $('#qr_code_result').val(decodedText); // Set value to hidden input
+            let id = decodedText;
+            html5QrcodeScanner.clear().then(_ => {
+                var CSRF_TOKEN = document.querySelector('meta[name="csrf-token"]').content;
+                var url = '{{ url('/dashboardSatpam/scanPulang/scan/store') }}';
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        _method: "POST",
+                        _token: CSRF_TOKEN,
+                        qrcodefilesPlg: id
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        showAlert('Absensi berhasil dicatat.', 'primary');
+                        setTimeout(function() {
+                            window.location.href = '/dashboardSatpam/scanPulang';
+                        }, 2000);
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        showAlert('Gagal melakukan absensi.', 'danger');
+                        setTimeout(function() {
+                            window.location.href = '/dashboardSatpam/scanPulang';
+                        }, 1500);
+                    }
+                });
+            }).catch(error => {
+                alert('Something went wrong.');
+            });
+        }
+
+        function showAlert(message, type) {
+            const alertPlaceholder = document.getElementById('alertPlaceholder');
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+        <div class="alert alert-${type} d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+            <div>${message}</div>
+        </div>
+    `;
+            alertPlaceholder.append(wrapper);
+        }
+
+        let config = {
+            fps: 100,
+            qrbox: {
+                width: 250,
+                height: 250
+            },
+            rememberLastUsedCamera: true,
+            // Only support camera scan type.
+            supportedScanTypes: [
+                Html5QrcodeScanType.SCAN_TYPE_CAMERA,
+                Html5QrcodeScanType.SCAN_TYPE_FILE
+            ]
+        };
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", config, /* verbose= */ false);
+        html5QrcodeScanner.render(onScanSuccess);
+    </script>
+
+    {{-- <script type="text/javascript">
         function onScanSuccess(decodedText, decodedResult) {
             console.log(`Code matched = ${decodedText}`, decodedResult);
             $('#qr_code_result').val(decodedText); // Set value to hidden input
@@ -167,7 +237,7 @@
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", config, /* verbose= */ false);
         html5QrcodeScanner.render(onScanSuccess);
-    </script>
+    </script> --}}
 </body>
 
 </html>
