@@ -235,9 +235,6 @@ class PegawaiController extends Controller
         return response()->json(['message' => 'Tidak bisa membuat QR code baru karena tanggal berbeda dengan tanggal sekarang.'], 400);
     }
 
-
-
-
     public function handleQrCodeRequest(Request $request)
     {
         // Lakukan operasi yang diperlukan, misalnya pengambilan data dari database atau pemrosesan lainnya.

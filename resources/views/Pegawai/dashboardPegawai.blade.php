@@ -76,6 +76,7 @@
             .scroll-container .row2 {
                 display: inline-flex;
             }
+        }
     </style>
 
     <title>Dashboard</title>
@@ -363,60 +364,10 @@
         `;
         }
     </script>
-    {{-- <script>
-        document.getElementById('qrcodeButton').addEventListener('click', function(e) {
-            e.preventDefault();
-
-            fetch('{{ url('/dashboardPegawai/qrcode') }}', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({})
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.redirect) {
-                        window.location.href = data.redirect;
-                    } else if (data.success) {
-                        showAlert('Success', data.success, 'alert-success');
-                        setTimeout(() => {
-                            window.location.href = '{{ url('/dashboardPegawai/codePegawai') }}';
-                        }, 3000); // Berpindah halaman setelah 3 detik
-                    } else {
-                        showAlert('Error', data.error, 'alert-danger');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showAlert('Error', 'An error occurred. Please try again.', 'alert-danger');
-                });
-        });
-
-        function showAlert(title, message, alertType) {
-            const alertContainer = document.getElementById('alertContainer');
-            alertContainer.innerHTML = `
-        <div class="alert ${alertType} d-flex align-items-center mb-4" role="alert">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
-                role="img" aria-label="Warning:">
-                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-            </svg>
-            <div>
-                <strong>${title}</strong>
-                <ul>
-                    <li>${message}</li>
-                </ul>
-            </div>
-        </div>
-    `;
-        }
-    </script> --}}
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#generateQrCode').click(function(e) {
                 e.preventDefault();
@@ -441,6 +392,53 @@
                     }
                 });
             });
+        });
+    </script> --}}
+
+    <script>
+        $(document).ready(function() {
+            $('#generateQrCode').click(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: '{{ url('/dashboardPegawai/qrcodepulang') }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if (response.message) {
+                            showAlert('alert-primary', response.message);
+                            setTimeout(function() {
+                                window.location.href =
+                                    '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
+                            }, 3000);
+                        } else if (response.error) {
+                            showAlert('alert-danger', response.error);
+                        }
+                    },
+                    error: function(xhr) {
+                        showAlert('alert-danger', 'Silahkan buat qr code datang dahulu');
+                    }
+                });
+            });
+
+            function showAlert(alertType, message) {
+                var alertHTML = `
+                    <div class="alert ${alertType} d-flex align-items-center" role="alert">
+                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+                        <div>${message}</div>
+                    </div>
+                `;
+                $('#alertContainer').html(alertHTML);
+
+                // Menghilangkan alert setelah 3 detik
+                setTimeout(function() {
+                    $('#alertContainer .alert').fadeOut(function() {
+                        $(this).remove();
+                    });
+                }, 1500);
+            }
         });
     </script>
 
@@ -522,8 +520,6 @@
             }
         });
     </script>
-
-
 
 </body>
 
