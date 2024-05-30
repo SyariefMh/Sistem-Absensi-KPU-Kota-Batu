@@ -45,70 +45,15 @@
         </div>
     </nav>
 
+    <p style="padding-bottom: 0px; text-align: left;margin-left: 90px; padding-top: 10px;">
+        <a href="{{ url('dashboardAdmin/cekRekap') }}" class="btn btn-primary"
+            style="background-color: #C72B41;">Kembali</a>
+    </p>
+
     <div class="d-flex align-items-center">
-        {{-- @if (isset($cutiAttributes))
-            <div class="container">
-                <p>Nama : {{ $cutiAttributes->user->name }}</p>
-                <p>Jabatan : {{ $cutiAttributes->user->jabatan }}</p>
-                <p>Jenis Absen: Absen Cuti</p>
-                <p>Jam Datang : {{ $cutiAttributes->jam_datang }}</p>
-                <p>Jam Pulang : {{ $cutiAttributes->jam_pulang }}</p>
-                <p>Tanggal : {{ $cutiAttributes->tanggal }}</p>
-                <p>Keterangan : {{ $cutiAttributes->Keterangan }}</p>
-                <p>Status : {{ $cutiAttributes->Status }}</p>
-                <p>Tampilan file : <img src="{{ asset('storage/' . $cutiAttributes->file) }}" alt="Gambar"
-                        style="max-width: 100px; height: auto;"></p>
-            </div>
-        @elseif(isset($izinAttributes))
-            <div class="container">
-                <p>Nama : {{ $izinAttributes->user->name }}</p>
-                <p>Jabatan : {{ $izinAttributes->user->jabatan }}</p>
-                <p>Jenis Absen: Absen Izin</p>
-                <p>Jam Datang : {{ $izinAttributes->jam_datang }}</p>
-                <p>Jam Pulang : {{ $izinAttributes->jam_pulang }}</p>
-                <p>Tanggal : {{ $izinAttributes->tanggal }}</p>
-                <p>Keterangan : {{ $izinAttributes->Keterangan }}</p>
-                <p>Status : {{ $izinAttributes->Status }}</p>
-                <p>Tampilan file : <img src="{{ asset('storage/' . $izinAttributes->file) }}" alt="Gambar"
-                        style="max-width: 100px; height: auto;"></p>
-            </div>
-        @elseif(isset($dinlurAttributes))
-            <div class="container">
-                <p>Nama : {{ $dinlurAttributes->user->name }}</p>
-                <p>Jabatan : {{ $dinlurAttributes->user->jabatan }}</p>
-                <p>Jenis Absen: Absen Dinas Luar</p>
-                <p>Jam Datang : {{ $dinlurAttributes->jam_datang }}</p>
-                <p>Jam Pulang : {{ $dinlurAttributes->jam_pulang }}</p>
-                <p>Tanggal : {{ $dinlurAttributes->tanggal }}</p>
-                <p>Keterangan : {{ $dinlurAttributes->Keterangan }}</p>
-                <p>Status : {{ $dinlurAttributes->Status }}</p>
-                <p>Tampilan file : <img src="{{ asset('storage/' . $dinlurAttributes->file) }}" alt="Gambar"
-                        style="max-width: 100px; height: auto;"></p>
-                <p>Lokasi :
-                <div id="map-datang"></div>
-                </p>
-            </div>
-        @elseif(isset($qrcodeAttributes))
-            <p>{{ $qrcodeAttributes['jam_datang'] }}</p>
-            <div class="container">
-                <p>Nama : {{ $qrcodeAttributes->user->name }}</p>
-                <p>Jabatan : {{ $qrcodeAttributes->user->jabatan }}</p>
-                <p>Jenis Absen: Absen QR Code Kantor</p>
-                <p>Jam Datang : {{ $qrcodeAttributes->jam_datang }}</p>
-                <p>Jam Pulang : {{ $qrcodeAttributes->jam_pulang }}</p>
-                <p>Tanggal : {{ $qrcodeAttributes->tanggal }}</p>
-                <p>Keterangan : {{ $qrcodeAttributes->Keterangan }}</p>
-                <p>Status : {{ $qrcodeAttributes->Status }}</p>
-                <p>Tampilan file : <img src="{{ asset('storage/' . $qrcodeAttributes->file) }}" alt="Gambar"
-                        style="max-width: 100px; height: auto;"></p>
-            </div>
-        @else
-            No data found.
-        @endif --}}
         @if ($data)
             {{-- @dd($data); --}}
             <div class="container">
-                <h1>Detail {{ $data->source }}</h1>
                 <p>Nama: {{ $data->user->name }}</p>
                 <p>Tanggal: {{ $data->tanggal }}</p>
                 @if ($data->kode_absen === 'dinlur')
@@ -124,7 +69,7 @@
                 <p>Jam Pulang: {{ $data->jam_pulang }}</p>
                 <p>Keterangan: {{ $data->Keterangan }}</p>
                 <p>Status: {{ $data->Status }}</p>
-                <p>Surat Tugas:
+                <p>Detail:
                     @if ($data->kode_absen === 'dinlur' || $data->kode_absen === 'cuti' || $data->kode_absen === 'izin')
                         @php
                             $fileExtension = pathinfo($data->file, PATHINFO_EXTENSION);
