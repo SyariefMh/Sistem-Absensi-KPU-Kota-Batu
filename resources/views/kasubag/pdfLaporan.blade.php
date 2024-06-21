@@ -88,7 +88,7 @@
                 <tr>
                     <td style="">Nomor</td>
                     <td colspan="2" style="">123445666</td>
-                    <td >Batu, <?php echo date('d-m-Y'); ?> </td>
+                    <td>Batu, <?php echo date('d-m-Y'); ?> </td>
                 </tr>
                 <tr>
                     <td style="">Sifat</td>
@@ -109,44 +109,47 @@
     {{-- end nomer surat --}}
 
     {{-- Ucapan --}}
-    <p style="font-size: 12px; margin-bottom: 0%; margin-top: 20px">Kepada <br> Yth. Sekertaris KPU Provinsi Jawa Timur</p>
+    <p style="font-size: 12px; margin-bottom: 0%; margin-top: 20px">Kepada <br> Yth. Sekertaris KPU Provinsi Jawa Timur
+    </p>
     <p style="font-size: 12px; margin-top: 0%; margin-left: 25px; margin-bottom: 0%">di</p>
     <p style="font-size: 12px; margin-top: 0%; margin-left: 60px">Surabaya</p>
-    
 
-    <p style="text-indent: 50px;text-align: justify;line-height: 2;margin-top: 10px; font-size: 12px">Menindaklanjuti kembali Surat
+
+    <p style="text-indent: 50px;text-align: justify;line-height: 2;margin-top: 10px; font-size: 12px">Menindaklanjuti
+        kembali Surat
         Sekertaris Komisi Pemilihan Umum Provinsi Jawa Timur tanggal 31 Januari 2022 Nomor : 77/SDM.05/35/2022 Perihal
         Penyampaian Laporan Bulanan PPNPN KPU Se-Jawa Timur. Dengan ini disampaikan Data Laporan Evaluasi Kinerja PPNPN
         KPU Kota Batu bulan September 2023 sebagai berikut:</p>
     {{-- end Ucapan --}}
 
-        {{-- Table Pegawai --}}
-        <table class="table" style="font-size: 10px; border: 1px solid #000;border-collapse: collapse">
-            <thead>
-                <tr>
-                    <th scope="col" style="width: 50px; text-align: center;border: 1 solid #000">No</th>
-                    <th scope="col" style="text-align: center;border: 1 solid #000">Nama</th>
-                    <th scope="col" style="text-align: center;border: 1 solid #000">Jabatan</th>
-                    <th scope="col" style="text-align: center;border: 1 solid #000">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($users as $user)
-                    @if ($user->jabatan == 'PNS' || $user->jabatan == 'PPNPN' || $user->jabatan == 'Satpam')
-                        <tr>
-                            <td style="text-align: center;border: 1 solid #000">{{ $loop->iteration }}</td>
-                            <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->name }}</td>
-                            <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->jabatan }}</td>
-                            <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->pangkat }}</td>
-                        </tr>
-                    @endif
-                @endforeach
-            </tbody>
-        </table>
-        
+    {{-- Table Pegawai --}}
+    <table class="table" style="font-size: 10px; border: 1px solid #000;border-collapse: collapse">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 50px; text-align: center;border: 1 solid #000">No</th>
+                <th scope="col" style="text-align: center;border: 1 solid #000">Nama</th>
+                <th scope="col" style="text-align: center;border: 1 solid #000">Jabatan</th>
+                <th scope="col" style="text-align: center;border: 1 solid #000">Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($users as $user)
+                @if ($user->jabatan == 'PNS' || $user->jabatan == 'PPNPN' || $user->jabatan == 'Satpam')
+                    <tr>
+                        <td style="text-align: center;border: 1 solid #000">{{ $loop->iteration }}</td>
+                        <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->name }}</td>
+                        <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->jabatan }}</td>
+                        <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->pangkat }}</td>
+                    </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table>
+
     {{-- end Table --}}
     {{-- Penutup halaman awal --}}
-    <p style="text-indent: 30px; font-size: 12px">Adapun Laporan Bulanan Evaluasi Kinerja PPNPN KPU Kota Batu sebagaimana terlampir.
+    <p style="text-indent: 30px; font-size: 12px">Adapun Laporan Bulanan Evaluasi Kinerja PPNPN KPU Kota Batu
+        sebagaimana terlampir.
         Demikian untuk menjadi periksa dan atas Perhatiannya disampaikan terima kasih</p>
     <div class="tandatangan" style="margin-left: 600px; font-size: 12px">
         <p>SEKERTARIS,</p>
