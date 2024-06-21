@@ -19,7 +19,7 @@
         rel="stylesheet">
 
     {{-- My Style --}}
-    <link rel="stylesheet" href="css/codeAdmin.css">
+    <link rel="stylesheet" href="{{ url('css/codeAdmin.css') }}">
 
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
@@ -33,21 +33,31 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
-                class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
+                class="d-inline-block align-text-center" style="margin-right: 150px">
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="color: #C72B41; font-weight:bold">
+                    {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt=""
+                    width="45" height="45" style="margin-left: 10px">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
+
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
             <div id="alertPlaceholder"></div>
-            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Datang</p>
+            <p style="color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center; margin-top: 10px">Scan Absensi Pulang</p>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
-            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 150px; font-weight: 800">
+            <p style="color: #C72B41; padding-bottom: 10px; text-align: center; padding-top: 150px; font-weight: 800">
                 KOMISI PEMILIHAN UMUM
                 <br>KOTA BATU
             </p>
@@ -82,6 +92,7 @@
             </div>
         </div>
     </div>
+    <img src={{ url('img/peta.png') }} alt="" class="map">
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -156,73 +167,6 @@
         let config = {
             fps: 100,
             qrbox: {
-                width: 250,
-                height: 250
-            },
-            rememberLastUsedCamera: true,
-            // Only support camera scan type.
-            supportedScanTypes: [
-                Html5QrcodeScanType.SCAN_TYPE_CAMERA,
-                Html5QrcodeScanType.SCAN_TYPE_FILE
-            ]
-        };
-
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", config, /* verbose= */ false);
-        html5QrcodeScanner.render(onScanSuccess);
-    </script>
-
-    {{-- <script type="text/javascript">
-        function onScanSuccess(decodedText, decodedResult) {
-            console.log(`Code matched = ${decodedText}`, decodedResult);
-            $('#qr_code_result').val(decodedText); // Set value to hidden input
-            let id = decodedText;
-            html5QrcodeScanner.clear().then(_ => {
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-                var url = '{{ url('/dashboardSatpam/scanPulang/scan/store') }}';
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: {
-                        _method: "POST",
-                        _token: CSRF_TOKEN,
-                        qrcodefilesPlg: id
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        alert('berhasil');
-                        window.location.href = '/dashboardSatpam/scanPulang';
-                    },
-                    error: function(response) {
-                        console.log(response);
-                        alert('gagal');
-                    }
-                    // error: function(error) {
-                    //     if (error.responseJSON && error.responseJSON.message) {
-                    //         $('#infoModal').modal('show');
-                    //         console.log(error.responseJSON.message);
-                    //         setTimeout(function() {
-                    //             $('#infoModal').modal('hide');
-                    //             window.location.href = '/dashboardAdmin/scanDatang';
-                    //         }, 2500);
-                    //     } else {
-                    //         $('#errorModal').modal('show');
-                    //         console.log(error);
-                    //         setTimeout(function() {
-                    //             $('#errorModal').modal('hide');
-                    //             window.location.href = '/dashboardAdmin/scanDatang';
-                    //         }, 2500);
-                    //     }
-                    // }
-                });
-            }).catch(error => {
-                alert('something wrong');
-            });
-        }
-
-        let config = {
-            fps: 100,
-            qrbox: {
                 width: 150,
                 height: 150
             },
@@ -237,7 +181,8 @@
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", config, /* verbose= */ false);
         html5QrcodeScanner.render(onScanSuccess);
-    </script> --}}
+    </script>
+
 </body>
 
 </html>

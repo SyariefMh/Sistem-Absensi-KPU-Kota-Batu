@@ -46,9 +46,19 @@
 
         .alert {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 50%;
+            /* Menempatkan alert di tengah vertikal */
+            left: 50%;
+            /* Menempatkan alert di tengah horizontal */
+            transform: translate(-50%, -50%);
+            /* Pusatkan elemen alert */
             z-index: 1050;
+            background-color: #28a745;
+            /* Warna latar belakang */
+            color: white;
+            /* Warna teks */
+            padding: 15px;
+            border-radius: 5px;
         }
 
         @media (max-width: 768px) {
@@ -66,7 +76,12 @@
                 display: none;
             }
 
+            .juduls{
+                display: none;
+            }
+
             .scroll-container {
+                margin-top: 70px;
                 overflow-x: auto;
                 white-space: nowrap;
                 padding-bottom: 10px;
@@ -75,6 +90,15 @@
             .scroll-container .row1,
             .scroll-container .row2 {
                 display: inline-flex;
+            }
+
+            .alert {
+                top: 10%;
+                /* Sesuaikan dengan posisi vertikal yang diinginkan */
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+
             }
         }
     </style>
@@ -86,9 +110,11 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
-                class="d-inline-block align-text-center">
+            <p class="juduls">KOMISI PEMILIHAN UMUM KOTA BATU</p>
+            <div class="logoo">
+                <img src="{{ url('img/KPU_Logo.png') }}" class="gambar d-inline-block align-text-center" alt="Gambar"
+                    width="50" height="59">
+            </div>
             <div class="dropdown">
                 <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
                     aria-expanded="false" style="color: white; font-weight:bold">
@@ -109,50 +135,42 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Profile Pegawai</h5>
-                    <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="profileForm" action="{{ url('dashboardPegawai/Pegawaiprofile/update/' . $users->id) }}"
-                    method="POST" enctype="multipart/form-data">
+                <form id="profileForm" action="{{ url('dashboardPegawai/Pegawaiprofile/update/' . $users->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
-                        <div id="updateBerhasil" class="alert alert-success" style="display: none">Berhasil di update
-                        </div>
-                        <div id="updateGagal" class="alert alert-danger" style="display: none">alert gagal</div>
+                        <div id="updateBerhasil" class="alert alert-success" style="display: none">Berhasil di update</div>
+                        <div id="updateGagal" class="alert" style="display: none; background: #C72B41">Gagal di update</div>
                         <p style="padding-top: 10px">Nama : </p>
                         <div class="input" style="margin-right: 800px">
-                            <input name="name" class="form-control form-control-sm underline" type="text"
-                                placeholder=".form-control-sm" aria-label=".form-control-sm example"
-                                style="width: 400px" value="{{ $users->name }}">
+                            <input name="name" class="form-control form-control-sm underline" type="text" placeholder="Nama" style="width: 400px" value="{{ $users->name }}">
                         </div>
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data role -->
+                        <!-- Input tersembunyi untuk menyimpan data role -->
                         <input type="hidden" name="role" value="{{ $users->role }}">
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data role -->
-                        <p style="padding-top: 10px">Password : </p>
+                        <!-- Input untuk password lama -->
+                        <p style="padding-top: 10px">Password Lama : </p>
                         <div class="input" style="margin-right: 800px">
-                            <input name="password" class="form-control form-control-sm underline" type="password"
-                                placeholder="Masukkan Password" aria-label=".form-control-sm example"
-                                style="width: 400px">
+                            <input name="password_lama" class="form-control form-control-sm underline" type="password" placeholder="Masukkan Password Lama" style="width: 400px">
                         </div>
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data jabatan -->
+                        <!-- Input untuk password baru -->
+                        <p style="padding-top: 10px">Password Baru : </p>
+                        <div class="input" style="margin-right: 800px">
+                            <input name="password_baru" class="form-control form-control-sm underline" type="password" placeholder="Masukkan Password Baru" style="width: 400px">
+                        </div>
+                        <!-- Input tersembunyi untuk menyimpan data jabatan -->
                         <input type="hidden" name="jabatan" value="{{ $users->jabatan }}">
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data jabatan -->
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data nip -->
+                        <!-- Input tersembunyi untuk menyimpan data nip -->
                         <input type="hidden" name="nip" value="{{ $users->nip }}">
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data nip -->
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
+                        <!-- Input tersembunyi untuk menyimpan data pangkat -->
                         <input type="hidden" name="pangkat" value="{{ $users->pangkat }}">
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
+                        <!-- Input tersembunyi untuk menyimpan data golongan -->
                         <input type="hidden" name="golongan" value="{{ $users->golongan }}">
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data pangkat -->
-                        <!-- Sisipkan input tersembunyi untuk menyimpan data tanda tangan -->
+                        <!-- Input untuk tanda tangan -->
                         <p style="padding-top: 10px">Tanda Tangan : </p>
                         <div class="input" style="margin-right: 800px">
-                            <input name="tandatanggan" class="form-control form-control-sm underline" type="file"
-                                placeholder=".form-control-sm" aria-label=".form-control-sm example"
-                                style="width: 400px">
+                            <input name="tandatanggan" class="form-control form-control-sm underline" type="file" placeholder="Tanda Tangan" style="width: 400px">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -348,17 +366,10 @@
         function showAlert(title, message, alertType) {
             const alertContainer = document.getElementById('alertContainer');
             alertContainer.innerHTML = `
-            <div class="alert ${alertType} d-flex align-items-center mb-4" role="alert">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                    class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16"
-                    role="img" aria-label="Warning:">
-                    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                </svg>
+            <div class="alert ${alertType} d-flex align-items-center mb-4" role="alert"> 
                 <div>
                     <strong>${title}</strong>
-                    <ul>
                         <li>${message}</li>
-                    </ul>
                 </div>
             </div>
         `;
@@ -366,34 +377,6 @@
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    {{-- <script>
-        $(document).ready(function() {
-            $('#generateQrCode').click(function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: '{{ url('/dashboardPegawai/qrcodepulang') }}',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(response) {
-                        if (response.message) {
-                            alert(response.message);
-                            window.location.href =
-                                '{{ url('/dashboardPegawai/codePegawaiPulang') }}';
-                        } else if (response.error) {
-                            alert(response.error);
-                        }
-                    },
-                    error: function(xhr) {
-                        alert('Silahkan buat qr code datang dahulu');
-                    }
-                });
-            });
-        });
-    </script> --}}
 
     <script>
         $(document).ready(function() {
@@ -426,7 +409,6 @@
             function showAlert(alertType, message) {
                 var alertHTML = `
                     <div class="alert ${alertType} d-flex align-items-center" role="alert">
-                        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
                         <div>${message}</div>
                     </div>
                 `;
@@ -441,7 +423,6 @@
             }
         });
     </script>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

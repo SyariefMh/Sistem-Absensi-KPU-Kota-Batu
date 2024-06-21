@@ -71,7 +71,7 @@ class absen_qr_codeController extends Controller
         $userId = $qrCodes->user_id;
 
         $periode = periode::where('status', 1)->first();
-        if(!$periode){
+        if (!$periode) {
             return redirect('/dashboardAdmin/scanDatang')->withErrors(['errors' => 'Periode Belum Dibuka']);
         }
 
@@ -135,7 +135,7 @@ class absen_qr_codeController extends Controller
         $userId = $qrCodes->user_id;
 
         $periode = periode::where('status', 1)->first();
-        if(!$periode){
+        if (!$periode) {
             return redirect('/dashboardKasubag/scanDatang')->withErrors(['errors' => 'Periode Belum Dibuka']);
         }
 
@@ -199,7 +199,7 @@ class absen_qr_codeController extends Controller
         $userId = $qrCodes->user_id;
 
         $periode = periode::where('status', 1)->first();
-        if(!$periode){
+        if (!$periode) {
             return redirect('/dashboardSatpam/scanDatang')->withErrors(['errors' => 'Periode Belum Dibuka']);
         }
 
@@ -218,4 +218,3 @@ class absen_qr_codeController extends Controller
         return response()->json(['success' => 'Absensi berhasil dicatat.'], 200);
     }
 }
-

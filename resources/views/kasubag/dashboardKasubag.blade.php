@@ -64,7 +64,7 @@
                             <p>Periode</p>
                         </div>
                         <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                            <img src="img/nilai.png" alt="" width="60" height="95">
                         </div>
                     </a>
                 </div>
@@ -74,7 +74,7 @@
                             <p>Qr code</p>
                         </div>
                         <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                            <img src="img/QR Code.png" alt="" width="90" height="92">
                         </div>
                     </a>
                 </div>
@@ -97,7 +97,7 @@
                             <p>Kepegawaian</p>
                         </div>
                         <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                            <img src="img/izin.png" alt="" width="90" height="92">
                         </div>
                     </a>
                 </div>
@@ -107,7 +107,7 @@
                             <p>Qr code Pulang</p>
                         </div>
                         <div class="icon">
-                            <img src="img/riwayat.png" alt="" width="90" height="92">
+                            <img src="img/QR Code.png" alt="" width="90" height="92">
                         </div>
                     </a>
                 </div>

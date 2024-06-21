@@ -18,6 +18,7 @@ class PdfController extends Controller
         $userIDDD= $users->pluck('id');
         // dd($userIDDD);
         $periode = periode::where('status', 1)->pluck('id')->first();
+        $periode_bulan = periode::where('status',1)->first();
 
         date_default_timezone_set('Asia/Jakarta');
         // Menghitung tanggal awal dan akhir bulan
@@ -27,7 +28,7 @@ class PdfController extends Controller
         $combinedData = $this->getCombinedData($users, $startDate, $endDate);
         $get_nilai = nilaiA::whereIn('user_id', $userIDDD)->where('periode_id', $periode)->get();
 
-        $pdf = PDF::loadView('kasubag.pdfLaporan',compact('users', 'combinedData', 'startDate', 'endDate','get_nilai'));
+        $pdf = PDF::loadView('kasubag.pdfLaporan',compact('users', 'combinedData', 'startDate', 'endDate','get_nilai','periode','periode_bulan'));
         
         // Menggunakan metode stream untuk menampilkan PDF di browser
         return $pdf->stream('my_pdf_file.pdf');
@@ -99,4 +100,5 @@ class PdfController extends Controller
         }
         return $absensi->first();
     }
+    
 }

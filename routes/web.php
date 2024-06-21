@@ -40,9 +40,9 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/', [SesiController::class, 'login']);
 });
 
-Route::get('/home', function () {
-    return redirect('/dashboardPegawai');
-});
+// Route::get('/home', function () {
+//     return redirect('/dashboardPegawai');
+// });
 
 
 Route::middleware(['auth'])->group(function () {
@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/dashboardPegawai/qrcode', [PegawaiController::class, 'qrcodedatang']);
         Route::post('/dashboardPegawai/qrcodepulang', [PegawaiController::class, 'qrcodepulang']);
         Route::get('/dashboardPegawai/codePegawaiPulang', [qrcodeGenController::class, 'indexKaryawanPulang']);
-
+        Route::get('/dashboardPegawai/codePegawai', [qrcodeGenController::class, 'indexKaryawan']);
 
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/izin', [izinController::class, 'index']);
@@ -69,22 +69,14 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::get('/riwayatAbsen', [riwayatabsenController::class, 'index']);
         });
-        Route::prefix('/dashboardPegawai')->group(function () {
-            Route::get('/codePegawai', [qrcodeGenController::class, 'indexKaryawan']);
-        });
-        Route::prefix('/dashboardPegawai')->group(function () {
-            // Route::get('/codePegawai/pulang', [qrcodeGenController::class, 'indexKaryawanPulang']);
-        });
+
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::post('/codePegawai/qrcodeDatang/{id}', [qrcodeGenController::class, 'qrcodedatanggenul']);
         });
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::delete('/codePegawai/qrcodeupdateStat/{id}', [qrcodeGenController::class, 'qrcodeupstat']);
         });
-        // Route::prefix('/dashboardPegawai')->group(function () {
-        //     Route::get('/profile', [profileController::class, 'index']);
-        //     Route::put('/profile/update/{id}', [profileController::class, 'update']);
-        // });
+
         Route::prefix('/dashboardPegawai')->group(function () {
             Route::put('/Pegawaiprofile/update/{id}', [PegawaiController::class, 'update']);
         });
@@ -104,8 +96,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getPNS', [kepegawaianController::class, 'ambildataPns']);
             Route::get('/kepegawaian/getSatpam', [kepegawaianController::class, 'ambildataSatpam']);
             Route::get('/kepegawaian/getPPNPN', [kepegawaianController::class, 'ambildataPpnpn']);
-            Route::post('kepegawian/send-qr-code/all', [qrcodeGenController::class, 'sendQRCodeToAllEmployees'])->name('send.qr.code.all');
-            Route::post('kepegawian/send-qr-code-pulang/all', [qrcodeGenController::class, 'sendQRPulangCodeToAllEmployees'])->name('send.qr.code.pulang.all');
+            // Route::post('kepegawian/send-qr-code/all', [qrcodeGenController::class, 'sendQRCodeToAllEmployees'])->name('send.qr.code.all');
+            // Route::post('kepegawian/send-qr-code-pulang/all', [qrcodeGenController::class, 'sendQRPulangCodeToAllEmployees'])->name('send.qr.code.pulang.all');
         });
         Route::prefix('/dashboardAdmin')->group(function () {
             Route::get('/cekRekap', [rekapController::class, 'index']);
@@ -159,10 +151,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/kepegawaian/getPPNPN', [kepegawaianKasubag::class, 'ambildataPpnpn']);
             Route::get('/kepegawaian/nilai/{id}', [nilaiController::class, 'nilai']);
             Route::post('/kepegawaian/nilai/store', [nilaiController::class, 'simpan'])->name('simpan.nilai');
-            // Route::post('kepegawaian/simpan-nilai-a', [nilaiAController::class, 'simpan'])->name('simpan.nilai.a');
-            // Route::post('kepegawaian/simpan-nilai-b', [nilaiBController::class, 'simpan'])->name('simpan.nilai.b');
-            // Route::post('kepegawaian/simpan-nilai-c', [nilaiCController::class, 'simpan'])->name('simpan.nilai.c');
-
         });
         Route::prefix('/dashboardKasubag')->group(function () {
             Route::get('/cekRekap', [rekapKasubagController::class, 'index']);
@@ -195,13 +183,6 @@ Route::middleware(['auth'])->group(function () {
     });
     // Route untuk logout
     Route::get('/logout', [SesiController::class, 'logout']);
-});
-
-Route::get('/printLaporan', function () {
-    return view('printlaporan');
-});
-Route::get('/printLaporan2', function () {
-    return view('printlaporan2');
 });
 
 Route::get('/generate-pdf', [PdfController::class, 'generatePdf']);

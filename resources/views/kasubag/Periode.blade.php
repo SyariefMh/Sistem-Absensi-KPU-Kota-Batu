@@ -152,12 +152,12 @@
                         data: 'status',
                         name: 'status',
                         render: function(data, type, row) {
-                            var statusLabel = data == 1 ? 'Active' : 'Non-Active';
+                            var statusLabel = data == 1 ? 'Aktif' : 'Tidak Aktif';
                             var badgeClass = data == 1 ? 'badge-success' : 'badge-danger';
                             return `
                         <select class="form-select update-status" data-id="${row.id}">
-                            <option value="1" ${data == 1 ? 'selected' : ''}>Active</option>
-                            <option value="0" ${data == 0 ? 'selected' : ''}>Non-Active</option>
+                            <option value="1" ${data == 1 ? 'selected' : ''}>Aktif</option>
+                            <option value="0" ${data == 0 ? 'selected' : ''}>Tidak Aktif</option>
                         </select>
                     `;
                         }
@@ -231,7 +231,7 @@
                             setTimeout(function() {
                                 $('#message').html(
                                     ''); // Hapus pesan setelah beberapa detik
-                            }, 3000);
+                            }, 1500);
                         } else {
                             var message = '';
                             message =
@@ -242,7 +242,7 @@
                                     ''
                                 ); // Hapus pesan setelah beberapa detik
                                 location.reload();
-                            }, 5000);
+                            }, 1500);
                         }
                     },
                     error: function(xhr, status, error) {

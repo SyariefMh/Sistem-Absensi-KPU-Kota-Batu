@@ -77,15 +77,15 @@
     
                 {{-- end alert --}}
                 {{-- Tanggal --}}
-                <p style="color: #C72B41">Tanggal awal</p>
+                <p style="color: #000000">Tanggal awal</p>
                 <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal"
                     onchange="checkDateValidity(this)">
-                <p style="color: #C72B41">tanggal akhir</p>
+                <p style="color: #000000">tanggal akhir</p>
                 <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir"
                     onchange="checkDateValidity(this)">
                 {{-- Upload surat --}}
                 <div class="mb-3">
-                    <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat
+                    <label for="file" class="form-label" style="padding-top: 10px; color: #000000">Surat
                         Izin</label>
                     <input name="file" class="form-control" type="file" id="file">
                 </div>

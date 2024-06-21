@@ -30,12 +30,21 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+                <div class="dropdown">
+                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                        aria-expanded="false" style="color: #C72B41; font-weight:bold">
+                        {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt=""
+                        width="45" height="45" style="margin-left: 10px">
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                    </ul>
+                </div>
         </div>
-        <div class="container col-12" style="color: black; justify-content: center">
+        <div class="container col-12" style="color: black; justify-content: center; margin-top: 20px">
             <p>Laporan Bulanan Pegawai Pemerintah Non Pegawai Negeri</p>
         </div>
         <div class="container" style="color: black">
@@ -84,16 +93,16 @@
                         <input type="hidden" name="periode_id" value="{{ $periode }}">
                         <!-- Isi formulir -->
                         <td>
-                            <div class="form" style="width: 480px;">
+                            <div class="form" style="width: 490px;">
                                 <div class="form" style="width: 480px;">
-                                    <textarea name="kriteria1_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria1_A : '' }}</textarea>
+                                    <textarea name="kriteria1_A" class="form-control" style="width: 450px" placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria1_A : '' }}</textarea>
                                 </div>
 
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai1_A" class="form-control" min="0" max="100"
+                                <input type="number" name="nilai1_A" class="form-control" placeholder="Masukkan nilai" min="0" max="100"
                                     value="{{ isset($dataNilai) ? $dataNilai->nilai1_A : '' }}" />
                             </div>
                         </td>
@@ -105,12 +114,12 @@
                             satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria2_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria2_A : '' }}</textarea>
+                                <textarea name="kriteria2_A" class="form-control" style="width: 450px" placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria2_A : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai2_A" class="form-control" min="0" max="100"
+                                <input type="number" name="nilai2_A" class="form-control" placeholder="Masukkan nilai" min="0" max="100"
                                     value="{{ isset($dataNilai) ? $dataNilai->nilai2_A : '' }}" />
                             </div>
                         </td>
@@ -120,12 +129,12 @@
                         <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria3_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria3_A : '' }}</textarea>
+                                <textarea name="kriteria3_A" class="form-control"style="width: 450px" placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria3_A : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai3_A" class="form-control" min="0" max="100"
+                                <input type="number" name="nilai3_A" class="form-control" placeholder="Masukkan nilai" min="0" max="100"
                                     value="{{ isset($dataNilai) ? $dataNilai->nilai3_A : '' }}" />
                             </div>
                         </td>
@@ -135,12 +144,12 @@
                         <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria4_A" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria4_A : '' }}</textarea>
+                                <textarea name="kriteria4_A" class="form-control" style="width: 450px" placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria4_A : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai4_A" class="form-control" min="0"
+                                <input type="number" name="nilai4_A" class="form-control" placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai4_A : '' }}" />
                             </div>
                         </td>
@@ -189,14 +198,14 @@
                         <td>
                             <div class="form" style="width: 480px;">
                                 <div class="form" style="width: 480px;">
-                                    <textarea name="kriteria1_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria1_B : '' }}</textarea>
+                                    <textarea name="kriteria1_B" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria1_B : '' }}</textarea>
                                 </div>
 
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai1_B" class="form-control" min="0"
+                                <input type="number" name="nilai1_B" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai1_B : '' }}" />
                             </div>
                         </td>
@@ -208,12 +217,12 @@
                             satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria2_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria2_B : '' }}</textarea>
+                                <textarea name="kriteria2_B" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria2_B : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai2_B" class="form-control" min="0"
+                                <input type="number" name="nilai2_B" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai2_B : '' }}" />
                             </div>
                         </td>
@@ -223,12 +232,12 @@
                         <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria3_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria3_B : '' }}</textarea>
+                                <textarea name="kriteria3_B" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria3_B : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai3_B" class="form-control" min="0"
+                                <input type="number" name="nilai3_B" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai3_B : '' }}" />
                             </div>
                         </td>
@@ -238,12 +247,12 @@
                         <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria4_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria4_B : '' }}</textarea>
+                                <textarea name="kriteria4_B" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria4_B : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai4_B" class="form-control" min="0"
+                                <input type="number" name="nilai4_B" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai4_B : '' }}" />
                             </div>
                         </td>
@@ -253,12 +262,12 @@
                         <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria5_B" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria5_B : '' }}</textarea>
+                                <textarea name="kriteria5_B" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria5_B : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai5_B" class="form-control" min="0"
+                                <input type="number" name="nilai5_B" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai5_B : '' }}" />
                             </div>
                         </td>
@@ -299,14 +308,14 @@
                         <td>
                             <div class="form" style="width: 480px;">
                                 <div class="form" style="width: 480px;">
-                                    <textarea name="kriteria1_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria1_C : '' }}</textarea>
+                                    <textarea name="kriteria1_C" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria1_C : '' }}</textarea>
                                 </div>
 
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai1_C" class="form-control" min="0"
+                                <input type="number" name="nilai1_C" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai1_C : '' }}" />
                             </div>
                         </td>
@@ -318,12 +327,12 @@
                             satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria2_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria2_C : '' }}</textarea>
+                                <textarea name="kriteria2_C" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria2_C : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai2_C" class="form-control" min="0"
+                                <input type="number" name="nilai2_C" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai2_C : '' }}" />
                             </div>
                         </td>
@@ -333,12 +342,12 @@
                         <td>Jumlah hari tidak hadir tanpa alasan yang sah dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria3_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria3_C : '' }}</textarea>
+                                <textarea name="kriteria3_C" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria3_C : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai3_C" class="form-control" min="0"
+                                <input type="number" name="nilai3_C" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai3_C : '' }}" />
                             </div>
                         </td>
@@ -348,12 +357,12 @@
                         <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria4_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria4_C : '' }}</textarea>
+                                <textarea name="kriteria4_C" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria4_C : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai4_C" class="form-control" min="0"
+                                <input type="number" name="nilai4_C" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai4_C : '' }}" />
                             </div>
                         </td>
@@ -363,12 +372,12 @@
                         <td>Jumlah izin karena sakit atau alasan lain dalam satu bulan</td>
                         <td>
                             <div class="form" style="width: 480px;">
-                                <textarea name="kriteria5_C" class="form-control">{{ isset($dataNilai) ? $dataNilai->kriteria5_C : '' }}</textarea>
+                                <textarea name="kriteria5_C" class="form-control"style="width: 450px"placeholder="Masukkan kriteria">{{ isset($dataNilai) ? $dataNilai->kriteria5_C : '' }}</textarea>
                             </div>
                         </td>
                         <td>
                             <div class="form" style="width: 100px;">
-                                <input type="number" name="nilai5_C" class="form-control" min="0"
+                                <input type="number" name="nilai5_C" class="form-control"placeholder="Masukkan nilai" min="0"
                                     max="100" value="{{ isset($dataNilai) ? $dataNilai->nilai5_C : '' }}" />
                             </div>
                         </td>

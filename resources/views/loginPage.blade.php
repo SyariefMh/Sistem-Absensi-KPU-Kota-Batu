@@ -98,7 +98,7 @@
                         <img src="img/KPU_Logo.png" alt="" width="100" height="109" class="mx-auto">
                     </div>
                     <div class="text-center" style="margin-top: 10px; font-family: 'Inter', sans-serif;">
-                        <h1 style="font-family: 'Inter', sans-serif; font-weight: 700">SIGN IN</h1>
+                        <h1 style="font-family: 'Inter', sans-serif; font-weight: 700">MASUK</h1>
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@
                         <form action="" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <input class="form-control" type="text" name="name" placeholder="Username"
+                                <input class="form-control" type="text" name="name" placeholder="Nama User"
                                     aria-label="default input example" value="{{ old('name') }}"
                                     style="background-color: transparent; border: none; border-bottom: 1px solid white; color: #E0E0E0">
                             </div>
@@ -136,8 +136,12 @@
                                     aria-label="default input example"
                                     style="background-color: transparent; border: none; border-bottom: 1px solid white; color: #E0E0E0">
                             </div>
-                            <button type="submit" class="btn" style="width: 100%">SIGN IN</button>
+                            <button type="submit" class="btn" style="width: 100%">MASUK</button>
                         </form>
+                        <div style="color: #E0E0E0">
+                            <p><a href="#" onclick="alert('Silahkan hubungi admin jika lupa password');">lupa password?</a></p>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

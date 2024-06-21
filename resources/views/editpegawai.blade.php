@@ -32,7 +32,7 @@
     <nav class="navbar">
         <div class="container col-12">
             <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="img/KPU_Logo.png" alt="" width="50" height="59"
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
         </div>

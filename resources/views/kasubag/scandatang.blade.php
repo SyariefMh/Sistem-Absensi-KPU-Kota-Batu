@@ -31,20 +31,29 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
-            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
-                class="d-inline-block align-text-center">
             <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+            <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
+                class="d-inline-block align-text-center" style="margin-right: 100px">
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="color: #C72B41; font-weight:bold">
+                    {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt=""
+                    width="45" height="45" style="margin-left: 10px">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
     {{-- card --}}
     <div class="container col-4 d-flex justify-content-center">
         <div class="card">
-            <p style="margin-left: 90px; color: #C72B41; font-weight: 800; padding-bottom: 20px">Scan Absensi Datang</p>
+            <p style=" color: #C72B41; font-weight: 800; padding-bottom: 20px; text-align: center">Scan Absensi Datang</p>
             {{-- Kamera --}}
             <div id="reader" style="height: 300px;"></div>
             <input type="hidden" id="qr_code_result" name="qr_code_result" value="">
-            <p style="color: #C72B41; padding-bottom: 20px; text-align: center; padding-top: 150px; font-weight: 800">
+            <p style="color: #C72B41; padding-bottom: 10px; text-align: center; padding-top: 150px; font-weight: 800">
                 KOMISI PEMILIHAN UMUM
                 <br>KOTA BATU
             </p>

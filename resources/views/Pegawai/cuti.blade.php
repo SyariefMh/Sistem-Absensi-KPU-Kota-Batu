@@ -75,20 +75,20 @@
                     </div>
                 @endif
     
-                <p style="color: #C72B41">Nip Pegawai</p>
+                <p style="color: #000000">Nip Pegawai</p>
                 <p>{{ $user->nip }}</p>
     
                 {{-- Tanggal --}}
-                <p style="color: #C72B41">Tanggal awal</p>
+                <p style="color: #000000">Tanggal awal</p>
                 <input type="date" class="form-control" id="tanggal_awal" name="tanggal_awal"
                     onchange="checkDateValidity(this)">
-                <p style="color: #C72B41">Tanggal akhir</p>
+                <p style="color: #000000">Tanggal akhir</p>
                 <input type="date" class="form-control" id="tanggal_akhir" name="tanggal_akhir"
                     onchange="checkDateValidity(this)">
                 
                 {{-- Upload surat --}}
                 <div class="mb-3">
-                    <label for="file" class="form-label" style="padding-top: 10px; color: #C72B41">Surat cuti</label>
+                    <label for="file" class="form-label" style="padding-top: 10px; color: #000000">Surat cuti</label>
                     <input name="file" class="form-control" type="file" id="file">
                 </div>
                 <button type="submit" style="margin-top: 10px; background-color: #C72B41; border: none; color: white">Simpan</button>

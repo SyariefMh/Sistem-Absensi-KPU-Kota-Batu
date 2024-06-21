@@ -70,7 +70,7 @@
                 <p style="padding-top: 10px">Bulan : </p>
                 <div class="input" style="margin-right: 800px">
                     <select name="periode_bulan" class="form-control form-control-sm"
-                        aria-label=".form-control-sm example" style="width: 400px">
+                        aria-label=".form-control-sm example" style="width: 400px; background: white">
                         <option value="disabled">Pilih Bulan</option>
                         @foreach ($bulanOptions as $bulan)
                             <option value="{{ $bulan }}">{{ $bulan }}</option>
@@ -101,17 +101,17 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="status" value="1" checked>
                         <label class="form-check-label" for="radioActive">
-                            active
+                            Aktif
                         </label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="status" value="0">
                         <label class="form-check-label" for="radioFailed">
-                            non-active
+                            Tidak aktif
                         </label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-danger">Submit</button>
             </form>
         </div>
 

@@ -260,7 +260,7 @@ class kepegawaianKasubag extends Controller
         // dd($users);
         $userIDDD = $users->pluck('id');
         // dd($userIDDD);
-
+        $periode_bulan = periode::where('id',$periode_id)->first();
         $periodeId = $periode_id; // Gunakan periode_id dari parameter route
         $periode = periode::find($periodeId); // Ambil periode berdasarkan periode_id dari parameter route
 
@@ -278,10 +278,10 @@ class kepegawaianKasubag extends Controller
         // $get_nilai = nilaiA::whereIn('user_id', $user_ids)->where('periode_id', $periode_id)->get();
         // dd($get_nilai);
 
-        if ($get_nilai->isEmpty()) {
-            return redirect('/dashboardKasubag/kepegawaian')->with('error', 'Data nilai tidak ditemukan untuk periode yang dipilih.');
-        }
-        $pdf = PDF::loadView('kasubag.pdfLaporan', compact('users', 'combinedData', 'startDate', 'endDate', 'get_nilai'));
+        // if ($get_nilai->isEmpty()) {
+        //     return redirect('/dashboardKasubag/kepegawaian')->with('error', 'Data nilai tidak ditemukan untuk periode yang dipilih.');
+        // }
+        $pdf = PDF::loadView('kasubag.pdfLaporan', compact('users', 'combinedData', 'startDate', 'endDate', 'get_nilai','periode_bulan'));
 
         // Menggunakan metode stream untuk menampilkan PDF di browser
         return $pdf->stream('my_pdf_file.pdf');

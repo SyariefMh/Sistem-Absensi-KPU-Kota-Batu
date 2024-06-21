@@ -82,7 +82,7 @@
     {{-- end Kop Surat --}}
 
     {{-- nomer surat --}}
-    <div style="font-size: 12px; margin-top: 105px">
+    <div style="font-size: 12px;">
         <table style="border-collapse: collapse; width: 100%;">
             <tbody>
                 <tr>
@@ -101,7 +101,7 @@
                 <tr>
                     <td style="">Perihal</td>
                     <td colspan="2" style="font-weight: 600">Penyampaian Laporan Bulanan PPNPN <br> KPU Kota Batu
-                        Periode Mei 2024</td>
+                        Periode {{ $periode_bulan->periode_bulan }} {{ $periode_bulan->periode_tahun }}</td>
                 </tr>
             </tbody>
         </table>
@@ -121,56 +121,36 @@
     {{-- end Ucapan --}}
 
         {{-- Table Pegawai --}}
-    <table class="table table-bordered" style="font-size: 10px;">
-        <thead>
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Jabatan</th>
-                <th scope="col">Keterangan</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($users as $user)
-                @if ($user->jabatan == 'PNS')
-                    <tr style="background-color: #f0f0f0;">
-                        <td scope="row">{{ $loop->iteration }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->jabatan }}</td>
-                        <td>{{ $user->pangkat }}</td>
-                    </tr>
-                @endif
-            @endforeach
-
-            @foreach ($users as $user)
-                @if ($user->jabatan == 'PPNPN')
-                    <tr>
-                        <td scope="row">{{ $loop->iteration }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->jabatan }}</td>
-                        <td>{{ $user->pangkat }}</td>
-                    </tr>
-                @endif
-            @endforeach
-            @foreach ($users as $user)
-                @if ($user->jabatan == 'Satpam')
-                    <tr>
-                        <td scope="row">{{ $loop->iteration }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->jabatan }}</td>
-                        <td>{{ $user->pangkat }}</td>
-                    </tr>
-                @endif
-            @endforeach
-        </tbody>
-    </table>
+        <table class="table" style="font-size: 10px; border: 1px solid #000;border-collapse: collapse">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 50px; text-align: center;border: 1 solid #000">No</th>
+                    <th scope="col" style="text-align: center;border: 1 solid #000">Nama</th>
+                    <th scope="col" style="text-align: center;border: 1 solid #000">Jabatan</th>
+                    <th scope="col" style="text-align: center;border: 1 solid #000">Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($users as $user)
+                    @if ($user->jabatan == 'PNS' || $user->jabatan == 'PPNPN' || $user->jabatan == 'Satpam')
+                        <tr>
+                            <td style="text-align: center;border: 1 solid #000">{{ $loop->iteration }}</td>
+                            <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->name }}</td>
+                            <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->jabatan }}</td>
+                            <td style="text-align: center; width: 200px;border: 1 solid #000">{{ $user->pangkat }}</td>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
+        
     {{-- end Table --}}
     {{-- Penutup halaman awal --}}
     <p style="text-indent: 30px; font-size: 12px">Adapun Laporan Bulanan Evaluasi Kinerja PPNPN KPU Kota Batu sebagaimana terlampir.
         Demikian untuk menjadi periksa dan atas Perhatiannya disampaikan terima kasih</p>
     <div class="tandatangan" style="margin-left: 600px; font-size: 12px">
         <p>SEKERTARIS,</p>
-        <p style="margin-top: 80px">RUDI GUMILAR</p>
+        <p style="margin-top: 80px">{{ $periode_bulan->nama_jabatan }}</p>
     </div>
     {{-- end Penutup halaman awal --}}
 

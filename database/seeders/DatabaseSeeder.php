@@ -17,25 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         $userData = [
             [
-                'name' => 'Maulana',
-                'role' => 'pegawai',
-                'password' => bcrypt('123456'),
-                'jabatan' => 'PNS',
-                'nip' => '12345678',
-            ],
-            [
-                'name' => 'PPNPN',
-                'role' => 'pegawai',
-                'password' => bcrypt('123456'),
-                'jabatan' => 'PPNPN'
-            ],
-            [
-                'name' => 'Satpam Kasus',
-                'role' => 'pegawai',
-                'password' => bcrypt('123456'),
-                'jabatan' => 'Satpam'
-            ],
-            [
                 'name' => 'Admin',
                 'role' => 'admin',
                 'password' => bcrypt('123456')

@@ -46,10 +46,19 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ url('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
+            <div class="dropdown">
+                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                    aria-expanded="false" style="color: #C72B41; font-weight:bold; background: none">
+                    {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt="" width="45"
+                        height="45" style="margin-left: 10px">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                </ul>
+            </div>
         </div>
         <div class="container" style="color: black">
             <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
@@ -88,9 +97,6 @@
 
                     </tbody>
                 </table>
-                <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px; margin-top: 10px">Print Rekap</button>
-                </div>
             </div>
 
             {{-- tabel Satpam --}}
@@ -114,12 +120,6 @@
 
                     </tbody>
                 </table>
-
-
-
-                <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
-                </div>
             </div>
 
             {{-- tabel PPNPN --}}
@@ -143,12 +143,6 @@
 
                     </tbody>
                 </table>
-
-
-
-                <div style="position: absolute; right: 130px;">
-                    <button type="submit" class="btn" style="width: 200px;margin-top: 10px">Print Rekap</button>
-                </div>
             </div>
         </div>
         </div>

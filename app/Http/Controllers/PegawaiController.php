@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\qrcodeGen;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
@@ -31,21 +32,25 @@ class PegawaiController extends Controller
         return view('kasubag.dashboardKasubag');
         // echo "<a href='logout'> Logout >> </a>";
     }
-    // public function update(Request $request)
+
+    // public function update(Request $request, $id)
     // {
+    //     // dd($request->all()); // Tambahkan ini untuk debugging
+
     //     // Validasi data
     //     $request->validate([
     //         'name' => 'required',
+    //         'password' => 'nullable|min:6',
     //         'role' => ['required', Rule::in(['pegawai', 'admin', 'kasubag umum'])],
     //         'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Satpam'])],
     //         'nip' => 'nullable',
     //         'pangkat' => 'nullable',
     //         'golongan' => 'nullable',
-    //         'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000' // Sesuaikan jenis file yang diizinkan dan ukuran maksimum
+    //         'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000'
     //     ]);
 
     //     // Ambil user yang sedang login
-    //     $user = Auth::user();
+    //     $user = User::find($id);
 
     //     // Update data user
     //     $user->update($request->only(['name', 'role', 'jabatan', 'nip', 'pangkat', 'golongan']));
@@ -71,57 +76,67 @@ class PegawaiController extends Controller
     //     $user->save();
 
     //     // Redirect ke dashboardPegawai setelah berhasil
-    //     return redirect('/dashboardPegawai')->with('success', 'Data Pegawai Berhasil Diperbarui');
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Data Pegawai Berhasil Diperbarui',
+    //     ]);
     // }
 
     public function update(Request $request, $id)
-    {
-        // dd($request->all()); // Tambahkan ini untuk debugging
+{
+    // Validasi data
+    $request->validate([
+        'name' => 'required',
+        'role' => ['required', Rule::in(['pegawai', 'admin', 'kasubag umum'])],
+        'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Satpam'])],
+        'nip' => 'nullable',
+        'pangkat' => 'nullable',
+        'golongan' => 'nullable',
+        'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000'
+    ]);
 
-        // Validasi data
-        $request->validate([
-            'name' => 'required',
-            'password' => 'nullable|min:6',
-            'role' => ['required', Rule::in(['pegawai', 'admin', 'kasubag umum'])],
-            'jabatan' => ['nullable', 'string', Rule::in(['PNS', 'PPNPN', 'Satpam'])],
-            'nip' => 'nullable',
-            'pangkat' => 'nullable',
-            'golongan' => 'nullable',
-            'tandatanggan' => 'nullable|file|mimes:jpeg,png,pdf|max:10000'
-        ]);
+    // Ambil user yang sedang login
+    $user = User::find($id);
 
-        // Ambil user yang sedang login
-        $user = User::find($id);
-
-        // Update data user
-        $user->update($request->only(['name', 'role', 'jabatan', 'nip', 'pangkat', 'golongan']));
-
-        // Update password jika password baru disediakan
-        if ($request->filled('password')) {
-            $user->password = bcrypt($request->password);
+    // Memeriksa apakah password lama yang dimasukkan benar
+    if ($request->filled('password_lama')) {
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Password lama yang Anda masukkan tidak cocok.',
+            ]);
         }
-
-        // Update tandatangan jika file baru disediakan
-        if ($request->hasFile('tandatanggan')) {
-            $tandatanganPath = $request->file('tandatanggan')->store('tandatanggan', 'public');
-
-            // Hapus tandatangan yang ada jika ada
-            if ($user->tandatanggan) {
-                Storage::disk('public')->delete($user->tandatanggan);
-            }
-
-            $user->tandatanggan = $tandatanganPath;
-        }
-
-        // Simpan perubahan
-        $user->save();
-
-        // Redirect ke dashboardPegawai setelah berhasil
-        return response()->json([
-            'success' => true,
-            'message' => 'Data Pegawai Berhasil Diperbarui',
-        ]);
     }
+
+    // Update data user
+    $user->fill($request->only(['name', 'role', 'jabatan', 'nip', 'pangkat', 'golongan']));
+
+    // Update password jika password baru disediakan
+    if ($request->filled('password_baru')) {
+        $user->password = Hash::make($request->password_baru);
+    }
+
+    // Update tandatangan jika file baru disediakan
+    if ($request->hasFile('tandatanggan')) {
+        $tandatanganPath = $request->file('tandatanggan')->store('tandatanggan', 'public');
+
+        // Hapus tandatangan yang ada jika ada
+        if ($user->tandatanggan) {
+            Storage::disk('public')->delete($user->tandatanggan);
+        }
+
+        $user->tandatanggan = $tandatanganPath;
+    }
+
+    // Simpan perubahan
+    $user->save();
+
+    // Redirect ke dashboardPegawai setelah berhasil
+    return response()->json([
+        'success' => true,
+        'message' => 'Data Pegawai Berhasil Diperbarui',
+    ]);
+}
 
     public function qrcodedatang()
     {
@@ -137,7 +152,6 @@ class PegawaiController extends Controller
         if ($user->role !== 'pegawai') {
             return response()->json(['error' => 'Pengguna bukan memiliki peran pegawai'], 403);
         }
-
 
         // Check if a record already exists for the same user ID and date
         $existingRecord = qrcodeGen::where('user_id', $user->id)
@@ -235,14 +249,14 @@ class PegawaiController extends Controller
         return response()->json(['message' => 'Tidak bisa membuat QR code baru karena tanggal berbeda dengan tanggal sekarang.'], 400);
     }
 
-    public function handleQrCodeRequest(Request $request)
-    {
-        // Lakukan operasi yang diperlukan, misalnya pengambilan data dari database atau pemrosesan lainnya.
+    // public function handleQrCodeRequest(Request $request)
+    // {
+    //     // Lakukan operasi yang diperlukan, misalnya pengambilan data dari database atau pemrosesan lainnya.
 
-        // Simpan user ID dalam session atau cookie
-        session(['active_user_id' => auth()->user()->id]);
+    //     // Simpan user ID dalam session atau cookie
+    //     session(['active_user_id' => auth()->user()->id]);
 
-        // Kirim respons JSON kembali ke frontend
-        return response()->json(['success' => 'QR code request processed successfully']);
-    }
+    //     // Kirim respons JSON kembali ke frontend
+    //     return response()->json(['success' => 'QR code request processed successfully']);
+    // }
 }

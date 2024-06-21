@@ -25,6 +25,21 @@
     {{-- Logo Title Bar --}}
     <link rel="icon" href="img/KPU_Logo.png">
 
+    <style>
+        #usersTable_filter input[type="search"] {
+            width: 200px;
+            /* Mengatur lebar input */
+            padding: 5px;
+            /* Menambahkan padding */
+            color: #333;
+            /* Mengatur warna teks */
+            background-color: #f0f0f0;
+            /* Mengatur background */
+            border: 1px solid #ccc;
+            /* Mengatur border */
+        }
+    </style>
+
     <title>Dashboard</title>
 </head>
 
@@ -32,12 +47,19 @@
     {{-- Navbar --}}
     <nav class="navbar">
         <div class="container col-12">
-            <a>ABSENSI & LAPORAN BULANAN PEGAWAI</a>
+            <a>KOMISI PEMILIHAN UMUM KOTA BATU</a>
             <img src="{{ asset('img/KPU_Logo.png') }}" alt="" width="50" height="59"
                 class="d-inline-block align-text-center">
-            <a>KOMISI PEMILIHAN UMUM KOTA BATU
-                <img src="{{ asset('img/profile.png') }}" alt="" width="50" height="50"
-                    style="margin-left: 10px"></a>
+                <div class="dropdown">
+                    <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                        aria-expanded="false" style="color: #C72B41; font-weight:bold; background: none">
+                        {{ auth()->user()->name }} <img src="{{ url('img/profile.png') }}" alt=""
+                        width="45" height="45" style="margin-left: 10px">
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{{ url('/logout') }}">Log out</a></li>
+                    </ul>
+                </div>
         </div>
         <div class="container" style="color: black">
             <p style="padding-bottom: 0px; text-align: center; padding-top: 10px;">
@@ -56,8 +78,6 @@
 
                 <div class="container col-6">
                     <div class="tgl" style="float: right">
-                        <input type="date" class="form-control" id="tanggal" name="tanggal" value=""
-                            style="background: #FFFFFF; margin-bottom: 10px">
                         <div style="position: absolute; right: 130px; display: flex">
                             <a href="{{ url('/dashboardKasubag/kepegawaian/laporan') }}" target="_blank">
                                 <button type="submit" class="btn" style="width: 200px">Print Laporan</button>
@@ -509,96 +529,6 @@
                 }
             });
 
-            $(document).ready(function() {
-                // Fungsi untuk mengirim QR code otomatis pada pukul 23:16 WIB
-                function sendQRCodeAutomatically() {
-                    var now = new Date();
-                    var hours = now.getHours();
-                    var minutes = now.getMinutes();
-
-                    // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 21;
-                    var targetMinutes = 55;
-
-                    // Periksa apakah waktu saat ini sudah mencapai waktu target
-                    if (hours === targetHours && minutes === targetMinutes) {
-                        // Lakukan fetch untuk mengirim QR code
-                        fetch('{{ route('send.qr.code.all') }}', {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Content-Type': 'application/json'
-                                },
-                            })
-                            .then(response => {
-                                if (response.status === 422) {
-                                    return response.json().then(data => {
-                                        throw new Error(data.error);
-                                    });
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                if (data.error) {
-                                    console.error(data.error);
-                                } else if (data.success) {
-                                    console.log(data.success);
-                                    // Handle success, e.g., update UI
-                                }
-                            })
-                            .catch(error => {
-                                console.error(error.message);
-                            });
-                    }
-
-                    // Lakukan pengecekan lagi setelah 1 menit
-                    setTimeout(sendQRCodeAutomatically,
-                        30000); // Panggil sendQRCodeAutomatically setelah 1 menit
-                }
-
-                // Panggil fungsi untuk pertama kali
-                sendQRCodeAutomatically();
-            });
-            // kirim pulang qr code satpam
-            $('#usersTablesatpam').on('click', 'a.sendQr-pulang-users', function(e) {
-                e.preventDefault();
-                var pulang = $(this).data('url');
-
-                if (confirm('Are you sure?')) {
-                    fetch(pulang, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                        })
-                        .then(response => {
-                            if (response.status === 422) {
-                                return response.json().then(data => {
-                                    throw new Error(data.error);
-                                });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else if (data.success) {
-                                alert(data.success);
-                                // Handle success, e.g., reload the DataTable
-                                $('#usersTablesatpam').DataTable().ajax.reload();
-                            }
-                        })
-                        .catch(error => {
-                            // Show error popup
-                            alert(error.message);
-
-                            // Reload the page after 5 seconds
-                            setTimeout(function() {
-                                location.reload();
-                            }, 2000);
-                        });
-                }
-            });
         });
     </script>
 
@@ -675,96 +605,6 @@
                 }
             });
 
-            $(document).ready(function() {
-                // Fungsi untuk mengirim QR code otomatis pada pukul 23:16 WIB
-                function sendQRCodeAutomatically() {
-                    var now = new Date();
-                    var hours = now.getHours();
-                    var minutes = now.getMinutes();
-
-                    // Atur waktu target untuk mengirim QR code (23:16 WIB)
-                    var targetHours = 21;
-                    var targetMinutes = 55;
-
-                    // Periksa apakah waktu saat ini sudah mencapai waktu target
-                    if (hours === targetHours && minutes === targetMinutes) {
-                        // Lakukan fetch untuk mengirim QR code
-                        fetch('{{ route('send.qr.code.all') }}', {
-                                method: 'POST',
-                                headers: {
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                                    'Content-Type': 'application/json'
-                                },
-                            })
-                            .then(response => {
-                                if (response.status === 422) {
-                                    return response.json().then(data => {
-                                        throw new Error(data.error);
-                                    });
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                if (data.error) {
-                                    console.error(data.error);
-                                } else if (data.success) {
-                                    console.log(data.success);
-                                    // Handle success, e.g., update UI
-                                }
-                            })
-                            .catch(error => {
-                                console.error(error.message);
-                            });
-                    }
-
-                    // Lakukan pengecekan lagi setelah 1 menit
-                    setTimeout(sendQRCodeAutomatically,
-                        30000); // Panggil sendQRCodeAutomatically setelah 1 menit
-                }
-
-                // Panggil fungsi untuk pertama kali
-                sendQRCodeAutomatically();
-            });
-            //kirim pulang ppnn
-            $('#usersTablePPNPN').on('click', 'a.sendQr-pulang-users', function(e) {
-                e.preventDefault();
-                var pulang = $(this).data('url');
-
-                if (confirm('Are you sure?')) {
-                    fetch(pulang, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            },
-                        })
-                        .then(response => {
-                            if (response.status === 422) {
-                                return response.json().then(data => {
-                                    throw new Error(data.error);
-                                });
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.error) {
-                                alert(data.error);
-                            } else if (data.success) {
-                                alert(data.success);
-                                // Handle success, e.g., reload the DataTable
-                                $('#usersTablePPNPN').DataTable().ajax.reload();
-                            }
-                        })
-                        .catch(error => {
-                            // Show error popup
-                            alert(error.message);
-
-                            // Reload the page after 5 seconds
-                            setTimeout(function() {
-                                location.reload();
-                            }, 2000);
-                        });
-                }
-            });
         });
     </script>
 </body>
